@@ -11,9 +11,9 @@
 #' @returns a modified copy of the `tbl` data frame
 trim_and_make_blanks_NA <- function (tbl) {
   tbl %>%
-    mutate(
-      across(.cols = where(is.character), ~ str_trim(.)),
-      across(.cols = where(is.character), ~ na_if(., ""))
+    dplyr::mutate(
+      dplyr::across(.cols = dplyr::where(is.character), ~ stringr::str_trim(.)),
+      dplyr::across(.cols = dplyr::where(is.character), ~ dplyr::na_if(., ""))
     )
 }
 
@@ -31,6 +31,6 @@ trim_and_make_blanks_NA <- function (tbl) {
 #' @returns a modified copy of the `tbl` data frame
 format_chars_and_dates <- function (tbl) {
   tbl %>%
-    mutate(across(.cols = where(is.Date), ~ as.character(.))) %>%
-    mutate(across(.cols = where(is.character), ~ replace_na(., "")))
+    dplyr::mutate(dplyr::across(.cols = dplyr::where(is.Date), ~ as.character(.))) %>%
+    dplyr::mutate(dplyr::across(.cols = dplyr::where(is.character), ~ tidyr::replace_na(., "")))
 }

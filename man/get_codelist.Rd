@@ -4,10 +4,14 @@
 \alias{get_codelist}
 \title{Read in the code list from the specification for a specific domain}
 \usage{
-get_codelist(dir_spec, filename_spec)
+get_codelist(domain, dir_spec, filename_spec)
 }
 \arguments{
+\item{domain}{string, SDTM domain or supplemental domain code}
+
 \item{dir_spec}{string, specification directory}
+
+\item{filename_spec}{string, file name of the specification}
 }
 \value{
 a data frame with the code list

@@ -45,10 +45,10 @@ get_key_vars <- function (domain, dir_spec, filename_spec) {
 #' Reads-in the `"Codelists"` sheet from the study's specification MS Excel file
 #'  and then filters that code list by the variables in the domain
 #'
-#' @param dir_spec string, specification directory
+#' @inheritParams get_data_spec
 #'
 #' @returns a data frame with the code list
-get_codelist <- function (dir_spec, filename_spec) {
+get_codelist <- function (domain, dir_spec, filename_spec) {
   spec_vars <- get_data_spec(domain, dir_spec, filename_spec)$Variable
   readxl::read_excel(file.path(dir_spec, filename_spec), sheet = "Codelists") %>%
     dplyr::filter(ID %in% spec_vars) %>%
