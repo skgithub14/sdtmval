@@ -1820,9 +1820,8 @@ badge</p></li>
 </div>
 <div id="add-gitgithub" class="section level2">
 <h2>Add Git/GitHub</h2>
-<div id="set-up-local-version-control-and-connect-to-github-remote-repository" class="section level3">
-<h3>5. Set-up local version control and connect to GitHub remote
-repository</h3>
+<div id="set-up-local-version-control" class="section level3">
+<h3>5. Set-up local version control</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudXNlX2dpdCgpXG5gYGAifQ== -->
@@ -1862,15 +1861,84 @@ repository</h3>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>Next, make your first commit using the terminal.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgYmFzaFxuZ2l0IHN0YXR1c1xuYGBgIn0= -->
+<pre class="bash"><code>git status</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiT24gYnJhbmNoIG1hc3RlclxuQ2hhbmdlcyBub3Qgc3RhZ2VkIGZvciBjb21taXQ6XG4gICh1c2UgXCJnaXQgYWRkIDxmaWxlPi4uLlwiIHRvIHVwZGF0ZSB3aGF0IHdpbGwgYmUgY29tbWl0dGVkKVxuICAodXNlIFwiZ2l0IHJlc3RvcmUgPGZpbGU+Li4uXCIgdG8gZGlzY2FyZCBjaGFuZ2VzIGluIHdvcmtpbmcgZGlyZWN0b3J5KVxuXHRtb2RpZmllZDogICBwYWNrYWdlLXNldHVwLlJtZFxuXHRtb2RpZmllZDogICBwYWNrYWdlLXNldHVwLm5iLmh0bWxcblxubm8gY2hhbmdlcyBhZGRlZCB0byBjb21taXQgKHVzZSBcImdpdCBhZGRcIiBhbmQvb3IgXCJnaXQgY29tbWl0IC1hXCIpXG4ifQ== -->
+<pre><code>On branch master
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+    modified:   package-setup.Rmd
+    modified:   package-setup.nb.html
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgYmFzaFxuZ2l0IGFkZCAuXG5naXQgY29tbWl0IC1tIFwiaW5pdGlhbCBjb21taXRcIlxuYGBgIn0= -->
+<pre class="bash"><code>git add .
+git commit -m &quot;initial commit&quot;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoid2FybmluZzogaW4gdGhlIHdvcmtpbmcgY29weSBvZiAnUi9wYWNrYWdlLXNldHVwLlJtZCcsIExGIHdpbGwgYmUgcmVwbGFjZWQgYnkgQ1JMRiB0aGUgbmV4dCB0aW1lIEdpdCB0b3VjaGVzIGl0XG4ifQ== -->
+<pre><code>warning: in the working copy of &#39;R/package-setup.Rmd&#39;, LF will be replaced by CRLF the next time Git touches it</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiW21hc3RlciBhY2M3ODQwXSBpbml0aWFsIGNvbW1pdFxuIENvbW1pdHRlcjogU3RldmUgS25hcHAgPHN0ZXZlLmtuYXBwQG9uY29sb2d5LnN1bWl0b21vLXBoYXJtYS5jb20+XG5Zb3VyIG5hbWUgYW5kIGVtYWlsIGFkZHJlc3Mgd2VyZSBjb25maWd1cmVkIGF1dG9tYXRpY2FsbHkgYmFzZWRcbm9uIHlvdXIgdXNlcm5hbWUgYW5kIGhvc3RuYW1lLiBQbGVhc2UgY2hlY2sgdGhhdCB0aGV5IGFyZSBhY2N1cmF0ZS5cbllvdSBjYW4gc3VwcHJlc3MgdGhpcyBtZXNzYWdlIGJ5IHNldHRpbmcgdGhlbSBleHBsaWNpdGx5LiBSdW4gdGhlXG5mb2xsb3dpbmcgY29tbWFuZCBhbmQgZm9sbG93IHRoZSBpbnN0cnVjdGlvbnMgaW4geW91ciBlZGl0b3IgdG8gZWRpdFxueW91ciBjb25maWd1cmF0aW9uIGZpbGU6XG5cbiAgICBnaXQgY29uZmlnIC0tZ2xvYmFsIC0tZWRpdFxuXG5BZnRlciBkb2luZyB0aGlzLCB5b3UgbWF5IGZpeCB0aGUgaWRlbnRpdHkgdXNlZCBmb3IgdGhpcyBjb21taXQgd2l0aDpcblxuICAgIGdpdCBjb21taXQgLS1hbWVuZCAtLXJlc2V0LWF1dGhvclxuXG4gMiBmaWxlcyBjaGFuZ2VkLCA2MyBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSlcbiJ9 -->
+<pre><code>[master acc7840] initial commit
+ Committer: Steve Knapp &lt;steve.knapp@oncology.sumitomo-pharma.com&gt;
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 2 files changed, 63 insertions(+), 11 deletions(-)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="connect-to-github-remote-repository" class="section level3">
+<h3>6. Connect to GitHub remote repository</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudXNlX2dpdGh1YigpXG5cbmBgYCJ9 -->
+<pre class="r"><code>use_github()
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoi4oS5IERlZmF1bHRpbmcgdG8gJ2h0dHBzJyBHaXQgcHJvdG9jb2zinJQgU2V0dGluZyBhY3RpdmUgcHJvamVjdCB0byAnQzovVXNlcnMvc2tuYXBwL09uZURyaXZlIC0gU3VtaXRvbW8gUGhhcm1hIE9uY29sb2d5L0RvY3VtZW50cy9zZHRtdmFsJ1RoZXJlIGFyZSB1bmNvbW1pdHRlZCBjaGFuZ2VzIGFuZCB3ZSdyZSBhYm91dCB0byBjcmVhdGUgYW5kIHB1c2ggdG8gYSBuZXcgR2l0SHViIHJlcG9cbkRvIHlvdSB3YW50IHRvIHByb2NlZWQgYW55d2F5P1xuIn0= -->
+<pre><code>ℹ Defaulting to &#39;https&#39; Git protocol✔ Setting active project to &#39;C:/Users/sknapp/OneDrive - Sumitomo Pharma Oncology/Documents/sdtmval&#39;There are uncommitted changes and we&#39;re about to create and push to a new GitHub repo
+Do you want to proceed anyway?</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4xOiBOb3BlXG4yOiBGb3Igc3VyZVxuMzogTm90IG5vd1xuIn0= -->
+<pre><code>
+1: Nope
+2: For sure
+3: Not now</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuMVxuYGBgIn0= -->
+<pre class="r"><code>1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IFVuY29tbWl0dGVkIGNoYW5nZXMuIFBsZWFzZSBjb21taXQgYmVmb3JlIGNvbnRpbnVpbmcuXG4ifQ== -->
+<pre><code>Error: Uncommitted changes. Please commit before continuing.</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ3JlYXRlIGFuIFIgcGFja2FnZSB3b3JrZmxvdyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBkb2N1bWVudCBzaG93cyB0aGUgc2V0LXVwIHN0ZXBzIGZvciBhIG5ldyBSIHBhY2thZ2UgdXNpbmcgdGhlIHtkZXZ0b29sc30ve3VzZXRoaXN9IGZyYW1ld29yayB3aGljaCB3aWxsIGluY2x1ZGUgdGhlIGZvbGxvd2luZyBmZWF0dXJlczoKCiAtIHZlcnNpb24gY29udHJvbGxlZCBieSBnaXQgYW5kIGhvc3RlZCBvbiBHaXRIdWIKIAogLSB7cGtnZG93bn0gc2l0ZQogCiAtIEF1dG9tYXRlZCBHaXRIdWIgYWN0aW9ucyBjaGVja3MgZm9yIFIgQ01EIGJ1aWxkLCB3aXRoIFJFQURNRSBiYWRnZQogCiAtIFVuaXQgdGVzdGluZyB1c2luZyB7dGVzdHRoYXR9CiAKIC0gQXV0b21hdGVkIEdpdEh1YiBhY3Rpb25zIGZvciBjb2RlIHRlc3RpbmcgdXNpbmcgQ29kZUNvdiBhbmQge2NvdnJ9CiAKIC0gUkVBRE1FIGJ1aWx0IGluIC5SbWQKIAoKIyMgSW5pdGlhbCBTZXQtdXAKCiMjIyAxLiBDaGVjayB0aGUgcGFja2FnZSBuYW1lIGlzIGF2YWlsYWJsZToKCmBgYHtyfQphdmFpbGFibGU6OmF2YWlsYWJsZSgic2R0bXZhbCIpCmBgYAoKCiMjIyAyLiBDcmVhdGUgYSBuZXcgZGlyZWN0b3J5OgoKYGBge3J9CiMgZGlyLmNyZWF0ZSgic2R0bXZhbCIpCmBgYAoKCiMjIyAzLiBTZXQtdXAgdGhlIGRpcmVjdG9yeSBhcyBhbiBSIHBhY2thZ2U6CgpgYGB7cn0KY3JlYXRlX3BhY2thZ2UoInNkdG12YWwiKQpgYGAKCgojIyMgNC4gUG9wdWxhdGUgdGhlIERFU0NSSVBUSU9OIGZpbGUKClVwZGF0ZSB0aGVzZSBmaWVsZHM6CiAKIC0gVGl0bGUKIAogLSBBdXRob3JzIChpZiBub3QgYXV0b21hdGVkKQogCiAtIERlc2NyaXB0aW9uCiAKIC0gQ2hvc2UgYSBsaWNlbnNlOgoKYGBge3J9CnVzZV9taXRfbGljZW5zZSgpCmBgYAoKIyMgQWRkIEdpdC9HaXRIdWIKCiMjIyA1LiBTZXQtdXAgbG9jYWwgdmVyc2lvbiBjb250cm9sIGFuZCBjb25uZWN0IHRvIEdpdEh1YiByZW1vdGUgcmVwb3NpdG9yeQoKYGBge3J9CnVzZV9naXQoKQpgYGAKCmBgYHtyfQp1c2VfZ2l0aHViKCkKYGBgCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ3JlYXRlIGFuIFIgcGFja2FnZSB3b3JrZmxvdyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBkb2N1bWVudCBzaG93cyB0aGUgc2V0LXVwIHN0ZXBzIGZvciBhIG5ldyBSIHBhY2thZ2UgdXNpbmcgdGhlIHtkZXZ0b29sc30ve3VzZXRoaXN9IGZyYW1ld29yayB3aGljaCB3aWxsIGluY2x1ZGUgdGhlIGZvbGxvd2luZyBmZWF0dXJlczoKCiAtIHZlcnNpb24gY29udHJvbGxlZCBieSBnaXQgYW5kIGhvc3RlZCBvbiBHaXRIdWIKIAogLSB7cGtnZG93bn0gc2l0ZQogCiAtIEF1dG9tYXRlZCBHaXRIdWIgYWN0aW9ucyBjaGVja3MgZm9yIFIgQ01EIGJ1aWxkLCB3aXRoIFJFQURNRSBiYWRnZQogCiAtIFVuaXQgdGVzdGluZyB1c2luZyB7dGVzdHRoYXR9CiAKIC0gQXV0b21hdGVkIEdpdEh1YiBhY3Rpb25zIGZvciBjb2RlIHRlc3RpbmcgdXNpbmcgQ29kZUNvdiBhbmQge2NvdnJ9CiAKIC0gUkVBRE1FIGJ1aWx0IGluIC5SbWQKIAoKIyMgSW5pdGlhbCBTZXQtdXAKCiMjIyAxLiBDaGVjayB0aGUgcGFja2FnZSBuYW1lIGlzIGF2YWlsYWJsZToKCmBgYHtyfQphdmFpbGFibGU6OmF2YWlsYWJsZSgic2R0bXZhbCIpCmBgYAoKCiMjIyAyLiBDcmVhdGUgYSBuZXcgZGlyZWN0b3J5OgoKYGBge3J9CiMgZGlyLmNyZWF0ZSgic2R0bXZhbCIpCmBgYAoKCiMjIyAzLiBTZXQtdXAgdGhlIGRpcmVjdG9yeSBhcyBhbiBSIHBhY2thZ2U6CgpgYGB7cn0KY3JlYXRlX3BhY2thZ2UoInNkdG12YWwiKQpgYGAKCgojIyMgNC4gUG9wdWxhdGUgdGhlIERFU0NSSVBUSU9OIGZpbGUKClVwZGF0ZSB0aGVzZSBmaWVsZHM6CiAKIC0gVGl0bGUKIAogLSBBdXRob3JzIChpZiBub3QgYXV0b21hdGVkKQogCiAtIERlc2NyaXB0aW9uCiAKIC0gQ2hvc2UgYSBsaWNlbnNlOgoKYGBge3J9CnVzZV9taXRfbGljZW5zZSgpCmBgYAoKIyMgQWRkIEdpdC9HaXRIdWIKCiMjIyA1LiBTZXQtdXAgbG9jYWwgdmVyc2lvbiBjb250cm9sCgpgYGB7cn0KdXNlX2dpdCgpCmBgYAoKTmV4dCwgbWFrZSB5b3VyIGZpcnN0IGNvbW1pdCB1c2luZyB0aGUgdGVybWluYWwuCgpgYGB7YmFzaH0KZ2l0IHN0YXR1cwpgYGAKCmBgYHtiYXNofQpnaXQgYWRkIC4KZ2l0IGNvbW1pdCAtbSAiaW5pdGlhbCBjb21taXQiCmBgYAoKCiMjIyA2LiBDb25uZWN0IHRvIEdpdEh1YiByZW1vdGUgcmVwb3NpdG9yeQoKYGBge3J9CnVzZV9naXRodWIoKQpgYGAKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg==</div>
 
 
 

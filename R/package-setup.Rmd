@@ -59,11 +59,25 @@ use_mit_license()
 
 ## Add Git/GitHub
 
-### 5. Set-up local version control and connect to GitHub remote repository
+### 5. Set-up local version control
 
 ```{r}
 use_git()
 ```
+
+Next, make your first commit using the terminal.
+
+```{bash}
+git status
+```
+
+```{bash}
+git add .
+git commit -m "initial commit"
+```
+
+
+### 6. Connect to GitHub remote repository
 
 ```{r}
 use_github()
