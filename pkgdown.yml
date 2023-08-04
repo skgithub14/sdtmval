@@ -1,0 +1,11 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  example_article: example_article.html
+  example_vignette: example_vignette.html
+last_built: 2023-08-04T21:57Z
+urls:
+  reference: https://skgithub14.github.io/sdtmval/reference
+  article: https://skgithub14.github.io/sdtmval/articles
+
