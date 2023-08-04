@@ -12,6 +12,7 @@
 #' @param filename_spec string, file name of the specification
 #'
 #' @returns a data frame of the variable specification for `domain`
+#' @export
 get_data_spec <- function (domain, dir_spec, filename_spec) {
   readxl::read_excel(file.path(dir_spec, filename_spec), sheet = domain) %>%
     dplyr::arrange(Order)
@@ -29,6 +30,7 @@ get_data_spec <- function (domain, dir_spec, filename_spec) {
 #' @inheritParams get_data_spec
 #'
 #' @returns a character vector of key variables for the specified `domain`
+#' @export
 get_key_vars <- function (domain, dir_spec, filename_spec) {
   readxl::read_excel(file.path(dir_spec, filename_spec), sheet = "Datasets") %>%
     dplyr::filter(Dataset %in% domain) %>%
@@ -46,6 +48,7 @@ get_key_vars <- function (domain, dir_spec, filename_spec) {
 #' @inheritParams get_data_spec
 #'
 #' @returns a data frame with the code list
+#' @export
 get_codelist <- function (domain, dir_spec, filename_spec) {
   spec_vars <- get_data_spec(domain, dir_spec, filename_spec)$Variable
   readxl::read_excel(file.path(dir_spec, filename_spec), sheet = "Codelists") %>%

@@ -1,0 +1,14 @@
+---
+title: "example_article"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(sdtmval)
+```

@@ -5,3 +5,5 @@
 .DS_Store
 .quarto
 /data-raw
+inst/doc
+docs

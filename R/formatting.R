@@ -9,6 +9,7 @@
 #' @param tbl a data frame, the SDTM QC table
 #'
 #' @returns a modified copy of the `tbl` data frame
+#' @export
 trim_and_make_blanks_NA <- function (tbl) {
   tbl %>%
     dplyr::mutate(
@@ -29,6 +30,7 @@ trim_and_make_blanks_NA <- function (tbl) {
 #' @param tbl a data frame, the SDTM QC table
 #'
 #' @returns a modified copy of the `tbl` data frame
+#' @export
 format_chars_and_dates <- function (tbl) {
   tbl %>%
     dplyr::mutate(dplyr::across(.cols = dplyr::where(is.Date), ~ as.character(.))) %>%

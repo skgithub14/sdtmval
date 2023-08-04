@@ -13,7 +13,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-# sdtmval
+# sdtmval <a href="https://skgithub14.github.io/sdtmval/"><img src="man/figures/logo.png" align="right" height="139" alt="sdtmval website" /></a>
+
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/skgithub14/sdtmval/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/skgithub14/sdtmval/actions/workflows/R-CMD-check.yaml)
