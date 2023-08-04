@@ -1,0 +1,84 @@
+---
+title: "Create an R package workflow"
+output: html_notebook
+---
+
+This document shows the set-up steps for a new R package using the {devtools}/{usethis} framework which will include the following features:
+
+ - version controlled by git and hosted on GitHub
+ 
+ - {pkgdown} site
+ 
+ - Automated GitHub actions checks for R CMD build, with README badge
+ 
+ - Unit testing using {testthat}
+ 
+ - Automated GitHub actions for code testing using CodeCov and {covr}
+ 
+ - README built in .Rmd
+ 
+
+## Initial Set-up
+
+### 1. Check the package name is available:
+
+```{r}
+available::available("sdtmval")
+```
+
+
+### 2. Create a new directory:
+
+```{r}
+# dir.create("sdtmval")
+```
+
+
+### 3. Set-up the directory as an R package:
+
+```{r}
+create_package("sdtmval")
+```
+
+
+### 4. Populate the DESCRIPTION file
+
+Update these fields:
+ 
+ - Title
+ 
+ - Authors (if not automated)
+ 
+ - Description
+ 
+### 5. Choose a license
+
+In this case use the MIT license:
+
+```{r}
+use_mit_license()
+```
+
+### 6. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
