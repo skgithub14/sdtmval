@@ -26,9 +26,7 @@ get_data_spec <- function (domain, dir_spec, filename_spec) {
 #' The `read_excel()` function will causes an access denied warning when reading
 #'  in a read-only specification file. This does not affect the data import.
 #'
-#' @param domain string, SDTM domain or supplemental domain code
-#' @param dir_spec string, specification directory
-#' @param filename_spec string, file name of the specification
+#' @inheritParams get_data_spec
 #'
 #' @returns a character vector of key variables for the specified `domain`
 get_key_vars <- function (domain, dir_spec, filename_spec) {
