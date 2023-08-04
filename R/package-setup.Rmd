@@ -51,15 +51,23 @@ Update these fields:
  
  - Description
  
-### 5. Choose a license
-
-In this case use the MIT license:
+ - Chose a license:
 
 ```{r}
 use_mit_license()
 ```
 
-### 6. 
+## Add Git/GitHub
+
+### 5. Set-up local version control and connect to GitHub remote repository
+
+```{r}
+use_git()
+```
+
+```{r}
+use_github()
+```
 
 
 

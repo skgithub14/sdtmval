@@ -1804,11 +1804,8 @@ badge</p></li>
 <li><p>Title</p></li>
 <li><p>Authors (if not automated)</p></li>
 <li><p>Description</p></li>
+<li><p>Chose a license:</p></li>
 </ul>
-</div>
-<div id="choose-a-license" class="section level3">
-<h3>5. Choose a license</h3>
-<p>In this case use the MIT license:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudXNlX21pdF9saWNlbnNlKClcbmBgYCJ9 -->
@@ -1820,13 +1817,60 @@ badge</p></li>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="section" class="section level3">
-<h3>6.</h3>
+</div>
+<div id="add-gitgithub" class="section level2">
+<h2>Add Git/GitHub</h2>
+<div id="set-up-local-version-control-and-connect-to-github-remote-repository" class="section level3">
+<h3>5. Set-up local version control and connect to GitHub remote
+repository</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudXNlX2dpdCgpXG5gYGAifQ== -->
+<pre class="r"><code>use_git()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoi4pyUIFNldHRpbmcgYWN0aXZlIHByb2plY3QgdG8gJ0M6L1VzZXJzL3NrbmFwcC9PbmVEcml2ZSAtIFN1bWl0b21vIFBoYXJtYSBPbmNvbG9neS9Eb2N1bWVudHMvc2R0bXZhbCfinJQgSW5pdGlhbGlzaW5nIEdpdCByZXBv4pyUIEFkZGluZyAnLlJoaXN0b3J5JywgJy5SZGF0YScsICcuaHR0ci1vYXV0aCcsICcuRFNfU3RvcmUnLCAnLnF1YXJ0bycgdG8gJ1IvLmdpdGlnbm9yZSdUaGVyZSBhcmUgOCB1bmNvbW1pdHRlZCBmaWxlczpcbiogJ1IvLmdpdGlnbm9yZSdcbiogJ1IvLlJidWlsZGlnbm9yZSdcbiogJ1IvREVTQ1JJUFRJT04nXG4qICdSL0xJQ0VOU0UnXG4qICdSL0xJQ0VOU0UubWQnXG4qICdSL05BTUVTUEFDRSdcbiogJ1IvUi8nXG4qICdSL3NkdG12YWwuUnByb2onSXMgaXQgb2sgdG8gY29tbWl0IHRoZW0/XG4ifQ== -->
+<pre><code>✔ Setting active project to &#39;C:/Users/sknapp/OneDrive - Sumitomo Pharma Oncology/Documents/sdtmval&#39;✔ Initialising Git repo✔ Adding &#39;.Rhistory&#39;, &#39;.Rdata&#39;, &#39;.httr-oauth&#39;, &#39;.DS_Store&#39;, &#39;.quarto&#39; to &#39;R/.gitignore&#39;There are 8 uncommitted files:
+* &#39;R/.gitignore&#39;
+* &#39;R/.Rbuildignore&#39;
+* &#39;R/DESCRIPTION&#39;
+* &#39;R/LICENSE&#39;
+* &#39;R/LICENSE.md&#39;
+* &#39;R/NAMESPACE&#39;
+* &#39;R/R/&#39;
+* &#39;R/sdtmval.Rproj&#39;Is it ok to commit them?</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4xOiBZdXBcbjI6IE5lZ2F0aXZlXG4zOiBOb1xuIn0= -->
+<pre><code>
+1: Yup
+2: Negative
+3: No</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuMVxuYGBgIn0= -->
+<pre class="r"><code>1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoi4pyUIEFkZGluZyBmaWxlc+KclCBNYWtpbmcgYSBjb21taXQgd2l0aCBtZXNzYWdlICdJbml0aWFsIGNvbW1pdCfigKIgQSByZXN0YXJ0IG9mIFJTdHVkaW8gaXMgcmVxdWlyZWQgdG8gYWN0aXZhdGUgdGhlIEdpdCBwYW5lUmVzdGFydCBub3c/XG4ifQ== -->
+<pre><code>✔ Adding files✔ Making a commit with message &#39;Initial commit&#39;• A restart of RStudio is required to activate the Git paneRestart now?</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4xOiBOb3Qgbm93XG4yOiBJIGFncmVlXG4zOiBOb3BlXG4ifQ== -->
+<pre><code>
+1: Not now
+2: I agree
+3: Nope</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuMlxuYGBgIn0= -->
+<pre class="r"><code>2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ3JlYXRlIGFuIFIgcGFja2FnZSB3b3JrZmxvdyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBkb2N1bWVudCBzaG93cyB0aGUgc2V0LXVwIHN0ZXBzIGZvciBhIG5ldyBSIHBhY2thZ2UgdXNpbmcgdGhlIHtkZXZ0b29sc30ve3VzZXRoaXN9IGZyYW1ld29yayB3aGljaCB3aWxsIGluY2x1ZGUgdGhlIGZvbGxvd2luZyBmZWF0dXJlczoKCiAtIHZlcnNpb24gY29udHJvbGxlZCBieSBnaXQgYW5kIGhvc3RlZCBvbiBHaXRIdWIKIAogLSB7cGtnZG93bn0gc2l0ZQogCiAtIEF1dG9tYXRlZCBHaXRIdWIgYWN0aW9ucyBjaGVja3MgZm9yIFIgQ01EIGJ1aWxkLCB3aXRoIFJFQURNRSBiYWRnZQogCiAtIFVuaXQgdGVzdGluZyB1c2luZyB7dGVzdHRoYXR9CiAKIC0gQXV0b21hdGVkIEdpdEh1YiBhY3Rpb25zIGZvciBjb2RlIHRlc3RpbmcgdXNpbmcgQ29kZUNvdiBhbmQge2NvdnJ9CiAKIC0gUkVBRE1FIGJ1aWx0IGluIC5SbWQKIAoKIyMgSW5pdGlhbCBTZXQtdXAKCiMjIyAxLiBDaGVjayB0aGUgcGFja2FnZSBuYW1lIGlzIGF2YWlsYWJsZToKCmBgYHtyfQphdmFpbGFibGU6OmF2YWlsYWJsZSgic2R0bXZhbCIpCmBgYAoKCiMjIyAyLiBDcmVhdGUgYSBuZXcgZGlyZWN0b3J5OgoKYGBge3J9CiMgZGlyLmNyZWF0ZSgic2R0bXZhbCIpCmBgYAoKCiMjIyAzLiBTZXQtdXAgdGhlIGRpcmVjdG9yeSBhcyBhbiBSIHBhY2thZ2U6CgpgYGB7cn0KY3JlYXRlX3BhY2thZ2UoInNkdG12YWwiKQpgYGAKCgojIyMgNC4gUG9wdWxhdGUgdGhlIERFU0NSSVBUSU9OIGZpbGUKClVwZGF0ZSB0aGVzZSBmaWVsZHM6CiAKIC0gVGl0bGUKIAogLSBBdXRob3JzIChpZiBub3QgYXV0b21hdGVkKQogCiAtIERlc2NyaXB0aW9uCiAKIyMjIDUuIENob29zZSBhIGxpY2Vuc2UKCkluIHRoaXMgY2FzZSB1c2UgdGhlIE1JVCBsaWNlbnNlOgoKYGBge3J9CnVzZV9taXRfbGljZW5zZSgpCmBgYAoKIyMjIDYuIAoKCgoKCgoKCgoKCgoKCgoKCgoKCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ3JlYXRlIGFuIFIgcGFja2FnZSB3b3JrZmxvdyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBkb2N1bWVudCBzaG93cyB0aGUgc2V0LXVwIHN0ZXBzIGZvciBhIG5ldyBSIHBhY2thZ2UgdXNpbmcgdGhlIHtkZXZ0b29sc30ve3VzZXRoaXN9IGZyYW1ld29yayB3aGljaCB3aWxsIGluY2x1ZGUgdGhlIGZvbGxvd2luZyBmZWF0dXJlczoKCiAtIHZlcnNpb24gY29udHJvbGxlZCBieSBnaXQgYW5kIGhvc3RlZCBvbiBHaXRIdWIKIAogLSB7cGtnZG93bn0gc2l0ZQogCiAtIEF1dG9tYXRlZCBHaXRIdWIgYWN0aW9ucyBjaGVja3MgZm9yIFIgQ01EIGJ1aWxkLCB3aXRoIFJFQURNRSBiYWRnZQogCiAtIFVuaXQgdGVzdGluZyB1c2luZyB7dGVzdHRoYXR9CiAKIC0gQXV0b21hdGVkIEdpdEh1YiBhY3Rpb25zIGZvciBjb2RlIHRlc3RpbmcgdXNpbmcgQ29kZUNvdiBhbmQge2NvdnJ9CiAKIC0gUkVBRE1FIGJ1aWx0IGluIC5SbWQKIAoKIyMgSW5pdGlhbCBTZXQtdXAKCiMjIyAxLiBDaGVjayB0aGUgcGFja2FnZSBuYW1lIGlzIGF2YWlsYWJsZToKCmBgYHtyfQphdmFpbGFibGU6OmF2YWlsYWJsZSgic2R0bXZhbCIpCmBgYAoKCiMjIyAyLiBDcmVhdGUgYSBuZXcgZGlyZWN0b3J5OgoKYGBge3J9CiMgZGlyLmNyZWF0ZSgic2R0bXZhbCIpCmBgYAoKCiMjIyAzLiBTZXQtdXAgdGhlIGRpcmVjdG9yeSBhcyBhbiBSIHBhY2thZ2U6CgpgYGB7cn0KY3JlYXRlX3BhY2thZ2UoInNkdG12YWwiKQpgYGAKCgojIyMgNC4gUG9wdWxhdGUgdGhlIERFU0NSSVBUSU9OIGZpbGUKClVwZGF0ZSB0aGVzZSBmaWVsZHM6CiAKIC0gVGl0bGUKIAogLSBBdXRob3JzIChpZiBub3QgYXV0b21hdGVkKQogCiAtIERlc2NyaXB0aW9uCiAKIC0gQ2hvc2UgYSBsaWNlbnNlOgoKYGBge3J9CnVzZV9taXRfbGljZW5zZSgpCmBgYAoKIyMgQWRkIEdpdC9HaXRIdWIKCiMjIyA1LiBTZXQtdXAgbG9jYWwgdmVyc2lvbiBjb250cm9sIGFuZCBjb25uZWN0IHRvIEdpdEh1YiByZW1vdGUgcmVwb3NpdG9yeQoKYGBge3J9CnVzZV9naXQoKQpgYGAKCmBgYHtyfQp1c2VfZ2l0aHViKCkKYGBgCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo=</div>
 
 
 
