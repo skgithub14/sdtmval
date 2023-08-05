@@ -25,13 +25,20 @@ RoxygenNote: 7.2.3
 URL: https://github.com/skgithub14/sdtmval, https://skgithub14.github.io/sdtmval/
 BugReports: https://github.com/skgithub14/sdtmval/issues
 Imports: 
+    compareDF,
     dplyr,
-    magrittr,
-    readxl,
-    stringr,
-    tidyr
-Suggests: 
+    haven,
     knitr,
+    lubridate,
+    magrittr,
+    purrr,
+    readxl,
+    rlang,
+    stats,
+    stringr,
+    tidyr,
+    utils
+Suggests: 
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

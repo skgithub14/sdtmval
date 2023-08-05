@@ -2,21 +2,27 @@
 % Please edit documentation in R/formatting.R
 \name{trim_and_make_blanks_NA}
 \alias{trim_and_make_blanks_NA}
-\title{Standardize white space trimming and NA for character columns}
+\title{Trim white space and make blanks NA}
 \usage{
 trim_and_make_blanks_NA(tbl)
 }
 \arguments{
-\item{tbl}{a data frame, the SDTM QC table}
+\item{tbl}{a data frame, the SDTM table}
 }
 \value{
 a modified copy of the \code{tbl} data frame
 }
 \description{
-Trims the white space on both sides and replaces blank values with \code{NA} for
-all character columns.
+Trims the white space on both sides of strings in a character vector and
+replaces blank values (\code{" "}) with \code{NA} for all columns in a data frame that
+have a character class.
 }
 \details{
 This function should be applied as one of the first steps in the data process
-to ensure consistent handling of strings.
+to ensure consistent handling of all strings.
+}
+\examples{
+df <- data.frame(one = c("   a", ""))
+trim_and_make_blanks_NA(df)
+
 }

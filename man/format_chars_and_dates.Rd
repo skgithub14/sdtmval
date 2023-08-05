@@ -2,12 +2,12 @@
 % Please edit documentation in R/formatting.R
 \name{format_chars_and_dates}
 \alias{format_chars_and_dates}
-\title{Standardize formatting of date and character columns for QC SDTM tables}
+\title{Format date and character columns for SDTM tables}
 \usage{
 format_chars_and_dates(tbl)
 }
 \arguments{
-\item{tbl}{a data frame, the SDTM QC table}
+\item{tbl}{a data frame, the SDTM table}
 }
 \value{
 a modified copy of the \code{tbl} data frame
@@ -18,5 +18,12 @@ character/date columns with \code{""}.
 }
 \details{
 This function should be applied as one of the last steps in the data process
-but before \code{assign_meta_data()}.
+but before \code{\link{assign_meta_data}}.
+}
+\examples{
+df <- data.frame(dates = as.Date(c("2017-02-05", NA)),
+                 strings = c(NA_character_, "this"),
+                 nums = c(1, NA))
+format_chars_and_dates(df)
+
 }
