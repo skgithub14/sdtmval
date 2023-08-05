@@ -10,15 +10,6 @@
     <loc>https://skgithub14.github.io/sdtmval/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://skgithub14.github.io/sdtmval/articles/example_article.html</loc>
-  </url>
-  <url>
-    <loc>https://skgithub14.github.io/sdtmval/articles/example_vignette.html</loc>
-  </url>
-  <url>
-    <loc>https://skgithub14.github.io/sdtmval/articles/index.html</loc>
-  </url>
-  <url>
     <loc>https://skgithub14.github.io/sdtmval/authors.html</loc>
   </url>
   <url>
@@ -26,6 +17,27 @@
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/assign_SEQ.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/assign_meta_data.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/calc_DY.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/compare_qc_to_prod.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/convert_to_script.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/create_BLFL.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/create_EPOCH.html</loc>
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/format_chars_and_dates.html</loc>
@@ -43,12 +55,27 @@
     <loc>https://skgithub14.github.io/sdtmval/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/inspect_diffs.html</loc>
+  </url>
+  <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/read_edc_tbls.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/read_sdtm_tbls.html</loc>
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/sdtmval-package.html</loc>
   </url>
   <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/summary_diffs.html</loc>
+  </url>
+  <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/trim_and_make_blanks_NA.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/write_tbl_to_xpt.html</loc>
   </url>
 </urlset>
