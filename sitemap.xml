@@ -40,6 +40,12 @@
     <loc>https://skgithub14.github.io/sdtmval/reference/create_EPOCH.html</loc>
   </url>
   <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/dm.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/edc_xx.html</loc>
+  </url>
+  <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/format_chars_and_dates.html</loc>
   </url>
   <url>
@@ -70,10 +76,22 @@
     <loc>https://skgithub14.github.io/sdtmval/reference/sdtmval-package.html</loc>
   </url>
   <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/spec_XX.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/spec_codelists.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/spec_datasets.html</loc>
+  </url>
+  <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/summary_diffs.html</loc>
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/trim_and_make_blanks_NA.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/vd.html</loc>
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/write_tbl_to_xpt.html</loc>
