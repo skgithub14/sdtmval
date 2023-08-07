@@ -2,8 +2,7 @@
 #'
 #' Reads-in EDC data table .csv files and puts them in a list.
 #'
-#' The file encoding will be UTF-8 and the strings `""` and `" "` will be
-#' read-in as `NA`.
+#' The file encoding will be UTF-8.
 #'
 #' @param edc_tbls character vector of EDC table file names (without extension)
 #' @param dir string, EDC data directory
@@ -11,13 +10,20 @@
 #' @returns a named list of data frames where the names are taken from `edc_tbls`
 #'  and the data frames are the EDC data tables
 #' @export
-read_edc_tbls <- function (edc_tbls, dir) {
+#'
+#' @examples
+#' edc_tbls <- c("xx", "vd")
+#' edc_dir <- system.file("extdata", package = "sdtmval")
+#' edc_dat <- read_edc_tbls(edc_tbls, dir = edc_dir)
+#'
+read_edc_tbls <- function(edc_tbls, dir) {
   edc_paths <- setNames(file.path(dir, paste0(edc_tbls, ".CSV")), edc_tbls)
   edc_dat <- purrr::map(edc_paths,
-                        read.csv,
-                        stringsAsFactors = F,
-                        encoding = "UTF-8",
-                        na.strings = c("", " "))
+    read.csv,
+    stringsAsFactors = F,
+    encoding = "UTF-8",
+    na.strings = NULL
+  )
   return(edc_dat)
 }
 
@@ -34,11 +40,20 @@ read_edc_tbls <- function (edc_tbls, dir) {
 #' @returns a named list of data frames where the names are taken from
 #' `sdtm_tbls` and the data frames are the SDTM data
 #' @export
-read_sdtm_tbls <- function (sdtm_tbls, dir) {
-  sdtm_paths <- setNames(file.path(dir, paste0(sdtm_tbls, ".sas7bdat")),
-                         sdtm_tbls)
+#'
+#' @examples
+#' sdtm_tbls <- "dm"
+#' sdtm_dir <- system.file("extdata", package = "sdtmval")
+#' sdtm_dat <- read_sdtm_tbls(sdtm_tbls, dir = sdtm_dir)
+#'
+read_sdtm_tbls <- function(sdtm_tbls, dir) {
+  sdtm_paths <- setNames(
+    file.path(dir, paste0(sdtm_tbls, ".sas7bdat")),
+    sdtm_tbls
+  )
   sdtm_dat <- purrr::map(sdtm_paths,
-                         haven::read_sas,
-                         encoding = "UTF-8")
+    haven::read_sas,
+    encoding = "UTF-8"
+  )
   return(sdtm_dat)
 }

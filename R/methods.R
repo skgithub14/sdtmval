@@ -22,22 +22,30 @@
 #'
 #' @examples
 #' df <- dplyr::tibble(
-#'   USUBJID = c(rep(1, 3),
-#'               rep(2, 3)),
-#'   XXORRES = c(1, 2, 2,
-#'               1, 2, NA),
-#'   XXDTC = as.Date(c("2017-02-05", "2017-02-06", "2017-02-07",
-#'                     "2017-02-05", "2017-02-06", "2017-02-07")),
-#'   RFSTDTC = as.Date(c(rep("2017-02-05", 3),
-#'                       rep("2017-02-07", 3)))
+#'   USUBJID = c(
+#'     rep(1, 3),
+#'     rep(2, 3)
+#'   ),
+#'   XXORRES = c(
+#'     1, 2, 2,
+#'     1, 2, NA
+#'   ),
+#'   XXDTC = as.Date(c(
+#'     "2017-02-05", "2017-02-06", "2017-02-07",
+#'     "2017-02-05", "2017-02-06", "2017-02-07"
+#'   )),
+#'   RFSTDTC = as.Date(c(
+#'     rep("2017-02-05", 3),
+#'     rep("2017-02-07", 3)
+#'   ))
 #' )
 #' create_BLFL(df, sort_date = "XXDTC", domain = "XX")
 #'
-create_BLFL <- function (tbl,
-                         sort_date,
-                         domain,
-                         grouping_vars = "USUBJID",
-                         RFSTDTC = "RFSTDTC") {
+create_BLFL <- function(tbl,
+                        sort_date,
+                        domain,
+                        grouping_vars = "USUBJID",
+                        RFSTDTC = "RFSTDTC") {
   tbl %>%
     dplyr::arrange(dplyr::across(dplyr::all_of(c(grouping_vars, sort_date)))) %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(grouping_vars))) %>%
@@ -46,8 +54,8 @@ create_BLFL <- function (tbl,
         (!!rlang::sym(sort_date)) <= (!!rlang::sym(RFSTDTC)) &
           !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
         dplyr::row_number(),
-        NA_integer_),
-
+        NA_integer_
+      ),
       "{stringr::str_to_upper(domain)}BLFL" := dplyr::case_when(
         all(is.na(pre_dose_visit_num)) ~ NA_character_,
         is.na(pre_dose_visit_num) ~ NA_character_,
@@ -79,15 +87,15 @@ create_BLFL <- function (tbl,
 #'
 #' @returns a modified copy of `tbl` with the `EPOCH` column
 #' @export
-create_EPOCH <- function (tbl,
-                          date_col,
-                          RFXSTDTC = "RFXSTDTC",
-                          RFXENDTC = "RFXENDTC") {
+create_EPOCH <- function(tbl,
+                         date_col,
+                         RFXSTDTC = "RFXSTDTC",
+                         RFXENDTC = "RFXENDTC") {
   tbl %>%
     dplyr::mutate(
       EPOCH = dplyr::case_when(
         is.na(!!rlang::sym(date_col)) ~ NA_character_,
-        as.Date(!!rlang::sym(date_col)) <  (!!rlang::sym(RFXSTDTC)) ~
+        as.Date(!!rlang::sym(date_col)) < (!!rlang::sym(RFXSTDTC)) ~
           "SCREENING",
         as.Date(!!rlang::sym(date_col)) >= (!!rlang::sym(RFXSTDTC)) &
           as.Date(!!rlang::sym(date_col)) <= (!!rlang::sym(RFXENDTC)) ~
@@ -117,14 +125,13 @@ create_EPOCH <- function (tbl,
 #'
 #' @returns a modified copy of `tbl` with the new DY column
 #' @export
-calc_DY <- function (tbl, DY_col, DTC_col, RFSTDTC = "RFSTDTC") {
+calc_DY <- function(tbl, DY_col, DTC_col, RFSTDTC = "RFSTDTC") {
   tbl %>%
     dplyr::mutate(
-      "{DY_col}":= dplyr::case_when(
+      "{DY_col}" := dplyr::case_when(
         (as.Date(!!rlang::sym(DTC_col))) >= (!!rlang::sym(RFSTDTC)) ~
           as.numeric((as.Date(!!rlang::sym(DTC_col))) - (!!rlang::sym(RFSTDTC)) + 1),
-
-        (as.Date(!!rlang::sym(DTC_col))) <  (!!rlang::sym(RFSTDTC)) ~
+        (as.Date(!!rlang::sym(DTC_col))) < (!!rlang::sym(RFSTDTC)) ~
           as.numeric((as.Date(!!rlang::sym(DTC_col))) - (!!rlang::sym(RFSTDTC))),
         TRUE ~ NA_real_
       )
@@ -146,11 +153,10 @@ calc_DY <- function (tbl, DY_col, DTC_col, RFSTDTC = "RFSTDTC") {
 #'
 #' @returns a sorted copy of the `tbl` data frame with the new SEQ column
 #' @export
-assign_SEQ <- function (tbl, key_vars, seq_prefix, USUBJID = "USUBJID") {
+assign_SEQ <- function(tbl, key_vars, seq_prefix, USUBJID = "USUBJID") {
   tbl %>%
     dplyr::arrange(dplyr::across(.cols = dplyr::all_of(key_vars))) %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(USUBJID))) %>%
     dplyr::mutate("{seq_prefix}SEQ" := dplyr::row_number()) %>%
     dplyr::ungroup()
 }
-

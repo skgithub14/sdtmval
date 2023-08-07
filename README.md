@@ -31,3 +31,15 @@ This is a basic example which shows you how to solve a common problem:
 library(sdtmval)
 ## basic example code
 ```
+
+``` r
+edc_tbls <- c("xx", "vd")
+edc_dir <- system.file("extdata", package = "sdtmval")
+edc_dat <- read_edc_tbls(edc_tbls, dir = edc_dir)
+```
+
+``` r
+sdtm_tbls <- c("dm")
+sdtm_dir <- system.file("extdata", package = "sdtmval")
+sdtm_dat <- read_sdtm_tbls(sdtm_tbls, dir = sdtm_dir)
+```

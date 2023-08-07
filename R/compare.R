@@ -14,7 +14,7 @@
 #'
 #' @returns nothing
 #' @export
-summary_diffs <- function (comp) {
+summary_diffs <- function(comp) {
   print("comp$change_summary")
   print(comp$change_summary)
 
@@ -44,8 +44,7 @@ summary_diffs <- function (comp) {
 #'
 #' @returns a data frame
 #' @export
-inspect_diffs <- function (comp, diff_col, id_cols, other_cols = NULL) {
-
+inspect_diffs <- function(comp, diff_col, id_cols, other_cols = NULL) {
   # use comp$comparison_table_diff, which shows changes by cell using +, -, and =,
   #  to get the row numbers where a column has differences
   diff_rows <- comp$comparison_table_diff %>%
@@ -57,13 +56,17 @@ inspect_diffs <- function (comp, diff_col, id_cols, other_cols = NULL) {
   diffs <- comp$comparison_df %>%
     dplyr::mutate(rownum = dplyr::row_number()) %>%
     dplyr::filter(rownum %in% diff_rows) %>%
-    dplyr::select(grp,
-                  chng_type,
-                  dplyr::all_of(c(id_cols, diff_col)),
-                  dplyr::any_of(other_cols))
+    dplyr::select(
+      grp,
+      chng_type,
+      dplyr::all_of(c(id_cols, diff_col)),
+      dplyr::any_of(other_cols)
+    )
 
   # if in interactive mode, view the diffs data frame in separate window
-  if (interactive()) { View(diffs) }
+  if (interactive()) {
+    View(diffs)
+  }
 
   return(diffs)
 }
@@ -85,11 +88,12 @@ inspect_diffs <- function (comp, diff_col, id_cols, other_cols = NULL) {
 #' @returns a named list as returned by `compareDF::compare_df()`. A side effect
 #' also prints a high level summary using `summary_diff()`.
 #' @export
-compare_qc_to_prod <- function (qc, prod, group_col) {
+compare_qc_to_prod <- function(qc, prod, group_col) {
   comp <- compareDF::compare_df(qc,
-                                prod,
-                                group_col = group_col,
-                                stop_on_error = F)
+    prod,
+    group_col = group_col,
+    stop_on_error = F
+  )
   print("")
   summary_diffs(comp)
   return(comp)

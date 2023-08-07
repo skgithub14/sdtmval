@@ -1,8 +1,8 @@
 #' Trim white space and make blanks NA
 #'
 #' Trims the white space on both sides of strings in a character vector and
-#' replaces blank values (`" "`) with `NA` for all columns in a data frame that
-#' have a character class.
+#' replaces blank values (`""` and `" "`) with `NA` for all columns in a data
+#' frame that have a character class.
 #'
 #' This function should be applied as one of the first steps in the data process
 #' to ensure consistent handling of all strings.
@@ -13,14 +13,15 @@
 #' @export
 #'
 #' @examples
-#' df <- data.frame(one = c("   a", ""))
+#' df <- data.frame(one = c("   a", "", " "))
 #' trim_and_make_blanks_NA(df)
 #'
-trim_and_make_blanks_NA <- function (tbl) {
+trim_and_make_blanks_NA <- function(tbl) {
   tbl %>%
     dplyr::mutate(
       dplyr::across(.cols = dplyr::where(is.character), ~ stringr::str_trim(.)),
-      dplyr::across(.cols = dplyr::where(is.character), ~ dplyr::na_if(., ""))
+      dplyr::across(.cols = dplyr::where(is.character), ~ dplyr::na_if(., "")),
+      dplyr::across(.cols = dplyr::where(is.character), ~ dplyr::na_if(., " "))
     )
 }
 
@@ -39,15 +40,21 @@ trim_and_make_blanks_NA <- function (tbl) {
 #' @export
 #'
 #' @examples
-#' df <- data.frame(dates = as.Date(c("2017-02-05", NA)),
-#'                  strings = c(NA_character_, "this"),
-#'                  nums = c(1, NA))
+#' df <- data.frame(
+#'   dates = as.Date(c("2017-02-05", NA)),
+#'   strings = c(NA_character_, "this"),
+#'   nums = c(1, NA)
+#' )
 #' format_chars_and_dates(df)
 #'
-format_chars_and_dates <- function (tbl) {
+format_chars_and_dates <- function(tbl) {
   tbl %>%
-    dplyr::mutate(dplyr::across(.cols = dplyr::where(lubridate::is.Date),
-                                ~ as.character(.))) %>%
-    dplyr::mutate(dplyr::across(.cols = dplyr::where(is.character),
-                                ~ tidyr::replace_na(., "")))
+    dplyr::mutate(dplyr::across(
+      .cols = dplyr::where(lubridate::is.Date),
+      ~ as.character(.)
+    )) %>%
+    dplyr::mutate(dplyr::across(
+      .cols = dplyr::where(is.character),
+      ~ tidyr::replace_na(., "")
+    ))
 }

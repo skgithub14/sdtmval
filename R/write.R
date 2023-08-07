@@ -11,11 +11,12 @@
 #'
 #' @returns nothing
 #' @export
-write_tbl_to_xpt <- function (tbl, filename, dir) {
+write_tbl_to_xpt <- function(tbl, filename, dir) {
   haven::write_xpt(tbl,
-                   file.path(dir, paste0(tolower(filename), ".xpt")),
-                   version = 5,
-                   name = filename)
+    file.path(dir, paste0(tolower(filename), ".xpt")),
+    version = 5,
+    name = filename
+  )
 }
 
 
@@ -34,20 +35,24 @@ write_tbl_to_xpt <- function (tbl, filename, dir) {
 #'
 #' @returns nothing
 #' @export
-convert_to_script <- function (dir, domain) {
+convert_to_script <- function(dir, domain) {
   fname <- paste0("v_", stringr::str_to_lower(domain))
   fnameRmd <- paste0(fname, ".Rmd")
 
   # create the R script from the Rmd file
-  knitr::purl(input = file.path(dir, fnameRmd),
-              output = file.path(dir, paste0(fname, ".R")))
+  knitr::purl(
+    input = file.path(dir, fnameRmd),
+    output = file.path(dir, paste0(fname, ".R"))
+  )
 
   # archive the Rmd file
   if (!dir.exists(file.path(dir, "archive"))) {
     dir.create(file.path(dir, "archive"))
   }
-  file.copy(from = file.path(dir, fnameRmd),
-            to = file.path(dir, "archive", fnameRmd))
+  file.copy(
+    from = file.path(dir, fnameRmd),
+    to = file.path(dir, "archive", fnameRmd)
+  )
 
   # delete html notebook and Rmd file from previous location
   file.remove(file.path(dir, paste0(fname, ".nb")))

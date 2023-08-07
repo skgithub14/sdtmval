@@ -21,3 +21,9 @@ Reads-in SDTM data tables store as .sas7bdat files and puts them in a list.
 \details{
 The file encoding will be UTF-8.
 }
+\examples{
+sdtm_tbls <- "dm"
+sdtm_dir <- system.file("extdata", package = "sdtmval")
+sdtm_dat <- read_sdtm_tbls(sdtm_tbls, dir = sdtm_dir)
+
+}

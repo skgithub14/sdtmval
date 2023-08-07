@@ -19,6 +19,11 @@ and the data frames are the EDC data tables
 Reads-in EDC data table .csv files and puts them in a list.
 }
 \details{
-The file encoding will be UTF-8 and the strings \code{""} and \code{" "} will be
-read-in as \code{NA}.
+The file encoding will be UTF-8.
+}
+\examples{
+edc_tbls <- c("xx", "vd")
+edc_dir <- system.file("extdata", package = "sdtmval")
+edc_dat <- read_edc_tbls(edc_tbls, dir = edc_dir)
+
 }

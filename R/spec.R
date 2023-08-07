@@ -15,7 +15,7 @@
 #'
 #' @returns a data frame of the variable specification for `domain`
 #' @export
-get_data_spec <- function (domain, dir, filename, arrange_by = "Order") {
+get_data_spec <- function(domain, dir, filename, arrange_by = "Order") {
   readxl::read_excel(file.path(dir, filename), sheet = domain) %>%
     dplyr::arrange(dplyr::across(dplyr::all_of(arrange_by)))
 }
@@ -40,14 +40,15 @@ get_data_spec <- function (domain, dir, filename, arrange_by = "Order") {
 #'
 #' @returns a character vector of key variables for the specified `domain`
 #' @export
-get_key_vars <- function (domain,
-                          dir,
-                          filename,
-                          datasets_sheet = "Datasets",
-                          dataset_col = "Dataset",
-                          keyvar_col = "Key Variables") {
+get_key_vars <- function(domain,
+                         dir,
+                         filename,
+                         datasets_sheet = "Datasets",
+                         dataset_col = "Dataset",
+                         keyvar_col = "Key Variables") {
   readxl::read_excel(file.path(dir, filename),
-                     sheet = datasets_sheet) %>%
+    sheet = datasets_sheet
+  ) %>%
     dplyr::filter(!!rlang::sym(dataset_col) %in% domain) %>%
     dplyr::pull(!!rlang::sym(keyvar_col)) %>%
     stringr::str_split(pattern = ", ") %>%
@@ -71,12 +72,12 @@ get_key_vars <- function (domain,
 #'
 #' @returns a data frame with the code list
 #' @export
-get_codelist <- function (domain,
-                          dir,
-                          filename,
-                          var_col = "Variable",
-                          codelist_sheet = "Codelists",
-                          varid_col = "ID") {
+get_codelist <- function(domain,
+                         dir,
+                         filename,
+                         var_col = "Variable",
+                         codelist_sheet = "Codelists",
+                         varid_col = "ID") {
   spec_vars <- get_data_spec(domain, dir, filename)[[var_col]]
   readxl::read_excel(file.path(dir, filename), sheet = codelist_sheet) %>%
     dplyr::filter(!!rlang::sym(varid_col) %in% spec_vars) %>%
@@ -107,22 +108,22 @@ get_codelist <- function (domain,
 #'
 #' @returns a modified copy of `tbl` with the meta data per specification
 #' @export
-assign_meta_data <- function (tbl,
-                              spec,
-                              datatype_col = "Data Type",
-                              var_col = "Variable",
-                              length_col = "Length",
-                              label_col = "Label") {
-
+assign_meta_data <- function(tbl,
+                             spec,
+                             datatype_col = "Data Type",
+                             var_col = "Variable",
+                             length_col = "Length",
+                             label_col = "Label") {
   # for each column in the table
   for (i in 1:ncol(tbl)) {
-
     # trim character variables to max length specified
     if (spec[[datatype_col]][which(spec[[var_col]] == names(tbl)[i])] %in%
-         c("text", "date")) {
+      c("text", "date")) {
       tbl[[i]] <-
-        strtrim(tbl[[i]],
-                spec[[length_col]][which(spec[[var_col]] == names(tbl)[i])])
+        strtrim(
+          tbl[[i]],
+          spec[[length_col]][which(spec[[var_col]] == names(tbl)[i])]
+        )
     }
 
     # assign variable labels and lengths
