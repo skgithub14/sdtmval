@@ -15,7 +15,8 @@
 #' @param grouping_vars a character vector of columns to group by when assigning
 #' the BLFL, default is `"USUBJID"`. The order of this vector matters.
 #' @param RFSTDTC a string, the column to use for `RFSTDTC`, default is
-#' `"RFSTDTC"`
+#' `"RFSTDTC"`; this columns should either have a date class or a characer class
+#' in the YYYY-MM-DD format
 #'
 #' @returns a modified copy of `tbl` with the new column `[domain]BLFL`
 #' @export
@@ -46,24 +47,32 @@ create_BLFL <- function(tbl,
                         domain,
                         grouping_vars = "USUBJID",
                         RFSTDTC = "RFSTDTC") {
+
+  # create a name for a temporary column
+  PDVN <- paste0(sample(letters, size = 25), collapse = "")
+  while (any(colnames(tbl) == PDVN)) {
+    PDVN <- paste0(sample(letters, size = 25), collapse = "")
+  }
+
   tbl %>%
     dplyr::arrange(dplyr::across(dplyr::all_of(c(grouping_vars, sort_date)))) %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(grouping_vars))) %>%
     dplyr::mutate(
-      pre_dose_visit_num = dplyr::if_else(
-        (!!rlang::sym(sort_date)) <= (!!rlang::sym(RFSTDTC)) &
+      "{PDVN}" := dplyr::if_else(
+        as.Date((!!rlang::sym(sort_date))) <= as.Date((!!rlang::sym(RFSTDTC))) &
           !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
         dplyr::row_number(),
         NA_integer_
       ),
       "{stringr::str_to_upper(domain)}BLFL" := dplyr::case_when(
-        all(is.na(pre_dose_visit_num)) ~ NA_character_,
-        is.na(pre_dose_visit_num) ~ NA_character_,
-        pre_dose_visit_num == max(pre_dose_visit_num, na.rm = T) ~ "Y",
+        all(is.na(!!rlang::sym(PDVN))) ~ NA_character_,
+        is.na(!!rlang::sym(PDVN)) ~ NA_character_,
+        (!!rlang::sym(PDVN)) == suppressWarnings(max(!!rlang::sym(PDVN),
+                                                     na.rm = T)) ~ "Y",
         TRUE ~ NA_character_
       )
     ) %>%
-    dplyr::select(-pre_dose_visit_num) %>%
+    dplyr::select(-dplyr::all_of(PDVN)) %>%
     dplyr::ungroup()
 }
 
@@ -81,12 +90,23 @@ create_BLFL <- function(tbl,
 #'  the EPOCH; this column can either have a date class or a character class in
 #'  the YYYY-MM-DD format
 #' @param RFXSTDTC a string, the date column to use for `RFXSTDTC`, default is
-#' `"RFXSTDTC"`
+#' `"RFXSTDTC"`; this column can either have a date class or a character class in
+#'  the YYYY-MM-DD format
 #' @param RFXENDTC a string, the date column to use for `RFXENDTC`, default is
-#' `"RFXENDTC"`
+#' `"RFXENDTC"`; this column can either have a date class or a character class in
+#'  the YYYY-MM-DD format
 #'
 #' @returns a modified copy of `tbl` with the `EPOCH` column
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   DTC = c("2023-08-01", "2023-08-02", "2023-08-03", "2023-08-04"),
+#'   RFXSTDTC = rep("2023-08-02", 4),
+#'   RFXENDTC = rep("2023-08-03", 4)
+#' )
+#' create_EPOCH(df, date_col = "DTC")
+#'
 create_EPOCH <- function(tbl,
                          date_col,
                          RFXSTDTC = "RFXSTDTC",
@@ -95,12 +115,12 @@ create_EPOCH <- function(tbl,
     dplyr::mutate(
       EPOCH = dplyr::case_when(
         is.na(!!rlang::sym(date_col)) ~ NA_character_,
-        as.Date(!!rlang::sym(date_col)) < (!!rlang::sym(RFXSTDTC)) ~
+        as.Date(!!rlang::sym(date_col)) < as.Date(!!rlang::sym(RFXSTDTC)) ~
           "SCREENING",
-        as.Date(!!rlang::sym(date_col)) >= (!!rlang::sym(RFXSTDTC)) &
-          as.Date(!!rlang::sym(date_col)) <= (!!rlang::sym(RFXENDTC)) ~
+        as.Date(!!rlang::sym(date_col)) >= as.Date(!!rlang::sym(RFXSTDTC)) &
+          as.Date(!!rlang::sym(date_col)) <= as.Date(!!rlang::sym(RFXENDTC)) ~
           "TREATMENT",
-        as.Date(!!rlang::sym(date_col)) > (!!rlang::sym(RFXENDTC)) ~
+        as.Date(!!rlang::sym(date_col)) > as.Date(!!rlang::sym(RFXENDTC)) ~
           "FOLLOW-UP"
       )
     )
@@ -121,18 +141,27 @@ create_EPOCH <- function(tbl,
 #'  calculated the DY value; should either already have a date class or be a
 #'  character vector in the format YYYY-MM-DD
 #' @param RFSTDTC a string, the column to use for `RFSTDTC`, default is
-#' `"RFSTDTC"`
+#' `"RFSTDTC"`; should either already have a date class or be a
+#'  character vector in the format YYYY-MM-DD
 #'
 #' @returns a modified copy of `tbl` with the new DY column
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   DTC = c("2023-08-01", "2023-08-02", "2023-08-03", "2023-08-04"),
+#'   RFSTDTC = rep("2023-08-02", 4)
+#' )
+#' calc_DY(df, DY_col = "XXDY", DTC_col = "DTC")
+#'
 calc_DY <- function(tbl, DY_col, DTC_col, RFSTDTC = "RFSTDTC") {
   tbl %>%
     dplyr::mutate(
       "{DY_col}" := dplyr::case_when(
-        (as.Date(!!rlang::sym(DTC_col))) >= (!!rlang::sym(RFSTDTC)) ~
-          as.numeric((as.Date(!!rlang::sym(DTC_col))) - (!!rlang::sym(RFSTDTC)) + 1),
+        as.Date(!!rlang::sym(DTC_col)) >= as.Date((!!rlang::sym(RFSTDTC))) ~
+          as.numeric(as.Date(!!rlang::sym(DTC_col)) - as.Date(!!rlang::sym(RFSTDTC)) + 1),
         (as.Date(!!rlang::sym(DTC_col))) < (!!rlang::sym(RFSTDTC)) ~
-          as.numeric((as.Date(!!rlang::sym(DTC_col))) - (!!rlang::sym(RFSTDTC))),
+          as.numeric(as.Date(!!rlang::sym(DTC_col)) - as.Date(!!rlang::sym(RFSTDTC))),
         TRUE ~ NA_real_
       )
     )

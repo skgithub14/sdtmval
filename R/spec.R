@@ -15,6 +15,13 @@
 #'
 #' @returns a data frame of the variable specification for `domain`
 #' @export
+#'
+#' @examples
+#' work_dir <- system.file("extdata", package = "sdtmval")
+#' spec <- get_data_spec(domain = "XX",
+#'                       dir = work_dir,
+#'                       filename = "spec.xlsx")
+#'
 get_data_spec <- function(domain, dir, filename, arrange_by = "Order") {
   readxl::read_excel(file.path(dir, filename), sheet = domain) %>%
     dplyr::arrange(dplyr::across(dplyr::all_of(arrange_by)))
@@ -40,6 +47,13 @@ get_data_spec <- function(domain, dir, filename, arrange_by = "Order") {
 #'
 #' @returns a character vector of key variables for the specified `domain`
 #' @export
+#'
+#' @examples
+#' work_dir <- system.file("extdata", package = "sdtmval")
+#' key_vars <- get_key_vars(domain = "XX",
+#'                          dir = work_dir,
+#'                          filename = "spec.xlsx")
+#'
 get_key_vars <- function(domain,
                          dir,
                          filename,
@@ -72,6 +86,13 @@ get_key_vars <- function(domain,
 #'
 #' @returns a data frame with the code list
 #' @export
+#'
+#' @examples
+#' work_dir <- system.file("extdata", package = "sdtmval")
+#' codelists <- get_codelist(domain = 'XX',
+#'                           dir = work_dir,
+#'                           filename = "spec.xlsx")
+#'
 get_codelist <- function(domain,
                          dir,
                          filename,

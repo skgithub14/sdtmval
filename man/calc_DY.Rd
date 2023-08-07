@@ -17,7 +17,8 @@ calculated the DY value; should either already have a date class or be a
 character vector in the format YYYY-MM-DD}
 
 \item{RFSTDTC}{a string, the column to use for \code{RFSTDTC}, default is
-\code{"RFSTDTC"}}
+\code{"RFSTDTC"}; should either already have a date class or be a
+character vector in the format YYYY-MM-DD}
 }
 \value{
 a modified copy of \code{tbl} with the new DY column
@@ -27,4 +28,12 @@ Utilizes the DY method from the SDTM spec: \code{--DTC-RFSTDTC+1} if \code{--DTC
 or after RFSTDTC. \code{--DTC-RFSTDTC} if \code{--DTC} precedes \code{RFSTDTC}. This
 function can also be used for the ENDY method from the spec which has the
 same logic.
+}
+\examples{
+df <- data.frame(
+  DTC = c("2023-08-01", "2023-08-02", "2023-08-03", "2023-08-04"),
+  RFSTDTC = rep("2023-08-02", 4)
+)
+calc_DY(df, DY_col = "XXDY", DTC_col = "DTC")
+
 }

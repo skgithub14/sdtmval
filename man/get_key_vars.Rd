@@ -41,3 +41,10 @@ The \code{readxl::read_excel()} function will causes an access denied warning wh
 reading in a read-only specification file. This does not affect the data
 import.
 }
+\examples{
+work_dir <- system.file("extdata", package = "sdtmval")
+key_vars <- get_key_vars(domain = "XX",
+                         dir = work_dir,
+                         filename = "spec.xlsx")
+
+}

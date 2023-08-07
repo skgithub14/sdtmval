@@ -28,7 +28,8 @@ YYYY-MM-DD}
 the BLFL, default is \code{"USUBJID"}. The order of this vector matters.}
 
 \item{RFSTDTC}{a string, the column to use for \code{RFSTDTC}, default is
-\code{"RFSTDTC"}}
+\code{"RFSTDTC"}; this columns should either have a date class or a characer class
+in the YYYY-MM-DD format}
 }
 \value{
 a modified copy of \code{tbl} with the new column \verb{[domain]BLFL}

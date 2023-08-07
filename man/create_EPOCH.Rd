@@ -15,10 +15,12 @@ the EPOCH; this column can either have a date class or a character class in
 the YYYY-MM-DD format}
 
 \item{RFXSTDTC}{a string, the date column to use for \code{RFXSTDTC}, default is
-\code{"RFXSTDTC"}}
+\code{"RFXSTDTC"}; this column can either have a date class or a character class in
+the YYYY-MM-DD format}
 
 \item{RFXENDTC}{a string, the date column to use for \code{RFXENDTC}, default is
-\code{"RFXENDTC"}}
+\code{"RFXENDTC"}; this column can either have a date class or a character class in
+the YYYY-MM-DD format}
 }
 \value{
 a modified copy of \code{tbl} with the \code{EPOCH} column
@@ -28,4 +30,13 @@ Utilizes the EPOCH method from the SDTM spec: Missing when \code{--DTC} is blank
 equal to \code{'SCREENING'} if \code{--DTC} if before \code{RFXSTDTC}; equal to \code{'TREATMENT'}
 if \code{--DTC} is on or after \code{RFXSTDTC} and on or before \code{RFXENDTC}; equal to
 \code{'FOLLOW-UP'} if \code{--DTC} is after \code{RFXENDTC}.
+}
+\examples{
+df <- data.frame(
+  DTC = c("2023-08-01", "2023-08-02", "2023-08-03", "2023-08-04"),
+  RFXSTDTC = rep("2023-08-02", 4),
+  RFXENDTC = rep("2023-08-03", 4)
+)
+create_EPOCH(df, date_col = "DTC")
+
 }

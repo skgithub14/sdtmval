@@ -28,3 +28,10 @@ in a read-only specification file. This does not affect the data import.
 Variables will be arranged in descending order per the \code{"Order"} column in
 the specification.
 }
+\examples{
+work_dir <- system.file("extdata", package = "sdtmval")
+spec <- get_data_spec(domain = "XX",
+                      dir = work_dir,
+                      filename = "spec.xlsx")
+
+}

@@ -17,7 +17,7 @@
 #' edc_dat <- read_edc_tbls(edc_tbls, dir = edc_dir)
 #'
 read_edc_tbls <- function(edc_tbls, dir) {
-  edc_paths <- setNames(file.path(dir, paste0(edc_tbls, ".CSV")), edc_tbls)
+  edc_paths <- setNames(file.path(dir, paste0(edc_tbls, ".csv")), edc_tbls)
   edc_dat <- purrr::map(edc_paths,
     read.csv,
     stringsAsFactors = F,

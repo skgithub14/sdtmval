@@ -37,3 +37,10 @@ a data frame with the code list
 Reads-in the \code{"Codelists"} sheet from the study's specification MS Excel file
 and then filters that code list by the variables in the domain
 }
+\examples{
+work_dir <- system.file("extdata", package = "sdtmval")
+codelists <- get_codelist(domain = 'XX',
+                          dir = work_dir,
+                          filename = "spec.xlsx")
+
+}
