@@ -78,12 +78,14 @@ the YYYY-MM-DD format</p></dd>
 
 <dt>RFXSTDTC</dt>
 <dd><p>a string, the date column to use for <code>RFXSTDTC</code>, default is
-<code>"RFXSTDTC"</code></p></dd>
+<code>"RFXSTDTC"</code>; this column can either have a date class or a character class in
+the YYYY-MM-DD format</p></dd>
 
 
 <dt>RFXENDTC</dt>
 <dd><p>a string, the date column to use for <code>RFXENDTC</code>, default is
-<code>"RFXENDTC"</code></p></dd>
+<code>"RFXENDTC"</code>; this column can either have a date class or a character class in
+the YYYY-MM-DD format</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -93,6 +95,22 @@ the YYYY-MM-DD format</p></dd>
 <p>a modified copy of <code>tbl</code> with the <code>EPOCH</code> column</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  DTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2023-08-01"</span>, <span class="st">"2023-08-02"</span>, <span class="st">"2023-08-03"</span>, <span class="st">"2023-08-04"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  RFXSTDTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"2023-08-02"</span>, <span class="fl">4</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  RFXENDTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"2023-08-03"</span>, <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">create_EPOCH</span><span class="op">(</span><span class="va">df</span>, date_col <span class="op">=</span> <span class="st">"DTC"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          DTC   RFXSTDTC   RFXENDTC     EPOCH</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2023-08-01 2023-08-02 2023-08-03 SCREENING</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2023-08-02 2023-08-02 2023-08-03 TREATMENT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2023-08-03 2023-08-02 2023-08-03 TREATMENT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2023-08-04 2023-08-02 2023-08-03 FOLLOW-UP</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

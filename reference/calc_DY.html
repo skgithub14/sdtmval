@@ -82,7 +82,8 @@ character vector in the format YYYY-MM-DD</p></dd>
 
 <dt>RFSTDTC</dt>
 <dd><p>a string, the column to use for <code>RFSTDTC</code>, default is
-<code>"RFSTDTC"</code></p></dd>
+<code>"RFSTDTC"</code>; should either already have a date class or be a
+character vector in the format YYYY-MM-DD</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -92,6 +93,21 @@ character vector in the format YYYY-MM-DD</p></dd>
 <p>a modified copy of <code>tbl</code> with the new DY column</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  DTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2023-08-01"</span>, <span class="st">"2023-08-02"</span>, <span class="st">"2023-08-03"</span>, <span class="st">"2023-08-04"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  RFSTDTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"2023-08-02"</span>, <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">calc_DY</span><span class="op">(</span><span class="va">df</span>, DY_col <span class="op">=</span> <span class="st">"XXDY"</span>, DTC_col <span class="op">=</span> <span class="st">"DTC"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          DTC    RFSTDTC XXDY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2023-08-01 2023-08-02   -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2023-08-02 2023-08-02    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2023-08-03 2023-08-02    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2023-08-04 2023-08-02    3</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
