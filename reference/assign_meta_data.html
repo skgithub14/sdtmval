@@ -14,7 +14,7 @@ column.'><meta property="og:image" content="https://skgithub14.github.io/sdtmval
     
     <a class="navbar-brand me-2" href="../index.html">sdtmval</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,6 +108,39 @@ each variable</p></dd>
 <p>a modified copy of <code>tbl</code> with the meta data per specification</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">work_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"sdtmval"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_data_spec.html">get_data_spec</a></span><span class="op">(</span>domain <span class="op">=</span> <span class="st">"XX"</span>,</span></span>
+<span class="r-in"><span>                      dir <span class="op">=</span> <span class="va">work_dir</span>,</span></span>
+<span class="r-in"><span>                      filename <span class="op">=</span> <span class="st">"spec.xlsx"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">after_meta_data</span> <span class="op">&lt;-</span> <span class="fu">assign_meta_data</span><span class="op">(</span><span class="fu">sdtmval</span><span class="fu">::</span><span class="va"><a href="xx_no_meta_data.html">xx_no_meta_data</a></span>, spec <span class="op">=</span> <span class="va">spec</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">after_meta_data</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">after_meta_data</span><span class="op">[[</span><span class="va">.</span><span class="op">]</span><span class="op">]</span>, <span class="st">"label"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lengths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">after_meta_data</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">after_meta_data</span><span class="op">[[</span><span class="va">.</span><span class="op">]</span><span class="op">]</span>, <span class="st">"width"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">after_meta_data</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  labels <span class="op">=</span> <span class="va">labels</span>,</span></span>
+<span class="r-in"><span>  lengths <span class="op">=</span> <span class="va">lengths</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      column                              labels lengths</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   STUDYID                    Study Identifier     200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   USUBJID           Unique Subject Identifier     200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     XXSEQ                     Sequence Number       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  XXTESTCD                  XX Test Short Name       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    XXTEST                        XX Test Name      40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   XXORRES Result or Finding in Original Units     200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    XXBLFL                       Baseline Flag       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     VISIT                          Visit Name     200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     EPOCH                               Epoch     200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    XXDTC           Date/Time of Measurements      19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11     XXDY                     Study Day of XX       8</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
