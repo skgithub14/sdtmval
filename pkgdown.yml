@@ -1,8 +1,9 @@
 pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
-articles: {}
-last_built: 2023-08-08T01:19Z
+articles:
+  dates: dates.html
+last_built: 2023-08-08T13:28Z
 urls:
   reference: https://skgithub14.github.io/sdtmval/reference
   article: https://skgithub14.github.io/sdtmval/articles

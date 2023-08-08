@@ -10,6 +10,12 @@
     <loc>https://skgithub14.github.io/sdtmval/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://skgithub14.github.io/sdtmval/articles/dates.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/articles/index.html</loc>
+  </url>
+  <url>
     <loc>https://skgithub14.github.io/sdtmval/authors.html</loc>
   </url>
   <url>
@@ -55,6 +61,9 @@
     <loc>https://skgithub14.github.io/sdtmval/reference/get_key_vars.html</loc>
   </url>
   <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/impute_pdates.html</loc>
+  </url>
+  <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/index.html</loc>
   </url>
   <url>
@@ -65,6 +74,12 @@
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/read_sdtm_tbls.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/reshape_adates.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/reshape_pdates.html</loc>
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/sdtmval-package.html</loc>
@@ -80,6 +95,9 @@
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/trim_and_make_blanks_NA.html</loc>
+  </url>
+  <url>
+    <loc>https://skgithub14.github.io/sdtmval/reference/trim_dates.html</loc>
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/vd.html</loc>
