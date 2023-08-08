@@ -12,6 +12,21 @@ coverage](https://codecov.io/gh/skgithub14/sdtmval/branch/master/graph/badge.svg
 
 The goal of {sdtmval} is to provide a set of tools to assist statistical
 programmers in validating Study Data Tabulation Model (SDTM) data sets.
+The tools include utilities for:
+
+- Importing EDC and SDTM data
+
+- Reading in and applying study specification data
+
+- Data formatting
+
+- Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
+
+The above features are demonstrated in the example workflow shown below.
+The additional features below each have their own vignette/article:
+
+- Imputing and formatting full and partial dates: see the [‘Dates’
+  vignette](Dates.html)
 
 ## Installation
 
