@@ -4,23 +4,28 @@
 \alias{convert_to_script}
 \title{Convert SDTM QC code from a .Rmd file to .R script}
 \usage{
-convert_to_script(dir, domain)
+convert_to_script(dir, filename, archive = F)
 }
 \arguments{
 \item{dir}{string, the directory where the .Rmd file is and the .R file will
 be written}
 
-\item{domain}{string, the SDTM domain abbreviation}
+\item{filename}{string, the .Rmd file name (without the .Rmd extension)}
+
+\item{archive}{logical, whether to auto-archive the .Rmd file; default is
+\code{FALSE}}
 }
 \value{
 nothing
 }
 \description{
-Wraps \code{knitr::purl()} to create an .R script from a .Rmd file and also
-auto-archives the .Rmd file to an \verb{[dir]/archive} sub-directory.
+Wraps \code{knitr::purl()} to create an .R script from a .Rmd file. It can also
+auto-archive the .Rmd file to a \verb{[dir]/archive} sub-directory.
 }
 \details{
-The function assumes the name of the .Rmd file is \code{"v_[domain].Rmd"} where
-the domain is all lowercase. The resulting script will take the same name,
-with a different extension (.R).
+\itemize{
+\item The resulting script will take the same name as the .Rmd file but with a
+different extension (.R)
+\item If \verb{[dir]/archive} does not already exist, it will be created
+}
 }
