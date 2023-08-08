@@ -34,6 +34,8 @@ library(sdtmval)
 library(dplyr)
 
 domain <- "XX"
+
+# set working directory (this can be anything)
 work_dir <- system.file("extdata", package = "sdtmval")
 ```
 
@@ -106,8 +108,6 @@ knitr::kable(spec)
 |    12 | XX      | XXDY     | Study Day of XX                     | integer   |      8 |
 
 ``` r
-key_vars
-#> [1] "STUDYID"  "USUBJID"  "XXTESTCD" "VISIT"
 knitr::kable(codelists)
 ```
 
@@ -117,15 +117,19 @@ knitr::kable(codelists)
 | XXTESTCD | T2   | Test 2        |
 | XXTESTCD | T3   | Test 3        |
 
+``` r
+key_vars
+#> [1] "STUDYID"  "USUBJID"  "XXTESTCD" "VISIT"
+```
+
 Now we will begin creating the SDTM XX domain using the EDC XX form as
 the basis.
 
 First, it needs some pre-processing because there is extra white space
 in some of the variables. We also want to turn all NA equivalent values
 like `""` and `" "` to `NA` for the entire data set so we have
-consistent handling of missing values during data processing (for the
-final format these will all become `""` at the end of the work flow).
-The function `trim_and_make_blanks_NA()` does both of these tasks.
+consistent handling of missing values during data processing. The
+function `trim_and_make_blanks_NA()` does both of these tasks.
 
 ``` r
 sdtm_xx1 <- trim_and_make_blanks_NA(edc_dat$xx)
@@ -175,8 +179,8 @@ knitr::kable(sdtm_xx2)
 | Study 1 | Subject 2 | Visit 4 | T3       | FAIL    | Test 3 |
 
 In order to calculate the timing variables XXBLFL, EPOCH, and XXDY, we
-need to the visit dates from the EDC VD table and the study start/end
-dates by subject from the SDTM DM table.
+need the visit dates from the EDC VD table and the study start/end dates
+by subject from the SDTM DM table.
 
 ``` r
 sdtm_xx3 <- sdtm_xx2 %>%
@@ -284,11 +288,12 @@ knitr::kable(sdtm_xx6)
 | Study 1 | Subject 2 | Visit 3 | T2       | 200     | Test 2 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 |        | TREATMENT |    2 |     4 |
 | Study 1 | Subject 2 | Visit 4 | T3       | FAIL    | Test 3 | 2023-08-05 | 2023-08-03 | 2023-08-03 | 2023-08-04 |        | FOLLOW-UP |    3 |     5 |
 
-As a final step, we will drop columns that are not in domain spec and
-re-order the remaining column according to the domain spec. Then we will
-assign the meta data from the spec to each column using
-`assing_meta_data()`. The meta data includes the labels for each column
-and their maximum allowed character lengths.
+As a final step, we re-order the columns according to the domain spec
+and drop the extra columns using this line of code:
+`select(any_of(spec$Variable))`. Then we will assign the meta data from
+the spec to each column using `assign_meta_data()`. The meta data
+includes the labels for each column and their maximum allowed character
+lengths.
 
 ``` r
 sdtm_xx7 <- sdtm_xx6 %>%
@@ -341,7 +346,8 @@ data.frame(
 ```
 
 Finally, we will write the SDTM XX domain validation table as a SAS
-transport file to our working directory.
+transport file using `write_tbl_to_xpt()` (which is just a convenience
+wrapper for `haven::write_xpt()`).
 
 ``` r
 write_tbl_to_xpt(sdtm_xx7, filename = domain, dir = work_dir)
@@ -351,11 +357,15 @@ For each previous steps, we viewed the interim results to demonstrate
 the features of {sdtmval} however, {sdtmval} is designed to be used with
 pipe operators so that you can have one long, read-able pipe. To
 demonstrate, we will reproduce the same results from above in one code
-chuck.
+chunk.
 
 ``` r
 sdtm_xx <- edc_dat$xx %>%
+  
+  # pre-processing
   trim_and_make_blanks_NA() %>%
+  
+  # XXTEST
   dplyr::mutate(XXTEST = dplyr::recode(XXTESTCD, !!!xxtestcd_codelist)) %>%
 
   # get the VISITDTC column from the EDC VD form
@@ -377,7 +387,7 @@ sdtm_xx <- edc_dat$xx %>%
   calc_DY(DY_col = "XXDY",
           DTC_col = "XXDTC") %>%
 
-  # SEQ
+  # XXSEQ
   assign_SEQ(key_vars = c("USUBJID", "XXTESTCD", "VISIT"),
              seq_prefix = domain) %>%
 
