@@ -182,6 +182,14 @@ calc_DY <- function(tbl, DY_col, DTC_col, RFSTDTC = "RFSTDTC") {
 #'
 #' @returns a sorted copy of the `tbl` data frame with the new SEQ column
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   USUBJID = paste("Subject", c(rep(1, 3), rep(2, 3))),
+#'   XXTESTCD = paste("T", rep(c(2, 3, 1), 2))
+#' )
+#' assign_SEQ(df, key_vars = c("USUBJID", "XXTESTCD"), seq_prefix = "XX")
+#'
 assign_SEQ <- function(tbl, key_vars, seq_prefix, USUBJID = "USUBJID") {
   tbl %>%
     dplyr::arrange(dplyr::across(.cols = dplyr::all_of(key_vars))) %>%

@@ -56,3 +56,18 @@ test_that("DY", {
   expect_equal(calc_DY(df, DY_col = "XXDY", DTC_col = "DTC"),
                expected_df)
 })
+
+
+test_that("SEQ", {
+  df <- dplyr::tibble(
+    USUBJID = paste("Subject", c(rep(1, 3), rep(2, 3))),
+    XXTESTCD = paste0("T", rep(c(2, 3, 1), 2))
+  )
+  expected <- df %>%
+    dplyr::arrange(USUBJID, XXTESTCD) %>%
+    dplyr::mutate(XXSEQ = c(1, 2, 3, 1, 2, 3))
+  actual <- assign_SEQ(df,
+                       key_vars = c("USUBJID", "XXTESTCD"),
+                       seq_prefix = "XX")
+  expect_equal(actual, expected)
+})

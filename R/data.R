@@ -15,6 +15,30 @@
 "edc_xx"
 
 
+#' Example SDTM domain XX without meta data
+#'
+#' This data set is used to test the [assign_meta_data()] function and contains
+#' a fake SDTM domain XX but without label or lengths assigned to the column
+#' attributes.
+#'
+#' @format ## 'xx_no_meta_data'
+#' A data frame with 10 rows and 11 columns:
+#' \describe{
+#'  \item{STUDYID}{Study identifier}
+#'  \item{USUBJID}{Subject identifier}
+#'  \item{XXSEQ}{Sequence number}
+#'  \item{XXTESTCD}{Coded test name}
+#'  \item{XXTEST}{Test name}
+#'  \item{XXORRES}{Measurement in original units}
+#'  \item{XXBLFL}{Baseline flag}
+#'  \item{VISIT}{Visit name}
+#'  \item{EPOCH}{EPOCH}
+#'  \item{XXDTC}{Measurement date}
+#'  \item{XXDY}{Measurement day of study}
+#' }
+"xx_no_meta_data"
+
+
 #' Example EDC form/table 'VD'
 #'
 #' This is an example data set to simulate raw EDC data from the 'VD' form/table

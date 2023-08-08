@@ -11,6 +11,11 @@
 #'
 #' @returns nothing
 #' @export
+#'
+#' @examples
+#' work_dir <- system.file("extdata", package = "sdtmval")
+#' write_tbl_to_xpt(sdtmval::edc_xx, filename = "test", dir = work_dir)
+#'
 write_tbl_to_xpt <- function(tbl, filename, dir) {
   haven::write_xpt(tbl,
     file.path(dir, paste0(tolower(filename), ".xpt")),

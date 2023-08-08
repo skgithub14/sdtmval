@@ -42,3 +42,22 @@ Trims the length of each text and date variable to the length specified in
 the spec and then assigns the attributes \code{"label"} and \code{"width"} to each
 column.
 }
+\examples{
+work_dir <- system.file("extdata", package = "sdtmval")
+spec <- get_data_spec(domain = "XX",
+                      dir = work_dir,
+                      filename = "spec.xlsx")
+after_meta_data <- assign_meta_data(sdtmval::xx_no_meta_data, spec = spec)
+labels <- colnames(after_meta_data) |>
+  purrr::map(~ attr(after_meta_data[[.]], "label")) |>
+  unlist()
+lengths <- colnames(after_meta_data) |>
+  purrr::map(~ attr(after_meta_data[[.]], "width")) |>
+  unlist()
+data.frame(
+  column = colnames(after_meta_data),
+  labels = labels,
+  lengths = lengths
+)
+
+}

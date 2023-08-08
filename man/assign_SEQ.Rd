@@ -24,3 +24,11 @@ a sorted copy of the \code{tbl} data frame with the new SEQ column
 Assigns the \code{"[DOMAIN]SEQ"} number by sorting the data set by the specified
 variables and then grouping by \code{"USUBJID"}.
 }
+\examples{
+df <- data.frame(
+  USUBJID = paste("Subject", c(rep(1, 3), rep(2, 3))),
+  XXTESTCD = paste("T", rep(c(2, 3, 1), 2))
+)
+assign_SEQ(df, key_vars = c("USUBJID", "XXTESTCD"), seq_prefix = "XX")
+
+}

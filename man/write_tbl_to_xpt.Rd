@@ -23,3 +23,8 @@ Writes a data frame to a SAS transport file (.xpt) named like \code{"[domain].xp
 \details{
 Files will be written using version 5 .xpt files
 }
+\examples{
+work_dir <- system.file("extdata", package = "sdtmval")
+write_tbl_to_xpt(sdtmval::edc_xx, filename = "test", dir = work_dir)
+
+}
