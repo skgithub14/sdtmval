@@ -1,17 +1,38 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sdtmval <a href="https://skgithub14.github.io/sdtmval/"><img src="man/figures/logo.png" align="right" height="139" alt="sdtmval website" /></a>
+# sdtmval <a href="https://skgithub14.github.io/sdtmval/"><img src="man/figures/logo.png" alt="sdtmval website" align="right" height="139"/></a>
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/skgithub14/sdtmval/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/skgithub14/sdtmval/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/skgithub14/sdtmval/branch/master/graph/badge.svg)](https://app.codecov.io/gh/skgithub14/sdtmval?branch=master)
+
 <!-- badges: end -->
 
 The goal of {sdtmval} is to provide a set of tools to assist statistical
 programmers in validating Study Data Tabulation Model (SDTM) data sets.
+The tools include utilities for:
+
+- Importing EDC and SDTM data
+
+- Reading in and applying study specification data
+
+- Data formatting
+
+- Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
+
+The above features are demonstrated in the example workflow shown below.
+The additional features below each have their own vignette/article:
+
+- Imputing and formatting full and partial dates: see the [‘Dates’
+  vignette](Dates.html)
+
+- Comparing QC versus production SDTM domain tables: see the COMING SOON
+
+The first four points above are demonstrated in the README example
+below. See the vignette/article ‘Dates’ for an example
 
 ## Installation
 
@@ -189,24 +210,9 @@ sdtm_xx3 <- sdtm_xx2 %>%
   left_join(edc_dat$vd, by = c("USUBJID", "VISIT")) %>%
   rename(XXDTC = VISITDTC) %>%
   
-  # get the study start/end dates by subject
+  # get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)
   left_join(sdtm_dat$dm, by = "USUBJID")
-  
-knitr::kable(sdtm_xx3)
 ```
-
-| STUDYID | USUBJID   | VISIT   | XXTESTCD | XXORRES | XXTEST | XXDTC      | RFSTDTC    | RFXSTDTC   | RFXENDTC   |
-|:--------|:----------|:--------|:---------|:--------|:-------|:-----------|:-----------|:-----------|:-----------|
-| Study 1 | Subject 1 | Visit 1 | T1       | 1       | Test 1 | 2023-08-01 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
-| Study 1 | Subject 1 | Visit 2 | T1       | 0       | Test 1 | 2023-08-02 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
-| Study 1 | Subject 1 | Visit 3 | T1       | 2       | Test 1 | 2023-08-03 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
-| Study 1 | Subject 1 | Visit 3 | T2       | 100     | Test 2 | 2023-08-03 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
-| Study 1 | Subject 1 | Visit 4 | T3       | PASS    | Test 3 | 2023-08-04 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
-| Study 1 | Subject 2 | Visit 1 | T1       | 1       | Test 1 | 2023-08-02 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
-| Study 1 | Subject 2 | Visit 2 | T1       | NA      | Test 1 | 2023-08-03 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
-| Study 1 | Subject 2 | Visit 3 | T1       | 2       | Test 1 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
-| Study 1 | Subject 2 | Visit 3 | T2       | 200     | Test 2 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
-| Study 1 | Subject 2 | Visit 4 | T3       | FAIL    | Test 3 | 2023-08-05 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
 
 Now, we can proceed with calculating those timing variables using the
 `create_BLFL()`, `create_EPOCH()`, and `calc_DY()` functions.

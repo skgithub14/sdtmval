@@ -13,14 +13,31 @@ knitr::opts_chunk$set(
 )
 ```
 
-# sdtmval <a href="https://skgithub14.github.io/sdtmval/"><img src="man/figures/logo.png" align="right" height="139" alt="sdtmval website" /></a>
+# sdtmval <a href="https://skgithub14.github.io/sdtmval/"><img src="man/figures/logo.png" alt="sdtmval website" align="right" height="139"/></a>
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/skgithub14/sdtmval/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/skgithub14/sdtmval/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/skgithub14/sdtmval/branch/master/graph/badge.svg)](https://app.codecov.io/gh/skgithub14/sdtmval?branch=master)
+
+[![R-CMD-check](https://github.com/skgithub14/sdtmval/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/skgithub14/sdtmval/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/skgithub14/sdtmval/branch/master/graph/badge.svg)](https://app.codecov.io/gh/skgithub14/sdtmval?branch=master)
+
 <!-- badges: end -->
 
-The goal of {sdtmval} is to provide a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets.
+The goal of {sdtmval} is to provide a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. The tools include utilities for:
+
+-   Importing EDC and SDTM data
+
+-   Reading in and applying study specification data
+
+-   Data formatting
+
+-   Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
+
+The above features are demonstrated in the example workflow shown below. The additional features below each have their own vignette/article:
+
+-   Imputing and formatting full and partial dates: see the ['Dates' vignette](Dates.html)
+
+-   Comparing QC versus production SDTM domain tables: see the COMING SOON
+
+The first four points above are demonstrated in the README example below. See the vignette/article 'Dates' for an example
 
 ## Installation
 
@@ -33,7 +50,7 @@ devtools::install_github("skgithub14/sdtmval")
 
 ## A typical work flow example
 
-In this example work flow, we will load in a raw EDC table and transform it into a SDTM domain table. We will use the fake domain is 'XX'. 
+In this example work flow, we will load in a raw EDC table and transform it into a SDTM domain table. We will use the fake domain is 'XX'.
 
 ```{r ex-set-up, message=FALSE}
 # set-up
@@ -58,7 +75,6 @@ sdtm_tbls <- c("dm")
 sdtm_dat <- read_sdtm_tbls(sdtm_tbls, dir = work_dir)
 ```
 
-
 The raw data looks like this:
 
 ```{r, echo=FALSE}
@@ -67,7 +83,6 @@ edc_dat$xx %>%
                 ~ stringr::str_replace_all(., " ", "&nbsp;"))) %>%
   knitr::kable()
 ```
-
 
 The next thing we will do is get the relevant information from the SDTM specification for the study. The next set of functions assumes there is a .xlsx file which contains the sheets: 'Datasets', 'XX', and 'Codelists'. 'Datasets' contains the key variables by domain, 'XX' gives the variable information for the XX domain, and 'Codelists' provides a table of coded/decoded values by variable. `get_data_spec()` imports the domain tab from the specification file as a data frame, `get_key_vars()` retrieves the key variables for a domain as a character vector, and `get_codelist` extracts a data frame of coded/decoded values from the spec for any variables in the relevant domain.
 
@@ -82,7 +97,7 @@ knitr::kable(codelists)
 key_vars
 ```
 
-Now we will begin creating the SDTM XX domain using the EDC XX form as the basis. 
+Now we will begin creating the SDTM XX domain using the EDC XX form as the basis.
 
 First, it needs some pre-processing because there is extra white space in some of the variables. We also want to turn all NA equivalent values like `""` and `" "` to `NA` for the entire data set so we have consistent handling of missing values during data processing. The function `trim_and_make_blanks_NA()` does both of these tasks.
 
@@ -90,7 +105,6 @@ First, it needs some pre-processing because there is extra white space in some o
 sdtm_xx1 <- trim_and_make_blanks_NA(edc_dat$xx)
 knitr::kable(sdtm_xx1)
 ```
-
 
 Next, using the codelists we retrieved from the spec earlier, we can create the `XXTEST` variable.
 
@@ -107,7 +121,6 @@ sdtm_xx2 <- mutate(sdtm_xx1, XXTEST = recode(XXTESTCD, !!!xxtestcd_codelist))
 knitr::kable(sdtm_xx2)
 ```
 
-
 In order to calculate the timing variables XXBLFL, EPOCH, and XXDY, we need the visit dates from the EDC VD table and the study start/end dates by subject from the SDTM DM table.
 
 ```{r merge-vd}
@@ -117,10 +130,8 @@ sdtm_xx3 <- sdtm_xx2 %>%
   left_join(edc_dat$vd, by = c("USUBJID", "VISIT")) %>%
   rename(XXDTC = VISITDTC) %>%
   
-  # get the study start/end dates by subject
+  # get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)
   left_join(sdtm_dat$dm, by = "USUBJID")
-  
-knitr::kable(sdtm_xx3)
 ```
 
 Now, we can proceed with calculating those timing variables using the `create_BLFL()`, `create_EPOCH()`, and `calc_DY()` functions.
@@ -152,14 +163,12 @@ sdtm_xx5 <- assign_SEQ(sdtm_xx4,
 knitr::kable(sdtm_xx5)
 ```
 
-
 Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all `NA` values to `""` so that our validation table matches the production table.
 
 ```{r}
 sdtm_xx6 <- format_chars_and_dates(sdtm_xx5)
 knitr::kable(sdtm_xx6)
 ```
-
 
 As a final step, we re-order the columns according to the domain spec and drop the extra columns using this line of code: `select(any_of(spec$Variable))`. Then we will assign the meta data from the spec to each column using `assign_meta_data()`. The meta data includes the labels for each column and their maximum allowed character lengths.
 
@@ -233,11 +242,3 @@ sdtm_xx <- edc_dat$xx %>%
 # check if the two data frames are identical
 identical(sdtm_xx, sdtm_xx7)
 ```
-
-
-
-
-
-
-
-

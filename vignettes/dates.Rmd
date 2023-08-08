@@ -1,8 +1,8 @@
 ---
-title: "Working with Dates"
+title: "Dates"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{dates}
+  %\VignetteIndexEntry{Dates}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
