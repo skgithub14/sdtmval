@@ -27,39 +27,43 @@ write_tbl_to_xpt <- function(tbl, filename, dir) {
 
 #' Convert SDTM QC code from a .Rmd file to .R script
 #'
-#' Wraps `knitr::purl()` to create an .R script from a .Rmd file and also
-#' auto-archives the .Rmd file to an `[dir]/archive` sub-directory.
+#' Wraps `knitr::purl()` to create an .R script from a .Rmd file. It can also
+#' auto-archive the .Rmd file to a `[dir]/archive` sub-directory.
 #'
-#' The function assumes the name of the .Rmd file is `"v_[domain].Rmd"` where
-#'  the domain is all lowercase. The resulting script will take the same name,
-#'  with a different extension (.R).
+#' @details
+#'  * The resulting script will take the same name as the .Rmd file but with a
+#' different extension (.R)
+#'  * If `[dir]/archive` does not already exist, it will be created
 #'
 #' @param dir string, the directory where the .Rmd file is and the .R file will
 #'  be written
-#' @param domain string, the SDTM domain abbreviation
+#' @param filename string, the .Rmd file name (without the .Rmd extension)
+#' @param archive logical, whether to auto-archive the .Rmd file; default is
+#'  `FALSE`
 #'
 #' @returns nothing
 #' @export
-convert_to_script <- function(dir, domain) {
-  fname <- paste0("v_", stringr::str_to_lower(domain))
-  fnameRmd <- paste0(fname, ".Rmd")
+convert_to_script <- function(dir, filename, archive = F) {
+  filenameRmd <- paste0(filename, ".Rmd")
 
   # create the R script from the Rmd file
   knitr::purl(
-    input = file.path(dir, fnameRmd),
-    output = file.path(dir, paste0(fname, ".R"))
+    input = file.path(dir, filenameRmd),
+    output = file.path(dir, paste0(filename, ".R"))
   )
 
-  # archive the Rmd file
-  if (!dir.exists(file.path(dir, "archive"))) {
-    dir.create(file.path(dir, "archive"))
+  # archive the Rmd file, if requested
+  if (archive) {
+    if (!dir.exists(file.path(dir, "archive"))) {
+      dir.create(file.path(dir, "archive"))
+    }
+    file.copy(
+      from = file.path(dir, filenameRmd),
+      to = file.path(dir, "archive", filenameRmd)
+    )
+
+    # delete html notebook and Rmd file from previous location
+    file.remove(file.path(dir, paste0(filename, ".nb")))
+    file.remove(file.path(dir, filenameRmd))
   }
-  file.copy(
-    from = file.path(dir, fnameRmd),
-    to = file.path(dir, "archive", fnameRmd)
-  )
-
-  # delete html notebook and Rmd file from previous location
-  file.remove(file.path(dir, paste0(fname, ".nb")))
-  file.remove(file.path(dir, fnameRmd))
 }

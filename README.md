@@ -23,11 +23,16 @@ The tools include utilities for:
 
 - Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
 
+- Writing .sas7dbat files (convenience wrapper for `haven::write_xpt()`)
+
+- Convert .Rmd files to .R scripts (convenience wrapper for
+  `knitr::purl()`)
+
 The above features are demonstrated in the example workflow shown below.
-The additional features below each have their own vignette/article:
+These additional features each have their own vignette/article:
 
 - Imputing and formatting full and partial dates: see the [‘Dates’
-  vignette](Dates.html)
+  vignette](Dates.html) (`vignette("Dates", package = "sdtmval")`)
 
 - Comparing QC versus production SDTM domain tables: vignette COMING
   SOON

@@ -23,19 +23,23 @@ knitr::opts_chunk$set(
 
 The goal of {sdtmval} is to provide a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. The tools include utilities for:
 
--   Importing EDC and SDTM data
+ - Importing EDC and SDTM data
 
--   Reading in and applying study specification data
+ - Reading in and applying study specification data
 
--   Data formatting
+ - Data formatting
 
--   Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
+ - Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
+ 
+ - Writing .sas7dbat files (convenience wrapper for `haven::write_xpt()`)
+ 
+ - Convert .Rmd files to .R scripts (convenience wrapper for `knitr::purl()`)
 
-The above features are demonstrated in the example workflow shown below. The additional features below each have their own vignette/article:
+The above features are demonstrated in the example workflow shown below. These additional features each have their own vignette/article:
 
--   Imputing and formatting full and partial dates: see the ['Dates' vignette](Dates.html)
+ - Imputing and formatting full and partial dates: see the ['Dates' vignette](Dates.html) (`vignette("Dates", package = "sdtmval")`)
 
--   Comparing QC versus production SDTM domain tables: vignette COMING SOON
+ - Comparing QC versus production SDTM domain tables: vignette COMING SOON
 
 The first four points above are demonstrated in the README example below. See the vignette/article 'Dates' for an example
 
