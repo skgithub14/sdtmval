@@ -25,8 +25,8 @@ RoxygenNote: 7.2.3
 URL: https://github.com/skgithub14/sdtmval, https://skgithub14.github.io/sdtmval/
 BugReports: https://github.com/skgithub14/sdtmval/issues
 Imports: 
-    compareDF,
     dplyr,
+    glue,
     haven,
     knitr,
     lubridate,
