@@ -29,7 +29,8 @@ The additional features below each have their own vignette/article:
 - Imputing and formatting full and partial dates: see the [‘Dates’
   vignette](Dates.html)
 
-- Comparing QC versus production SDTM domain tables: see the COMING SOON
+- Comparing QC versus production SDTM domain tables: vignette COMING
+  SOON
 
 The first four points above are demonstrated in the README example
 below. See the vignette/article ‘Dates’ for an example
