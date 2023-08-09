@@ -25,6 +25,10 @@ knitr::opts_chunk$set(
 
 -   Creating common SDTM variables using the methods BLFL, DY, EPOCH, and SEQ
 
+-   Imputing and formatting full and partial dates: see `vignette("Dates")`
+
+-   Comparing QC versus production SDTM domain tables (vignette coming soon)
+
 -   Applying study specification data to a domain such as variable labels, lengths, code mapping, and sorting
 
 -   Importing EDC and SDTM data from .csv and .sas7bdat files
@@ -35,9 +39,6 @@ knitr::opts_chunk$set(
 
 -   Converting .Rmd files to .R scripts (convenience wrapper for `knitr::purl()`)
 
--   Imputing and formatting full and partial dates: see the ['Dates' vignette](Dates.html) (`vignette("Dates", package = "sdtmval")`)
-
--   Comparing QC versus production SDTM domain tables (vignette coming soon)
 
 ## Installation
 
@@ -51,6 +52,7 @@ devtools::install_github("skgithub14/sdtmval")
 ## A typical work flow example
 
 In this example work flow, we will import a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain 'XX'.
+
 
 ```{r set-up, message=FALSE}
 # set-up
@@ -83,6 +85,7 @@ edc_dat$xx %>%
                 ~ stringr::str_replace_all(., " ", "&nbsp;"))) %>%
   knitr::kable()
 ```
+
 
 The next thing we will do is get the relevant information from the SDTM specification for the study. The next set of functions assumes there is a .xlsx file which contains the sheets: 'Datasets', 'XX', and 'Codelists'. 'Datasets' contains the key variables by domain, 'XX' gives the variable information for the XX domain, and 'Codelists' provides a table of coded/decoded values by variable. `get_data_spec()` imports the domain tab from the specification file as a data frame, `get_key_vars()` retrieves the key variables for a domain as a character vector, and `get_codelist()` extracts a data frame of coded/decoded values from the spec for any variables in the relevant domain.
 
@@ -162,6 +165,7 @@ sdtm_xx5 <- assign_SEQ(sdtm_xx4,
                        seq_prefix = domain)
 knitr::kable(sdtm_xx5)
 ```
+
 
 Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all `NA` values to `""` so that our validation table matches the production table. To do this, we will use `format_chars_and_dates()`.
 

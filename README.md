@@ -23,6 +23,12 @@ tools include utilities for:
 - Creating common SDTM variables using the methods BLFL, DY, EPOCH, and
   SEQ
 
+- Imputing and formatting full and partial dates: see
+  `vignette("Dates")`
+
+- Comparing QC versus production SDTM domain tables (vignette coming
+  soon)
+
 - Applying study specification data to a domain such as variable labels,
   lengths, code mapping, and sorting
 
@@ -34,12 +40,6 @@ tools include utilities for:
 
 - Converting .Rmd files to .R scripts (convenience wrapper for
   `knitr::purl()`)
-
-- Imputing and formatting full and partial dates: see the [‘Dates’
-  vignette](Dates.html) (`vignette("Dates", package = "sdtmval")`)
-
-- Comparing QC versus production SDTM domain tables (vignette coming
-  soon)
 
 ## Installation
 
