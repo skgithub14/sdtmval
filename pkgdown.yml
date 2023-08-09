@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   dates: dates.html
-last_built: 2023-08-09T23:36Z
+last_built: 2023-08-09T23:45Z
 urls:
   reference: https://skgithub14.github.io/sdtmval/reference
   article: https://skgithub14.github.io/sdtmval/articles

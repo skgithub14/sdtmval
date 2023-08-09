@@ -110,11 +110,7 @@
 <li><p>Reading in and applying study specification data</p></li>
 <li><p>Data formatting</p></li>
 <li><p>Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ</p></li>
-</ul>
-<p>The above features are demonstrated in the example workflow shown below. The additional features below each have their own vignette/article:</p>
-<ul>
-<li>Imputing and formatting full and partial dates: see <a href="doc/Dates.html"><code>vignette("Dates", "sdtmval")</code></a>
-</li>
+<li><p>Imputing and formatting full and partial dates: see <a href="https://skgithub14.github.io/sdtmval/articles/dates.html"><code>vignette("Dates", "sdtmval")</code></a></p></li>
 </ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -127,7 +123,7 @@
 <div class="section level2">
 <h2 id="a-typical-work-flow-example">A typical work flow example<a class="anchor" aria-label="anchor" href="#a-typical-work-flow-example"></a>
 </h2>
-<p>In this example work flow, we will load in a raw EDC table and transform it into a SDTM domain table. We will use the fake domain is ‘XX’.</p>
+<p>In this example work flow, we will load in a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain ‘XX’ and some example data included with {sdtmval}.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set-up</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/skgithub14/sdtmval" class="external-link">sdtmval</a></span><span class="op">)</span></span>
@@ -135,7 +131,7 @@
 <span></span>
 <span><span class="va">domain</span> <span class="op">&lt;-</span> <span class="st">"XX"</span></span>
 <span></span>
-<span><span class="co"># set working directory (this can be anything)</span></span>
+<span><span class="co"># working directory includes {sdtmval} example data</span></span>
 <span><span class="va">work_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"sdtmval"</span><span class="op">)</span></span></code></pre></div>
 <p>The majority of the data needed is in the EDC form/table xx.csv. There is also visit date data in the raw EDC form/table vd.csv and study start and end dates by subject in the production SDTM table dm.sas7dbat. We will start by importing all of the data we need using the two functions <code><a href="reference/read_edc_tbls.html">read_edc_tbls()</a></code> and <code><a href="reference/read_sdtm_tbls.html">read_sdtm_tbls()</a></code>. The main difference between these two functions is that the first reads in .csv files and the second reads in .sas7dbat files.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -381,7 +377,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">key_vars</span></span>
 <span><span class="co">#&gt; [1] "STUDYID"  "USUBJID"  "XXTESTCD" "VISIT"</span></span></code></pre></div>
-<p>Now we will begin creating the SDTM XX domain using the EDC XX form as the basis.</p>
+<p>Now, we will begin creating the SDTM XX domain using the EDC XX form as the basis.</p>
 <p>First, it needs some pre-processing because there is extra white space in some of the variables. We also want to turn all NA equivalent values like <code>""</code> and <code>" "</code> to <code>NA</code> for the entire data set so we have consistent handling of missing values during data processing. The function <code><a href="reference/trim_and_make_blanks_NA.html">trim_and_make_blanks_NA()</a></code> does both of these tasks.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdtm_xx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/trim_and_make_blanks_NA.html">trim_and_make_blanks_NA</a></span><span class="op">(</span><span class="va">edc_dat</span><span class="op">$</span><span class="va">xx</span><span class="op">)</span></span>
@@ -467,7 +463,7 @@
 </tr>
 </tbody>
 </table>
-<p>Next, using the codelists we retrieved from the spec earlier, we can create the <code>XXTEST</code> variable.</p>
+<p>Next, using codelist we retrieved from the spec earlier, we can create the <code>XXTEST</code> variable.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare the code list so it can be used by dplyr::recode() </span></span>
 <span><span class="va">xxtestcd_codelist</span> <span class="op">&lt;-</span> <span class="va">codelists</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -932,7 +928,7 @@
 </tr>
 </tbody>
 </table>
-<p>Next, we will assign the sequence number using <code><a href="reference/assign_SEQ.html">assign_SEQ()</a></code>. This function also sorts the data set for you by whatever you make the <code>key_vars</code> argument.</p>
+<p>Next, we will assign the sequence number using <code><a href="reference/assign_SEQ.html">assign_SEQ()</a></code>. This function also sorts the data set by whatever you make the <code>key_vars</code> argument.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdtm_xx5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assign_SEQ.html">assign_SEQ</a></span><span class="op">(</span><span class="va">sdtm_xx4</span>, </span>
 <span>                       key_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"XXTESTCD"</span>, <span class="st">"VISIT"</span><span class="op">)</span>,</span>
