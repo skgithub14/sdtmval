@@ -67,3 +67,25 @@ convert_to_script <- function(dir, filename, archive = F) {
     file.remove(file.path(dir, filenameRmd))
   }
 }
+
+
+#' Write R session information for a script to a .txt file
+#'
+#' Writes a .txt file of the output from `utils::sessionInfo()` with the file
+#' name `[filename]_sessionInfo.txt`. By creating a log of the R session
+#' conditions a script was run with, results from the script can be reproduced
+#' in the future.
+#'
+#' @param dir a string, the directory to write to
+#' @param filename a string, the script file name (with or without .R extension)
+#'
+#' @returns nothing
+write_sessionInfo <- function (dir, filename) {
+  if (stringr::str_detect(filename, "\\.R$")) {
+    filename <- stringr::str_remove(filename, "\\.R$")
+  }
+  log_fname <- paste0(filename, "_", "sessionInfo.txt")
+  utils::sessionInfo() %>%
+    utils::capture.output() %>%
+    writeLines(file.path(dir, log_fname))
+}
