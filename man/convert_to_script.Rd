@@ -10,7 +10,9 @@ convert_to_script(dir, filename, archive = F)
 \item{dir}{string, the directory where the .Rmd file is and the .R file will
 be written}
 
-\item{filename}{string, the .Rmd file name (without the .Rmd extension)}
+\item{filename}{string, the file name of both the .Rmd file that will be read
+and the file name of the .R file to be written (do not include .Rmd or .R
+extension)}
 
 \item{archive}{logical, whether to auto-archive the .Rmd file; default is
 \code{FALSE}}
@@ -28,4 +30,9 @@ auto-archive the .Rmd file to a \verb{[dir]/archive} sub-directory.
 different extension (.R)
 \item If \verb{[dir]/archive} does not already exist, it will be created
 }
+}
+\examples{
+work_dir <- system.file("extdata", package = "sdtmval")
+convert_to_script(dir = work_dir, filename = "test_notebook")
+
 }

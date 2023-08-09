@@ -20,3 +20,8 @@ name \verb{[filename]_sessionInfo.txt}. By creating a log of the R session
 conditions a script was run with, results from the script can be reproduced
 in the future.
 }
+\examples{
+work_dir <- system.file("extdata", package = "sdtmval")
+write_sessionInfo(dir = work_dir, filename = "test_script.R")
+
+}

@@ -37,12 +37,19 @@ write_tbl_to_xpt <- function(tbl, filename, dir) {
 #'
 #' @param dir string, the directory where the .Rmd file is and the .R file will
 #'  be written
-#' @param filename string, the .Rmd file name (without the .Rmd extension)
+#' @param filename string, the file name of both the .Rmd file that will be read
+#' and the file name of the .R file to be written (do not include .Rmd or .R
+#' extension)
 #' @param archive logical, whether to auto-archive the .Rmd file; default is
 #'  `FALSE`
 #'
 #' @returns nothing
 #' @export
+#'
+#' @examples
+#' work_dir <- system.file("extdata", package = "sdtmval")
+#' convert_to_script(dir = work_dir, filename = "test_notebook")
+#'
 convert_to_script <- function(dir, filename, archive = F) {
   filenameRmd <- paste0(filename, ".Rmd")
 
@@ -80,6 +87,12 @@ convert_to_script <- function(dir, filename, archive = F) {
 #' @param filename a string, the script file name (with or without .R extension)
 #'
 #' @returns nothing
+#' @export
+#'
+#' @examples
+#' work_dir <- system.file("extdata", package = "sdtmval")
+#' write_sessionInfo(dir = work_dir, filename = "test_script.R")
+#'
 write_sessionInfo <- function (dir, filename) {
   if (stringr::str_detect(filename, "\\.R$")) {
     filename <- stringr::str_remove(filename, "\\.R$")
