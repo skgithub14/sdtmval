@@ -31,9 +31,7 @@ The goal of {sdtmval} is to provide a set of tools to assist statistical program
 
 -   Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
 
-The above features are demonstrated in the example workflow shown below. The additional features below each have their own vignette/article:
-
--   Imputing and formatting full and partial dates: see [`vignette("Dates", "sdtmval")`](doc/Dates.html)
+-   Imputing and formatting full and partial dates: see [`vignette("Dates", "sdtmval")`](https://skgithub14.github.io/sdtmval/articles/dates.html)
 
 ## Installation
 
@@ -46,7 +44,7 @@ devtools::install_github("skgithub14/sdtmval")
 
 ## A typical work flow example
 
-In this example work flow, we will load in a raw EDC table and transform it into a SDTM domain table. We will use the fake domain is 'XX'.
+In this example work flow, we will load in a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain 'XX' and some example data included with {sdtmval}.
 
 ```{r ex-set-up, message=FALSE}
 # set-up
@@ -55,7 +53,7 @@ library(dplyr)
 
 domain <- "XX"
 
-# set working directory (this can be anything)
+# working directory includes {sdtmval} example data
 work_dir <- system.file("extdata", package = "sdtmval")
 ```
 
@@ -93,7 +91,7 @@ knitr::kable(codelists)
 key_vars
 ```
 
-Now we will begin creating the SDTM XX domain using the EDC XX form as the basis.
+Now, we will begin creating the SDTM XX domain using the EDC XX form as the basis.
 
 First, it needs some pre-processing because there is extra white space in some of the variables. We also want to turn all NA equivalent values like `""` and `" "` to `NA` for the entire data set so we have consistent handling of missing values during data processing. The function `trim_and_make_blanks_NA()` does both of these tasks.
 
@@ -102,7 +100,7 @@ sdtm_xx1 <- trim_and_make_blanks_NA(edc_dat$xx)
 knitr::kable(sdtm_xx1)
 ```
 
-Next, using the codelists we retrieved from the spec earlier, we can create the `XXTEST` variable.
+Next, using codelist we retrieved from the spec earlier, we can create the `XXTEST` variable.
 
 ```{r xxtest}
 # prepare the code list so it can be used by dplyr::recode() 
@@ -152,7 +150,7 @@ sdtm_xx4 <- sdtm_xx3 %>%
 knitr::kable(sdtm_xx4)
 ```
 
-Next, we will assign the sequence number using `assign_SEQ()`. This function also sorts the data set for you by whatever you make the `key_vars` argument.
+Next, we will assign the sequence number using `assign_SEQ()`. This function also sorts the data set by whatever you make the `key_vars` argument.
 
 ```{r}
 sdtm_xx5 <- assign_SEQ(sdtm_xx4, 

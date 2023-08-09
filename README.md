@@ -23,11 +23,8 @@ The tools include utilities for:
 
 - Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
 
-The above features are demonstrated in the example workflow shown below.
-The additional features below each have their own vignette/article:
-
 - Imputing and formatting full and partial dates: see
-  [`vignette("Dates", "sdtmval")`](doc/Dates.html)
+  [`vignette("Dates", "sdtmval")`](https://skgithub14.github.io/sdtmval/articles/dates.html)
 
 ## Installation
 
@@ -42,7 +39,8 @@ devtools::install_github("skgithub14/sdtmval")
 ## A typical work flow example
 
 In this example work flow, we will load in a raw EDC table and transform
-it into a SDTM domain table. We will use the fake domain is ‘XX’.
+it into a SDTM domain table. We will use the made-up domain ‘XX’ and
+some example data included with {sdtmval}.
 
 ``` r
 # set-up
@@ -51,7 +49,7 @@ library(dplyr)
 
 domain <- "XX"
 
-# set working directory (this can be anything)
+# working directory includes {sdtmval} example data
 work_dir <- system.file("extdata", package = "sdtmval")
 ```
 
@@ -138,7 +136,7 @@ key_vars
 #> [1] "STUDYID"  "USUBJID"  "XXTESTCD" "VISIT"
 ```
 
-Now we will begin creating the SDTM XX domain using the EDC XX form as
+Now, we will begin creating the SDTM XX domain using the EDC XX form as
 the basis.
 
 First, it needs some pre-processing because there is extra white space
@@ -165,8 +163,8 @@ knitr::kable(sdtm_xx1)
 | Study 1 | Subject 2 | Visit 3 | T2       | 200     |
 | Study 1 | Subject 2 | Visit 4 | T3       | FAIL    |
 
-Next, using the codelists we retrieved from the spec earlier, we can
-create the `XXTEST` variable.
+Next, using codelist we retrieved from the spec earlier, we can create
+the `XXTEST` variable.
 
 ``` r
 # prepare the code list so it can be used by dplyr::recode() 
@@ -259,8 +257,8 @@ knitr::kable(sdtm_xx4)
 | Study 1 | Subject 2 | Visit 4 | T3       | FAIL    | Test 3 | 2023-08-05 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | FOLLOW-UP |    3 |
 
 Next, we will assign the sequence number using `assign_SEQ()`. This
-function also sorts the data set for you by whatever you make the
-`key_vars` argument.
+function also sorts the data set by whatever you make the `key_vars`
+argument.
 
 ``` r
 sdtm_xx5 <- assign_SEQ(sdtm_xx4, 
