@@ -27,7 +27,7 @@ The above features are demonstrated in the example workflow shown below.
 The additional features below each have their own vignette/article:
 
 - Imputing and formatting full and partial dates: see
-  `vignette("Dates")`
+  `vignette("Dates", "sdtmval")`
 
 ## Installation
 

@@ -33,7 +33,7 @@ The goal of {sdtmval} is to provide a set of tools to assist statistical program
 
 The above features are demonstrated in the example workflow shown below. The additional features below each have their own vignette/article:
 
--   Imputing and formatting full and partial dates: see `vignette("Dates")`
+-   Imputing and formatting full and partial dates: see `vignette("Dates", "sdtmval")`
 
 ## Installation
 
