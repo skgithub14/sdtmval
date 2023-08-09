@@ -17,6 +17,9 @@
 #' @param RFSTDTC a string, the column to use for `RFSTDTC`, default is
 #' `"RFSTDTC"`; this columns should either have a date class or a characer class
 #' in the YYYY-MM-DD format
+#' @param compare_date_method a string, one of `c("on or before", "before")`
+#'  indicating where the baseline measurement should be evaluated on or before
+#'  the study start date or just before; default is `"on or before"`
 #'
 #' @returns a modified copy of `tbl` with the new column `[domain]BLFL`
 #' @export
@@ -46,7 +49,8 @@ create_BLFL <- function(tbl,
                         sort_date,
                         domain,
                         grouping_vars = "USUBJID",
-                        RFSTDTC = "RFSTDTC") {
+                        RFSTDTC = "RFSTDTC",
+                        compare_date_method = "on or before") {
 
   # create a name for a temporary column
   PDVN <- paste0(sample(letters, size = 25), collapse = "")
@@ -57,13 +61,31 @@ create_BLFL <- function(tbl,
   tbl %>%
     dplyr::arrange(dplyr::across(tidyselect::all_of(c(grouping_vars, sort_date)))) %>%
     dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars))) %>%
+
+    # evaluate baseline differently based on `compare_date_method`
+    {
+      if (compare_date_method == "on or before") {
+        dplyr::mutate(.,
+               "{PDVN}" := dplyr::if_else(
+                 as.Date((!!rlang::sym(sort_date))) <= as.Date((!!rlang::sym(RFSTDTC))) &
+                   !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
+                 dplyr::row_number(),
+                 NA_integer_)
+        )
+      } else if (compare_date_method == "before") {
+        dplyr::mutate(.,
+               "{PDVN}" := dplyr::if_else(
+                 as.Date((!!rlang::sym(sort_date))) < as.Date((!!rlang::sym(RFSTDTC))) &
+                   !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
+                 dplyr::row_number(),
+                 NA_integer_)
+        )
+      } else {
+        stop("Argument `compare_date_method` must be one of `c('on or before', 'before')`")
+      }
+    } %>%
+
     dplyr::mutate(
-      "{PDVN}" := dplyr::if_else(
-        as.Date((!!rlang::sym(sort_date))) <= as.Date((!!rlang::sym(RFSTDTC))) &
-          !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
-        dplyr::row_number(),
-        NA_integer_
-      ),
       "{stringr::str_to_upper(domain)}BLFL" := dplyr::case_when(
         all(is.na(!!rlang::sym(PDVN))) ~ NA_character_,
         is.na(!!rlang::sym(PDVN)) ~ NA_character_,
