@@ -24,7 +24,7 @@
 #'
 get_data_spec <- function(domain, dir, filename, arrange_by = "Order") {
   readxl::read_excel(file.path(dir, filename), sheet = domain) %>%
-    dplyr::arrange(dplyr::across(dplyr::all_of(arrange_by)))
+    dplyr::arrange(dplyr::across(tidyselect::all_of(arrange_by)))
 }
 
 

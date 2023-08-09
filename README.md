@@ -11,34 +11,35 @@ coverage](https://codecov.io/gh/skgithub14/sdtmval/branch/master/graph/badge.svg
 
 <!-- badges: end -->
 
-The goal of {sdtmval} is to provide a set of tools to assist statistical
-programmers in validating Study Data Tabulation Model (SDTM) data sets.
-The tools include utilities for:
+{sdtmval} provides a set of tools to assist statistical programmers in
+validating Study Data Tabulation Model (SDTM) data sets. Many data
+cleaning steps and SDTM processes are used repeatedly in different SDTM
+domain validation scripts. Functionalizing these repetitive tasks allow
+statistical programmers to focus on coding the unique aspects of a SDTM
+domain while standardize their code base across studies and domains.
+This should lead to fewer bugs and improved code readability too. The
+tools include utilities for:
 
-- Importing EDC and SDTM data
+- Creating common SDTM variables using the methods BLFL, DY, EPOCH, and
+  SEQ
 
-- Reading in and applying study specification data
+- Applying study specification data to a domain such as variable labels,
+  lengths, code mapping, and sorting
+
+- Importing EDC and SDTM data from .csv and .sas7bdat files
 
 - Data formatting
 
-- Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
-
 - Writing .sas7dbat files (convenience wrapper for `haven::write_xpt()`)
 
-- Convert .Rmd files to .R scripts (convenience wrapper for
+- Converting .Rmd files to .R scripts (convenience wrapper for
   `knitr::purl()`)
-
-The above features are demonstrated in the example workflow shown below.
-These additional features each have their own vignette/article:
 
 - Imputing and formatting full and partial dates: see the [‘Dates’
   vignette](Dates.html) (`vignette("Dates", package = "sdtmval")`)
 
-- Comparing QC versus production SDTM domain tables: vignette COMING
-  SOON
-
-The first four points above are demonstrated in the README example
-below. See the vignette/article ‘Dates’ for an example
+- Comparing QC versus production SDTM domain tables (vignette coming
+  soon)
 
 ## Installation
 
@@ -52,8 +53,8 @@ devtools::install_github("skgithub14/sdtmval")
 
 ## A typical work flow example
 
-In this example work flow, we will load in a raw EDC table and transform
-it into a SDTM domain table. We will use the fake domain is ‘XX’.
+In this example work flow, we will import a raw EDC table and transform
+it into a SDTM domain table. We will use the made-up domain ‘XX’.
 
 ``` r
 # set-up
@@ -62,7 +63,7 @@ library(dplyr)
 
 domain <- "XX"
 
-# set working directory (this can be anything)
+# working directory (can be anything but we will use a sdtmval package directory)
 work_dir <- system.file("extdata", package = "sdtmval")
 ```
 
@@ -107,7 +108,7 @@ the variable information for the XX domain, and ‘Codelists’ provides a
 table of coded/decoded values by variable. `get_data_spec()` imports the
 domain tab from the specification file as a data frame, `get_key_vars()`
 retrieves the key variables for a domain as a character vector, and
-`get_codelist` extracts a data frame of coded/decoded values from the
+`get_codelist()` extracts a data frame of coded/decoded values from the
 spec for any variables in the relevant domain.
 
 ``` r
@@ -280,7 +281,8 @@ knitr::kable(sdtm_xx5)
 
 Now that the bulk of the data cleaning is complete, we will convert all
 date columns to character columns and all `NA` values to `""` so that
-our validation table matches the production table.
+our validation table matches the production table. To do this, we will
+use `format_chars_and_dates()`.
 
 ``` r
 sdtm_xx6 <- format_chars_and_dates(sdtm_xx5)
@@ -330,7 +332,6 @@ knitr::kable(sdtm_xx7)
 | Study 1 | Subject 2 |     5 | T3       | Test 3 | FAIL    |        | Visit 4 | FOLLOW-UP | 2023-08-05 |    3 |
 
 ``` r
-
 # check the meta data was assigned
 labels <- colnames(sdtm_xx7) %>%
   purrr::map(~ attr(sdtm_xx7[[.]], "label")) %>%
@@ -358,8 +359,7 @@ data.frame(
 ```
 
 Finally, we will write the SDTM XX domain validation table as a SAS
-transport file using `write_tbl_to_xpt()` (which is just a convenience
-wrapper for `haven::write_xpt()`).
+transport file using `write_tbl_to_xpt()`.
 
 ``` r
 write_tbl_to_xpt(sdtm_xx7, filename = domain, dir = work_dir)
@@ -367,7 +367,7 @@ write_tbl_to_xpt(sdtm_xx7, filename = domain, dir = work_dir)
 
 For each previous steps, we viewed the interim results to demonstrate
 the features of {sdtmval} however, {sdtmval} is designed to be used with
-pipe operators so that you can have one long, read-able pipe. To
+pipe operators so that you can have one long, readable pipe. To
 demonstrate, we will reproduce the same results from above in one code
 chunk.
 
@@ -384,7 +384,7 @@ sdtm_xx <- edc_dat$xx %>%
   dplyr::left_join(edc_dat$vd, by = c("USUBJID", "VISIT")) %>%
   dplyr::rename(XXDTC = VISITDTC) %>%
 
-  # get the study start/end dates by subject
+  # get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)
   dplyr::left_join(sdtm_dat$dm, by = "USUBJID") %>%
 
   # XXBLFL

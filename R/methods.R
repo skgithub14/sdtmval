@@ -55,8 +55,8 @@ create_BLFL <- function(tbl,
   }
 
   tbl %>%
-    dplyr::arrange(dplyr::across(dplyr::all_of(c(grouping_vars, sort_date)))) %>%
-    dplyr::group_by(dplyr::across(dplyr::all_of(grouping_vars))) %>%
+    dplyr::arrange(dplyr::across(tidyselect::all_of(c(grouping_vars, sort_date)))) %>%
+    dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars))) %>%
     dplyr::mutate(
       "{PDVN}" := dplyr::if_else(
         as.Date((!!rlang::sym(sort_date))) <= as.Date((!!rlang::sym(RFSTDTC))) &
@@ -72,7 +72,7 @@ create_BLFL <- function(tbl,
         TRUE ~ NA_character_
       )
     ) %>%
-    dplyr::select(-dplyr::all_of(PDVN)) %>%
+    dplyr::select(-tidyselect::all_of(PDVN)) %>%
     dplyr::ungroup()
 }
 
@@ -192,8 +192,8 @@ calc_DY <- function(tbl, DY_col, DTC_col, RFSTDTC = "RFSTDTC") {
 #'
 assign_SEQ <- function(tbl, key_vars, seq_prefix, USUBJID = "USUBJID") {
   tbl %>%
-    dplyr::arrange(dplyr::across(.cols = dplyr::all_of(key_vars))) %>%
-    dplyr::group_by(dplyr::across(dplyr::all_of(USUBJID))) %>%
+    dplyr::arrange(dplyr::across(.cols = tidyselect::all_of(key_vars))) %>%
+    dplyr::group_by(dplyr::across(tidyselect::all_of(USUBJID))) %>%
     dplyr::mutate("{seq_prefix}SEQ" := dplyr::row_number()) %>%
     dplyr::ungroup()
 }

@@ -59,8 +59,8 @@ inspect_diffs <- function(comp, diff_col, id_cols, other_cols = NULL) {
     dplyr::select(
       grp,
       chng_type,
-      dplyr::all_of(c(id_cols, diff_col)),
-      dplyr::any_of(other_cols)
+      tidyselect::all_of(c(id_cols, diff_col)),
+      tidyselect::any_of(other_cols)
     )
 
   # if in interactive mode, view the diffs data frame in separate window
