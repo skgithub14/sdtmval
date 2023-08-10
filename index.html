@@ -55,7 +55,7 @@
     
     <a class="navbar-brand me-2" href="index.html">sdtmval</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,7 +107,7 @@
 <p>{sdtmval} provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) domain data sets. Many data cleaning steps and SDTM processes are used repeatedly in different SDTM domain validation scripts. Functionalizing these repetitive tasks allows statistical programmers to focus on coding the unique aspects of a SDTM domain while standardize their code base across studies and domains. This should lead to fewer bugs and improved code readability too. {sdtmval} features include:</p>
 <ul>
 <li><p>Automating the BLFL, DY, EPOCH, and SEQ methods to create new variables</p></li>
-<li><p>Imputing and formatting full and partial dates: see <a href="doc/Dates.html"><code>vignette("Dates")</code></a></p></li>
+<li><p>Imputing and formatting full and partial dates: see <a href="https://skgithub14.github.io/sdtmval/articles/dates.html"><code>vignette("Dates")</code></a></p></li>
 <li><p>Comparing QC versus production SDTM domain tables (vignette coming soon)</p></li>
 <li><p>Applying specification data such as variable labels, lengths, code mapping, and sorting</p></li>
 <li><p>Importing EDC and SDTM data from .csv and .sas7bdat files</p></li>
@@ -123,7 +123,6 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"skgithub14/sdtmval"</span><span class="op">)</span></span></code></pre></div>
-<p><br></p>
 <p><br></p>
 <hr>
 </div>
@@ -517,188 +516,156 @@
 <span>  <span class="co"># XXDY</span></span>
 <span>  <span class="fu"><a href="reference/calc_DY.html">calc_DY</a></span><span class="op">(</span>DY_col <span class="op">=</span> <span class="st">"XXDY"</span>, DTC_col <span class="op">=</span> <span class="st">"XXDTC"</span><span class="op">)</span></span>
 <span>  </span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sdtm_xx4</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<span><span class="co"># check the new variables and their related columns only</span></span>
+<span><span class="va">sdtm_xx4</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">USUBJID</span>, <span class="va">XXTEST</span>, <span class="va">XXORRES</span>, <span class="va">XXDTC</span>, <span class="va">XXBLFL</span>, </span>
+<span>         <span class="va">EPOCH</span>, <span class="va">XXDY</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"RF"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
 <colgroup>
-<col width="6%">
-<col width="8%">
-<col width="6%">
+<col width="10%">
 <col width="7%">
-<col width="6%">
-<col width="6%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="6%">
 <col width="8%">
-<col width="4%">
+<col width="11%">
+<col width="7%">
+<col width="10%">
+<col width="5%">
+<col width="11%">
+<col width="11%">
+<col width="11%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">STUDYID</th>
 <th align="left">USUBJID</th>
-<th align="left">VISIT</th>
-<th align="left">XXTESTCD</th>
-<th align="left">XXORRES</th>
 <th align="left">XXTEST</th>
+<th align="left">XXORRES</th>
 <th align="left">XXDTC</th>
-<th align="left">RFSTDTC</th>
-<th align="left">RFXSTDTC</th>
-<th align="left">RFXENDTC</th>
 <th align="left">XXBLFL</th>
 <th align="left">EPOCH</th>
 <th align="right">XXDY</th>
+<th align="left">RFSTDTC</th>
+<th align="left">RFXSTDTC</th>
+<th align="left">RFXENDTC</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 1</td>
-<td align="left">T1</td>
-<td align="left">1</td>
 <td align="left">Test 1</td>
+<td align="left">1</td>
 <td align="left">2023-08-01</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
 <td align="left">NA</td>
 <td align="left">SCREENING</td>
 <td align="right">-1</td>
+<td align="left">2023-08-02</td>
+<td align="left">2023-08-02</td>
+<td align="left">2023-08-03</td>
 </tr>
 <tr class="even">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 2</td>
-<td align="left">T1</td>
+<td align="left">Test 1</td>
 <td align="left">0</td>
-<td align="left">Test 1</td>
 <td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
 <td align="left">Y</td>
 <td align="left">TREATMENT</td>
 <td align="right">1</td>
+<td align="left">2023-08-02</td>
+<td align="left">2023-08-02</td>
+<td align="left">2023-08-03</td>
 </tr>
 <tr class="odd">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
-<td align="left">T1</td>
-<td align="left">2</td>
 <td align="left">Test 1</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
+<td align="left">2</td>
 <td align="left">2023-08-03</td>
 <td align="left">NA</td>
 <td align="left">TREATMENT</td>
 <td align="right">2</td>
+<td align="left">2023-08-02</td>
+<td align="left">2023-08-02</td>
+<td align="left">2023-08-03</td>
 </tr>
 <tr class="even">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
-<td align="left">T2</td>
-<td align="left">100</td>
 <td align="left">Test 2</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
+<td align="left">100</td>
 <td align="left">2023-08-03</td>
 <td align="left">NA</td>
 <td align="left">TREATMENT</td>
 <td align="right">2</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 4</td>
-<td align="left">T3</td>
-<td align="left">PASS</td>
-<td align="left">Test 3</td>
-<td align="left">2023-08-04</td>
 <td align="left">2023-08-02</td>
 <td align="left">2023-08-02</td>
 <td align="left">2023-08-03</td>
+</tr>
+<tr class="odd">
+<td align="left">Subject 1</td>
+<td align="left">Test 3</td>
+<td align="left">PASS</td>
+<td align="left">2023-08-04</td>
 <td align="left">NA</td>
 <td align="left">FOLLOW-UP</td>
 <td align="right">3</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 1</td>
-<td align="left">T1</td>
-<td align="left">1</td>
-<td align="left">Test 1</td>
+<td align="left">2023-08-02</td>
 <td align="left">2023-08-02</td>
 <td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
+</tr>
+<tr class="even">
+<td align="left">Subject 2</td>
+<td align="left">Test 1</td>
+<td align="left">1</td>
+<td align="left">2023-08-02</td>
 <td align="left">Y</td>
 <td align="left">SCREENING</td>
 <td align="right">-1</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 2</td>
-<td align="left">T1</td>
-<td align="left">NA</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-03</td>
 <td align="left">2023-08-03</td>
 <td align="left">2023-08-03</td>
 <td align="left">2023-08-04</td>
+</tr>
+<tr class="odd">
+<td align="left">Subject 2</td>
+<td align="left">Test 1</td>
+<td align="left">NA</td>
+<td align="left">2023-08-03</td>
 <td align="left">NA</td>
 <td align="left">TREATMENT</td>
 <td align="right">1</td>
+<td align="left">2023-08-03</td>
+<td align="left">2023-08-03</td>
+<td align="left">2023-08-04</td>
 </tr>
 <tr class="even">
-<td align="left">Study 1</td>
 <td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
-<td align="left">T1</td>
-<td align="left">2</td>
 <td align="left">Test 1</td>
-<td align="left">2023-08-04</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
+<td align="left">2</td>
 <td align="left">2023-08-04</td>
 <td align="left">NA</td>
 <td align="left">TREATMENT</td>
 <td align="right">2</td>
+<td align="left">2023-08-03</td>
+<td align="left">2023-08-03</td>
+<td align="left">2023-08-04</td>
 </tr>
 <tr class="odd">
-<td align="left">Study 1</td>
 <td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
-<td align="left">T2</td>
-<td align="left">200</td>
 <td align="left">Test 2</td>
-<td align="left">2023-08-04</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
+<td align="left">200</td>
 <td align="left">2023-08-04</td>
 <td align="left">NA</td>
 <td align="left">TREATMENT</td>
 <td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 4</td>
-<td align="left">T3</td>
-<td align="left">FAIL</td>
-<td align="left">Test 3</td>
-<td align="left">2023-08-05</td>
 <td align="left">2023-08-03</td>
 <td align="left">2023-08-03</td>
 <td align="left">2023-08-04</td>
+</tr>
+<tr class="even">
+<td align="left">Subject 2</td>
+<td align="left">Test 3</td>
+<td align="left">FAIL</td>
+<td align="left">2023-08-05</td>
 <td align="left">NA</td>
 <td align="left">FOLLOW-UP</td>
 <td align="right">3</td>
+<td align="left">2023-08-03</td>
+<td align="left">2023-08-03</td>
+<td align="left">2023-08-04</td>
 </tr>
 </tbody>
 </table>
@@ -707,199 +674,88 @@
 <code class="sourceCode R"><span><span class="va">sdtm_xx5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assign_SEQ.html">assign_SEQ</a></span><span class="op">(</span><span class="va">sdtm_xx4</span>, </span>
 <span>                       key_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"XXTESTCD"</span>, <span class="st">"VISIT"</span><span class="op">)</span>,</span>
 <span>                       seq_prefix <span class="op">=</span> <span class="va">domain</span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sdtm_xx5</span><span class="op">)</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># check the new variable</span></span>
+<span><span class="va">sdtm_xx5</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">USUBJID</span>, <span class="va">XXTESTCD</span>, <span class="va">VISIT</span>, <span class="va">XXDTC</span>, <span class="va">XXSEQ</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
-<colgroup>
-<col width="6%">
-<col width="8%">
-<col width="6%">
-<col width="7%">
-<col width="6%">
-<col width="5%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="5%">
-<col width="8%">
-<col width="4%">
-<col width="5%">
-</colgroup>
 <thead><tr class="header">
-<th align="left">STUDYID</th>
 <th align="left">USUBJID</th>
-<th align="left">VISIT</th>
 <th align="left">XXTESTCD</th>
-<th align="left">XXORRES</th>
-<th align="left">XXTEST</th>
+<th align="left">VISIT</th>
 <th align="left">XXDTC</th>
-<th align="left">RFSTDTC</th>
-<th align="left">RFXSTDTC</th>
-<th align="left">RFXENDTC</th>
-<th align="left">XXBLFL</th>
-<th align="left">EPOCH</th>
-<th align="right">XXDY</th>
 <th align="right">XXSEQ</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 1</td>
 <td align="left">T1</td>
-<td align="left">1</td>
-<td align="left">Test 1</td>
+<td align="left">Visit 1</td>
 <td align="left">2023-08-01</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">NA</td>
-<td align="left">SCREENING</td>
-<td align="right">-1</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 2</td>
 <td align="left">T1</td>
-<td align="left">0</td>
-<td align="left">Test 1</td>
+<td align="left">Visit 2</td>
 <td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">Y</td>
-<td align="left">TREATMENT</td>
-<td align="right">1</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
 <td align="left">T1</td>
-<td align="left">2</td>
-<td align="left">Test 1</td>
+<td align="left">Visit 3</td>
 <td align="left">2023-08-03</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">NA</td>
-<td align="left">TREATMENT</td>
-<td align="right">2</td>
 <td align="right">3</td>
 </tr>
 <tr class="even">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
 <td align="left">T2</td>
-<td align="left">100</td>
-<td align="left">Test 2</td>
+<td align="left">Visit 3</td>
 <td align="left">2023-08-03</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">NA</td>
-<td align="left">TREATMENT</td>
-<td align="right">2</td>
 <td align="right">4</td>
 </tr>
 <tr class="odd">
-<td align="left">Study 1</td>
 <td align="left">Subject 1</td>
-<td align="left">Visit 4</td>
 <td align="left">T3</td>
-<td align="left">PASS</td>
-<td align="left">Test 3</td>
+<td align="left">Visit 4</td>
 <td align="left">2023-08-04</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">NA</td>
-<td align="left">FOLLOW-UP</td>
-<td align="right">3</td>
 <td align="right">5</td>
 </tr>
 <tr class="even">
-<td align="left">Study 1</td>
 <td align="left">Subject 2</td>
-<td align="left">Visit 1</td>
 <td align="left">T1</td>
-<td align="left">1</td>
-<td align="left">Test 1</td>
+<td align="left">Visit 1</td>
 <td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left">Y</td>
-<td align="left">SCREENING</td>
-<td align="right">-1</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">Study 1</td>
 <td align="left">Subject 2</td>
-<td align="left">Visit 2</td>
 <td align="left">T1</td>
-<td align="left">NA</td>
-<td align="left">Test 1</td>
+<td align="left">Visit 2</td>
 <td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left">NA</td>
-<td align="left">TREATMENT</td>
-<td align="right">1</td>
 <td align="right">2</td>
 </tr>
 <tr class="even">
-<td align="left">Study 1</td>
 <td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
 <td align="left">T1</td>
-<td align="left">2</td>
-<td align="left">Test 1</td>
+<td align="left">Visit 3</td>
 <td align="left">2023-08-04</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left">NA</td>
-<td align="left">TREATMENT</td>
-<td align="right">2</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
-<td align="left">Study 1</td>
 <td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
 <td align="left">T2</td>
-<td align="left">200</td>
-<td align="left">Test 2</td>
+<td align="left">Visit 3</td>
 <td align="left">2023-08-04</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left">NA</td>
-<td align="left">TREATMENT</td>
-<td align="right">2</td>
 <td align="right">4</td>
 </tr>
 <tr class="even">
-<td align="left">Study 1</td>
 <td align="left">Subject 2</td>
-<td align="left">Visit 4</td>
 <td align="left">T3</td>
-<td align="left">FAIL</td>
-<td align="left">Test 3</td>
+<td align="left">Visit 4</td>
 <td align="left">2023-08-05</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left">NA</td>
-<td align="left">FOLLOW-UP</td>
-<td align="right">3</td>
 <td align="right">5</td>
 </tr>
 </tbody>
