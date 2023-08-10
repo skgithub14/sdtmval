@@ -26,3 +26,6 @@ df <- data.frame(one = c("   a", "", " "))
 trim_and_make_blanks_NA(df)
 
 }
+\seealso{
+\code{\link[=format_chars_and_dates]{format_chars_and_dates()}}
+}

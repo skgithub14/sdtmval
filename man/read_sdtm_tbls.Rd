@@ -27,3 +27,6 @@ sdtm_dir <- system.file("extdata", package = "sdtmval")
 sdtm_dat <- read_sdtm_tbls(sdtm_tbls, dir = sdtm_dir)
 
 }
+\seealso{
+\code{\link[=read_edc_tbls]{read_edc_tbls()}}
+}

@@ -9,7 +9,8 @@ create_BLFL(
   sort_date,
   domain,
   grouping_vars = "USUBJID",
-  RFSTDTC = "RFSTDTC"
+  RFSTDTC = "RFSTDTC",
+  compare_date_method = "on or before"
 )
 }
 \arguments{
@@ -30,6 +31,10 @@ the BLFL, default is \code{"USUBJID"}. The order of this vector matters.}
 \item{RFSTDTC}{a string, the column to use for \code{RFSTDTC}, default is
 \code{"RFSTDTC"}; this columns should either have a date class or a characer class
 in the YYYY-MM-DD format}
+
+\item{compare_date_method}{a string, one of \code{c("on or before", "before")}
+indicating where the baseline measurement should be evaluated on or before
+the study start date or just before; default is \code{"on or before"}}
 }
 \value{
 a modified copy of \code{tbl} with the new column \verb{[domain]BLFL}
@@ -60,4 +65,7 @@ df <- dplyr::tibble(
 )
 create_BLFL(df, sort_date = "XXDTC", domain = "XX")
 
+}
+\seealso{
+\code{\link[=create_EPOCH]{create_EPOCH()}}, \code{\link[=calc_DY]{calc_DY()}}
 }

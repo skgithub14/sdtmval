@@ -48,3 +48,6 @@ key_vars <- get_key_vars(domain = "XX",
                          filename = "spec.xlsx")
 
 }
+\seealso{
+\code{\link[=get_data_spec]{get_data_spec()}}, \code{\link[=get_codelist]{get_codelist()}}, \code{\link[=assign_meta_data]{assign_meta_data()}}
+}

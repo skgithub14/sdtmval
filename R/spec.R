@@ -2,10 +2,10 @@
 #'
 #' Reads the specified domain variable specification sheet from an MS Excel file.
 #'
-#' The `read_excel()` function will causes an access denied warning when reading
-#'  in a read-only specification file. This does not affect the data import.
-#'  Variables will be arranged in descending order per the `"Order"` column in
-#'  the specification.
+#' The [readxl::read_excel()] function will causes an access denied warning when
+#' reading in a read-only specification file. This does not affect the data
+#' import. Variables will be arranged in descending order per the `"Order"`
+#' column in the specification.
 #'
 #' @param domain string, SDTM domain or supplemental domain code
 #' @param dir string, specification directory
@@ -16,6 +16,8 @@
 #' @returns a data frame of the variable specification for `domain`
 #' @export
 #'
+#' @seealso [get_key_vars()], [get_codelist()], [assign_meta_data()]
+#'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")
 #' spec <- get_data_spec(domain = "XX",
@@ -24,7 +26,7 @@
 #'
 get_data_spec <- function(domain, dir, filename, arrange_by = "Order") {
   readxl::read_excel(file.path(dir, filename), sheet = domain) %>%
-    dplyr::arrange(dplyr::across(dplyr::all_of(arrange_by)))
+    dplyr::arrange(dplyr::across(tidyselect::all_of(arrange_by)))
 }
 
 
@@ -47,6 +49,8 @@ get_data_spec <- function(domain, dir, filename, arrange_by = "Order") {
 #'
 #' @returns a character vector of key variables for the specified `domain`
 #' @export
+#'
+#' @seealso [get_data_spec()], [get_codelist()], [assign_meta_data()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")
@@ -86,6 +90,8 @@ get_key_vars <- function(domain,
 #'
 #' @returns a data frame with the code list
 #' @export
+#'
+#' @seealso [get_data_spec()], [get_key_vars()], [assign_meta_data()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")
@@ -129,6 +135,8 @@ get_codelist <- function(domain,
 #'
 #' @returns a modified copy of `tbl` with the meta data per specification
 #' @export
+#'
+#' @seealso [get_data_spec()], [get_key_vars()], [get_codelist()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")

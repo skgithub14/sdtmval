@@ -21,17 +21,24 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of {sdtmval} is to provide a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. The tools include utilities for:
+{sdtmval} provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. Many data cleaning steps and SDTM processes are used repeatedly in different SDTM domain validation scripts. Functionalizing these repetitive tasks allow statistical programmers to focus on coding the unique aspects of a SDTM domain while standardize their code base across studies and domains. This should lead to fewer bugs and improved code readability too. The tools include utilities for:
 
--   Importing EDC and SDTM data
+-   Creating common SDTM variables using the methods BLFL, DY, EPOCH, and SEQ
 
--   Reading in and applying study specification data
+-   Imputing and formatting full and partial dates: see `vignette("Dates")`
+
+-   Comparing QC versus production SDTM domain tables (vignette coming soon)
+
+-   Applying study specification data to a domain such as variable labels, lengths, code mapping, and sorting
+
+-   Importing EDC and SDTM data from .csv and .sas7bdat files
 
 -   Data formatting
 
--   Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ
+-   Writing .sas7dbat files (convenience wrapper for `haven::write_xpt()`)
 
--   Imputing and formatting full and partial dates: see [`vignette("Dates", "sdtmval")`](https://skgithub14.github.io/sdtmval/articles/dates.html)
+-   Converting .Rmd files to .R scripts (convenience wrapper for `knitr::purl()`)
+
 
 ## Installation
 
@@ -44,22 +51,23 @@ devtools::install_github("skgithub14/sdtmval")
 
 ## A typical work flow example
 
-In this example work flow, we will load in a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain 'XX' and some example data included with {sdtmval}.
+In this example work flow, we will import a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain 'XX'.
 
-```{r ex-set-up, message=FALSE}
+
+```{r set-up, message=FALSE}
 # set-up
 library(sdtmval)
 library(dplyr)
 
 domain <- "XX"
 
-# working directory includes {sdtmval} example data
+# working directory (can be anything but we will use a sdtmval package directory)
 work_dir <- system.file("extdata", package = "sdtmval")
 ```
 
 The majority of the data needed is in the EDC form/table xx.csv. There is also visit date data in the raw EDC form/table vd.csv and study start and end dates by subject in the production SDTM table dm.sas7dbat. We will start by importing all of the data we need using the two functions `read_edc_tbls()` and `read_sdtm_tbls()`. The main difference between these two functions is that the first reads in .csv files and the second reads in .sas7dbat files.
 
-```{r ex-import}
+```{r import}
 # read in EDC tables from the forms XX and VD
 edc_tbls <- c("xx", "vd")
 edc_dat <- read_edc_tbls(edc_tbls, dir = work_dir)
@@ -71,16 +79,17 @@ sdtm_dat <- read_sdtm_tbls(sdtm_tbls, dir = work_dir)
 
 The raw data looks like this:
 
-```{r, echo=FALSE}
+```{r show-raw, echo=FALSE}
 edc_dat$xx %>%
   mutate(across(.cols = everything(),
                 ~ stringr::str_replace_all(., " ", "&nbsp;"))) %>%
   knitr::kable()
 ```
 
-The next thing we will do is get the relevant information from the SDTM specification for the study. The next set of functions assumes there is a .xlsx file which contains the sheets: 'Datasets', 'XX', and 'Codelists'. 'Datasets' contains the key variables by domain, 'XX' gives the variable information for the XX domain, and 'Codelists' provides a table of coded/decoded values by variable. `get_data_spec()` imports the domain tab from the specification file as a data frame, `get_key_vars()` retrieves the key variables for a domain as a character vector, and `get_codelist` extracts a data frame of coded/decoded values from the spec for any variables in the relevant domain.
 
-```{r ex-spec}
+The next thing we will do is get the relevant information from the SDTM specification for the study. The next set of functions assumes there is a .xlsx file which contains the sheets: 'Datasets', 'XX', and 'Codelists'. 'Datasets' contains the key variables by domain, 'XX' gives the variable information for the XX domain, and 'Codelists' provides a table of coded/decoded values by variable. `get_data_spec()` imports the domain tab from the specification file as a data frame, `get_key_vars()` retrieves the key variables for a domain as a character vector, and `get_codelist()` extracts a data frame of coded/decoded values from the spec for any variables in the relevant domain.
+
+```{r spec}
 spec_fname <- "spec.xlsx"
 spec <- get_data_spec(domain = domain, dir = work_dir, filename = spec_fname)
 key_vars <- get_key_vars(domain = domain, dir = work_dir, filename = spec_fname)
@@ -91,7 +100,7 @@ knitr::kable(codelists)
 key_vars
 ```
 
-Now, we will begin creating the SDTM XX domain using the EDC XX form as the basis.
+Now we will begin creating the SDTM XX domain using the EDC XX form as the basis.
 
 First, it needs some pre-processing because there is extra white space in some of the variables. We also want to turn all NA equivalent values like `""` and `" "` to `NA` for the entire data set so we have consistent handling of missing values during data processing. The function `trim_and_make_blanks_NA()` does both of these tasks.
 
@@ -100,7 +109,7 @@ sdtm_xx1 <- trim_and_make_blanks_NA(edc_dat$xx)
 knitr::kable(sdtm_xx1)
 ```
 
-Next, using codelist we retrieved from the spec earlier, we can create the `XXTEST` variable.
+Next, using the codelists we retrieved from the spec earlier, we can create the `XXTEST` variable.
 
 ```{r xxtest}
 # prepare the code list so it can be used by dplyr::recode() 
@@ -124,10 +133,8 @@ sdtm_xx3 <- sdtm_xx2 %>%
   left_join(edc_dat$vd, by = c("USUBJID", "VISIT")) %>%
   rename(XXDTC = VISITDTC) %>%
   
-  # get the study start/end dates by subject
+  # get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)
   left_join(sdtm_dat$dm, by = "USUBJID")
-  
-knitr::kable(sdtm_xx3)
 ```
 
 Now, we can proceed with calculating those timing variables using the `create_BLFL()`, `create_EPOCH()`, and `calc_DY()` functions.
@@ -150,32 +157,35 @@ sdtm_xx4 <- sdtm_xx3 %>%
 knitr::kable(sdtm_xx4)
 ```
 
-Next, we will assign the sequence number using `assign_SEQ()`. This function also sorts the data set by whatever you make the `key_vars` argument.
+Next, we will assign the sequence number using `assign_SEQ()`. This function also sorts the data set for you by whatever you make the `key_vars` argument.
 
-```{r}
+```{r seq}
 sdtm_xx5 <- assign_SEQ(sdtm_xx4, 
                        key_vars = c("USUBJID", "XXTESTCD", "VISIT"),
                        seq_prefix = domain)
 knitr::kable(sdtm_xx5)
 ```
 
-Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all `NA` values to `""` so that our validation table matches the production table.
 
-```{r}
+Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all `NA` values to `""` so that our validation table matches the production table. To do this, we will use `format_chars_and_dates()`.
+
+```{r final-format}
 sdtm_xx6 <- format_chars_and_dates(sdtm_xx5)
 knitr::kable(sdtm_xx6)
 ```
 
 As a final step, we re-order the columns according to the domain spec and drop the extra columns using this line of code: `select(any_of(spec$Variable))`. Then we will assign the meta data from the spec to each column using `assign_meta_data()`. The meta data includes the labels for each column and their maximum allowed character lengths.
 
-```{r}
+```{r meta-data}
 sdtm_xx7 <- sdtm_xx6 %>%
   select(any_of(spec$Variable)) %>%
   assign_meta_data(spec = spec)
 
 # show the final SDTM domain
 knitr::kable(sdtm_xx7)
+```
 
+```{r check-meta}
 # check the meta data was assigned
 labels <- colnames(sdtm_xx7) %>%
   purrr::map(~ attr(sdtm_xx7[[.]], "label")) %>%
@@ -190,15 +200,15 @@ data.frame(
 )
 ```
 
-Finally, we will write the SDTM XX domain validation table as a SAS transport file using `write_tbl_to_xpt()` (which is just a convenience wrapper for `haven::write_xpt()`).
+Finally, we will write the SDTM XX domain validation table as a SAS transport file using `write_tbl_to_xpt()`.
 
-```{r}
+```{r write-xpt}
 write_tbl_to_xpt(sdtm_xx7, filename = domain, dir = work_dir)
 ```
 
-For each previous steps, we viewed the interim results to demonstrate the features of {sdtmval} however, {sdtmval} is designed to be used with pipe operators so that you can have one long, read-able pipe. To demonstrate, we will reproduce the same results from above in one code chunk.
+For each previous steps, we viewed the interim results to demonstrate the features of {sdtmval} however, {sdtmval} is designed to be used with pipe operators so that you can have one long, readable pipe. To demonstrate, we will reproduce the same results from above in one code chunk.
 
-```{r}
+```{r one-pipe}
 sdtm_xx <- edc_dat$xx %>%
   
   # pre-processing
@@ -211,7 +221,7 @@ sdtm_xx <- edc_dat$xx %>%
   dplyr::left_join(edc_dat$vd, by = c("USUBJID", "VISIT")) %>%
   dplyr::rename(XXDTC = VISITDTC) %>%
 
-  # get the study start/end dates by subject
+  # get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)
   dplyr::left_join(sdtm_dat$dm, by = "USUBJID") %>%
 
   # XXBLFL

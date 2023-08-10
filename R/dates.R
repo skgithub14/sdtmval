@@ -22,6 +22,9 @@
 #' (`"MM/DD/YYYY"`)
 #' @export
 #'
+#' @seealso [reshape_adates()], [impute_pdates()], [trim_dates()],
+#' `vignette("Dates")`
+#'
 #' @examples
 #' dates <- c(
 #'   "UN-UNK-UNKN",
@@ -85,6 +88,9 @@ reshape_pdates <- function(dates, output_sep = "/") {
 #' `"YYYY-MM-DD"`
 #' @export
 #'
+#' @seealso [reshape_pdates()], [impute_pdates()], [trim_dates()],
+#' `vignette("Dates")`
+#'
 #' @examples
 #' dates <- c("02/05/2017", "UN/UN/2017", "02-05-2017", NA)
 #' reshape_adates(dates)
@@ -124,6 +130,9 @@ reshape_adates <- function(dates) {
 #'
 #' @returns a date vector of imputed dates in the format YYYY-MM-DD
 #' @export
+#'
+#' @seealso [reshape_adates()], [reshape_pdates()], [trim_dates()],
+#' `vignette("Dates")`
 #'
 #' @examples
 #' dates <- c(
@@ -190,6 +199,9 @@ impute_pdates <- function(dates, ptype, input_sep = "-") {
 #'
 #' @returns a character vector of trimmed partial dates and full dates
 #' @export
+#'
+#' @seealso [reshape_adates()], [reshape_pdates()], [impute_pdates()],
+#' `vignette("Dates")`
 #'
 #' @examples
 #' dates <- c(

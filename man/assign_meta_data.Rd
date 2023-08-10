@@ -61,3 +61,6 @@ data.frame(
 )
 
 }
+\seealso{
+\code{\link[=get_data_spec]{get_data_spec()}}, \code{\link[=get_key_vars]{get_key_vars()}}, \code{\link[=get_codelist]{get_codelist()}}
+}

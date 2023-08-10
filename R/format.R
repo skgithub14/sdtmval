@@ -12,6 +12,8 @@
 #' @returns a modified copy of the `tbl` data frame
 #' @export
 #'
+#' @seealso [format_chars_and_dates()]
+#'
 #' @examples
 #' df <- data.frame(one = c("   a", "", " "))
 #' trim_and_make_blanks_NA(df)
@@ -19,9 +21,12 @@
 trim_and_make_blanks_NA <- function(tbl) {
   tbl %>%
     dplyr::mutate(
-      dplyr::across(.cols = dplyr::where(is.character), ~ stringr::str_trim(.)),
-      dplyr::across(.cols = dplyr::where(is.character), ~ dplyr::na_if(., "")),
-      dplyr::across(.cols = dplyr::where(is.character), ~ dplyr::na_if(., " "))
+      dplyr::across(.cols = tidyselect::where(is.character),
+                    ~ stringr::str_trim(.)),
+      dplyr::across(.cols = tidyselect::where(is.character),
+                    ~ dplyr::na_if(., "")),
+      dplyr::across(.cols = tidyselect::where(is.character),
+                    ~ dplyr::na_if(., " "))
     )
 }
 
@@ -32,12 +37,14 @@ trim_and_make_blanks_NA <- function(tbl) {
 #' character/date columns with `""`.
 #'
 #' This function should be applied as one of the last steps in the data process
-#' but before \code{\link{assign_meta_data}}.
+#' but before [assign_meta_data()].
 #'
 #' @param tbl a data frame, the SDTM table
 #'
 #' @returns a modified copy of the `tbl` data frame
 #' @export
+#'
+#' @seealso [trim_and_make_blanks_NA()]
 #'
 #' @examples
 #' df <- data.frame(
@@ -50,11 +57,11 @@ trim_and_make_blanks_NA <- function(tbl) {
 format_chars_and_dates <- function(tbl) {
   tbl %>%
     dplyr::mutate(dplyr::across(
-      .cols = dplyr::where(lubridate::is.Date),
+      .cols = tidyselect::where(lubridate::is.Date),
       ~ as.character(.)
     )) %>%
     dplyr::mutate(dplyr::across(
-      .cols = dplyr::where(is.character),
+      .cols = tidyselect::where(is.character),
       ~ tidyr::replace_na(., "")
     ))
 }

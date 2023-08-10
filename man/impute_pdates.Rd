@@ -41,3 +41,7 @@ dates <- c(
 impute_pdates(dates, ptype = "start")
 impute_pdates(dates, ptype = "end")
 }
+\seealso{
+\code{\link[=reshape_adates]{reshape_adates()}}, \code{\link[=reshape_pdates]{reshape_pdates()}}, \code{\link[=trim_dates]{trim_dates()}},
+\code{vignette("Dates")}
+}

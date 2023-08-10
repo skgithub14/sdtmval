@@ -3,7 +3,7 @@
 \docType{data}
 \name{edc_xx}
 \alias{edc_xx}
-\title{Example EDC for form/table 'XX'}
+\title{Example EDC data for form/table 'XX'}
 \format{
 \subsection{'edc_xx'}{
 

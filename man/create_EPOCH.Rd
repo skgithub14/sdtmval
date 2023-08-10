@@ -40,3 +40,6 @@ df <- data.frame(
 create_EPOCH(df, date_col = "DTC")
 
 }
+\seealso{
+\code{\link[=create_BLFL]{create_BLFL()}}, \code{\link[=calc_DY]{calc_DY()}}
+}
