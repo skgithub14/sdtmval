@@ -4,15 +4,16 @@
 \alias{convert_to_script}
 \title{Convert SDTM QC code from a .Rmd file to .R script}
 \usage{
-convert_to_script(dir, filename, archive = F)
+convert_to_script(filename, dir = NULL, archive = F)
 }
 \arguments{
-\item{dir}{string, the directory where the .Rmd file is and the .R file will
-be written}
-
 \item{filename}{string, the file name of both the .Rmd file that will be read
 and the file name of the .R file to be written (do not include .Rmd or .R
 extension)}
+
+\item{dir}{string, the directory where the .Rmd file is and the .R file will
+be written, default is \code{NULL} which means the current working directory
+will be used}
 
 \item{archive}{logical, whether to auto-archive the .Rmd file; default is
 \code{FALSE}}
@@ -22,7 +23,9 @@ nothing
 }
 \description{
 Wraps \code{\link[knitr:knit]{knitr::purl()}} to create an .R script from a .Rmd file. It can also
-auto-archive the .Rmd file to a \verb{[dir]/archive} sub-directory.
+auto-archive the .Rmd file to a \verb{[dir]/archive} sub-directory. This is useful
+for turning first-attempt exploratory data analysis into production scripts
+once the validation code is complete.
 }
 \details{
 \itemize{
@@ -32,8 +35,15 @@ different extension (.R)
 }
 }
 \examples{
-work_dir <- system.file("extdata", package = "sdtmval")
-convert_to_script(dir = work_dir, filename = "test_notebook")
+# get test notebook from the sdtmval/inst/extdata dir and copy it to temp dir
+test_file_dir <- system.file("extdata", package = "sdtmval")
+filename <- "test_notebook"
+temp_path <- tempdir()
+file.copy(from = file.path(test_file_dir, paste0(filename, ".Rmd")),
+          to = file.path(temp_path, paste0(filename, ".Rmd")))
+
+# create the script and archive the .Rmd file
+convert_to_script(dir = temp_path, filename = filename, archive = TRUE)
 
 }
 \seealso{

@@ -4,12 +4,13 @@
 \alias{write_sessionInfo}
 \title{Write R session information for a script to a .txt file}
 \usage{
-write_sessionInfo(dir, filename)
+write_sessionInfo(filename, dir = NULL)
 }
 \arguments{
-\item{dir}{a string, the directory to write to}
-
 \item{filename}{a string, the script file name (with or without .R extension)}
+
+\item{dir}{a string, the directory to write to, default is \code{NULL} which means
+the current working directory will be used}
 }
 \value{
 nothing
@@ -21,8 +22,8 @@ conditions a script was run with, results from the script can be reproduced
 in the future.
 }
 \examples{
-work_dir <- system.file("extdata", package = "sdtmval")
-write_sessionInfo(dir = work_dir, filename = "test_script.R")
+path <- tempfile(fileext = ".R")
+write_sessionInfo(path)
 
 }
 \seealso{
