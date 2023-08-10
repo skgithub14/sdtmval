@@ -21,23 +21,25 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-{sdtmval} provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. Many data cleaning steps and SDTM processes are used repeatedly in different SDTM domain validation scripts. Functionalizing these repetitive tasks allow statistical programmers to focus on coding the unique aspects of a SDTM domain while standardize their code base across studies and domains. This should lead to fewer bugs and improved code readability too. The tools include utilities for:
+{sdtmval} provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) domain data sets. Many data cleaning steps and SDTM processes are used repeatedly in different SDTM domain validation scripts. Functionalizing these repetitive tasks allows statistical programmers to focus on coding the unique aspects of a SDTM domain while standardize their code base across studies and domains. This should lead to fewer bugs and improved code readability too. {sdtmval} features include:
 
--   Creating common SDTM variables using the methods BLFL, DY, EPOCH, and SEQ
+-   Automating the BLFL, DY, EPOCH, and SEQ methods to create new variables
 
--   Imputing and formatting full and partial dates: see `vignette("Dates")`
+-   Imputing and formatting full and partial dates: see [`vignette("Dates")`](doc/Dates.html)
 
 -   Comparing QC versus production SDTM domain tables (vignette coming soon)
 
--   Applying study specification data to a domain such as variable labels, lengths, code mapping, and sorting
+-   Applying specification data such as variable labels, lengths, code mapping, and sorting
 
 -   Importing EDC and SDTM data from .csv and .sas7bdat files
 
--   Data formatting
-
--   Writing .sas7dbat files (convenience wrapper for `haven::write_xpt()`)
+-   Writing .xpt files (convenience wrapper for `haven::write_xpt()`)
 
 -   Converting .Rmd files to .R scripts (convenience wrapper for `knitr::purl()`)
+
+-   Logging R session information for reproducibility
+
+-   Data formatting
 
 
 ## Installation
@@ -49,10 +51,15 @@ You can install the development version of {sdtmval} from [GitHub](https://githu
 devtools::install_github("skgithub14/sdtmval")
 ```
 
+<br>
+
+<br>
+
+------------------------------------------------------------------------
+
 ## A typical work flow example
 
-In this example work flow, we will import a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain 'XX'.
-
+In this example work flow, we will import a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain 'XX' along with some example data included in {sdtmval}.
 
 ```{r set-up, message=FALSE}
 # set-up
@@ -61,7 +68,7 @@ library(dplyr)
 
 domain <- "XX"
 
-# working directory (can be anything but we will use a sdtmval package directory)
+# set working directory to location of sdtmval package example data
 work_dir <- system.file("extdata", package = "sdtmval")
 ```
 
@@ -86,7 +93,6 @@ edc_dat$xx %>%
   knitr::kable()
 ```
 
-
 The next thing we will do is get the relevant information from the SDTM specification for the study. The next set of functions assumes there is a .xlsx file which contains the sheets: 'Datasets', 'XX', and 'Codelists'. 'Datasets' contains the key variables by domain, 'XX' gives the variable information for the XX domain, and 'Codelists' provides a table of coded/decoded values by variable. `get_data_spec()` imports the domain tab from the specification file as a data frame, `get_key_vars()` retrieves the key variables for a domain as a character vector, and `get_codelist()` extracts a data frame of coded/decoded values from the spec for any variables in the relevant domain.
 
 ```{r spec}
@@ -106,7 +112,6 @@ First, it needs some pre-processing because there is extra white space in some o
 
 ```{r trim-and-NA}
 sdtm_xx1 <- trim_and_make_blanks_NA(edc_dat$xx)
-knitr::kable(sdtm_xx1)
 ```
 
 Next, using the codelists we retrieved from the spec earlier, we can create the `XXTEST` variable.
@@ -151,8 +156,7 @@ sdtm_xx4 <- sdtm_xx3 %>%
   create_EPOCH(date_col = "XXDTC") %>%
   
   # XXDY
-  calc_DY(DY_col = "XXDY",
-          DTC_col = "XXDTC")
+  calc_DY(DY_col = "XXDY", DTC_col = "XXDTC")
   
 knitr::kable(sdtm_xx4)
 ```
@@ -166,12 +170,10 @@ sdtm_xx5 <- assign_SEQ(sdtm_xx4,
 knitr::kable(sdtm_xx5)
 ```
 
-
 Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all `NA` values to `""` so that our validation table matches the production table. To do this, we will use `format_chars_and_dates()`.
 
 ```{r final-format}
 sdtm_xx6 <- format_chars_and_dates(sdtm_xx5)
-knitr::kable(sdtm_xx6)
 ```
 
 As a final step, we re-order the columns according to the domain spec and drop the extra columns using this line of code: `select(any_of(spec$Variable))`. Then we will assign the meta data from the spec to each column using `assign_meta_data()`. The meta data includes the labels for each column and their maximum allowed character lengths.
