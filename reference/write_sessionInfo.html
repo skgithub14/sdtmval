@@ -16,7 +16,7 @@ in the future."><meta property="og:image" content="https://skgithub14.github.io/
     
     <a class="navbar-brand me-2" href="../index.html">sdtmval</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,17 +66,18 @@ in the future.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_sessionInfo</span><span class="op">(</span><span class="va">dir</span>, <span class="va">filename</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_sessionInfo</span><span class="op">(</span><span class="va">filename</span>, dir <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>dir</dt>
-<dd><p>a string, the directory to write to</p></dd>
-
-
-<dt>filename</dt>
+    <dl><dt>filename</dt>
 <dd><p>a string, the script file name (with or without .R extension)</p></dd>
+
+
+<dt>dir</dt>
+<dd><p>a string, the directory to write to, default is <code>NULL</code> which means
+the current working directory will be used</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -92,8 +93,8 @@ in the future.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">work_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"sdtmval"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">write_sessionInfo</span><span class="op">(</span>dir <span class="op">=</span> <span class="va">work_dir</span>, filename <span class="op">=</span> <span class="st">"test_script.R"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".R"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">write_sessionInfo</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
