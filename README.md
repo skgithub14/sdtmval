@@ -12,34 +12,36 @@ coverage](https://codecov.io/gh/skgithub14/sdtmval/branch/master/graph/badge.svg
 <!-- badges: end -->
 
 {sdtmval} provides a set of tools to assist statistical programmers in
-validating Study Data Tabulation Model (SDTM) data sets. Many data
-cleaning steps and SDTM processes are used repeatedly in different SDTM
-domain validation scripts. Functionalizing these repetitive tasks allow
-statistical programmers to focus on coding the unique aspects of a SDTM
-domain while standardize their code base across studies and domains.
-This should lead to fewer bugs and improved code readability too. The
-tools include utilities for:
+validating Study Data Tabulation Model (SDTM) domain data sets. Many
+data cleaning steps and SDTM processes are used repeatedly in different
+SDTM domain validation scripts. Functionalizing these repetitive tasks
+allows statistical programmers to focus on coding the unique aspects of
+a SDTM domain while standardize their code base across studies and
+domains. This should lead to fewer bugs and improved code readability
+too. {sdtmval} features include:
 
-- Creating common SDTM variables using the methods BLFL, DY, EPOCH, and
-  SEQ
+- Automating the BLFL, DY, EPOCH, and SEQ methods to create new
+  variables
 
 - Imputing and formatting full and partial dates: see
-  `vignette("Dates")`
+  [`vignette("Dates")`](doc/Dates.html)
 
 - Comparing QC versus production SDTM domain tables (vignette coming
   soon)
 
-- Applying study specification data to a domain such as variable labels,
-  lengths, code mapping, and sorting
+- Applying specification data such as variable labels, lengths, code
+  mapping, and sorting
 
 - Importing EDC and SDTM data from .csv and .sas7bdat files
 
-- Data formatting
-
-- Writing .sas7dbat files (convenience wrapper for `haven::write_xpt()`)
+- Writing .xpt files (convenience wrapper for `haven::write_xpt()`)
 
 - Converting .Rmd files to .R scripts (convenience wrapper for
   `knitr::purl()`)
+
+- Logging R session information for reproducibility
+
+- Data formatting
 
 ## Installation
 
@@ -51,10 +53,17 @@ You can install the development version of {sdtmval} from
 devtools::install_github("skgithub14/sdtmval")
 ```
 
+<br>
+
+<br>
+
+------------------------------------------------------------------------
+
 ## A typical work flow example
 
 In this example work flow, we will import a raw EDC table and transform
-it into a SDTM domain table. We will use the made-up domain ‘XX’.
+it into a SDTM domain table. We will use the made-up domain ‘XX’ along
+with some example data included in {sdtmval}.
 
 ``` r
 # set-up
@@ -63,7 +72,7 @@ library(dplyr)
 
 domain <- "XX"
 
-# working directory (can be anything but we will use a sdtmval package directory)
+# set working directory to location of sdtmval package example data
 work_dir <- system.file("extdata", package = "sdtmval")
 ```
 
@@ -161,21 +170,7 @@ function `trim_and_make_blanks_NA()` does both of these tasks.
 
 ``` r
 sdtm_xx1 <- trim_and_make_blanks_NA(edc_dat$xx)
-knitr::kable(sdtm_xx1)
 ```
-
-| STUDYID | USUBJID   | VISIT   | XXTESTCD | XXORRES |
-|:--------|:----------|:--------|:---------|:--------|
-| Study 1 | Subject 1 | Visit 1 | T1       | 1       |
-| Study 1 | Subject 1 | Visit 2 | T1       | 0       |
-| Study 1 | Subject 1 | Visit 3 | T1       | 2       |
-| Study 1 | Subject 1 | Visit 3 | T2       | 100     |
-| Study 1 | Subject 1 | Visit 4 | T3       | PASS    |
-| Study 1 | Subject 2 | Visit 1 | T1       | 1       |
-| Study 1 | Subject 2 | Visit 2 | T1       | NA      |
-| Study 1 | Subject 2 | Visit 3 | T1       | 2       |
-| Study 1 | Subject 2 | Visit 3 | T2       | 200     |
-| Study 1 | Subject 2 | Visit 4 | T3       | FAIL    |
 
 Next, using the codelists we retrieved from the spec earlier, we can
 create the `XXTEST` variable.
@@ -236,8 +231,7 @@ sdtm_xx4 <- sdtm_xx3 %>%
   create_EPOCH(date_col = "XXDTC") %>%
   
   # XXDY
-  calc_DY(DY_col = "XXDY",
-          DTC_col = "XXDTC")
+  calc_DY(DY_col = "XXDY", DTC_col = "XXDTC")
   
 knitr::kable(sdtm_xx4)
 ```
@@ -286,21 +280,7 @@ use `format_chars_and_dates()`.
 
 ``` r
 sdtm_xx6 <- format_chars_and_dates(sdtm_xx5)
-knitr::kable(sdtm_xx6)
 ```
-
-| STUDYID | USUBJID   | VISIT   | XXTESTCD | XXORRES | XXTEST | XXDTC      | RFSTDTC    | RFXSTDTC   | RFXENDTC   | XXBLFL | EPOCH     | XXDY | XXSEQ |
-|:--------|:----------|:--------|:---------|:--------|:-------|:-----------|:-----------|:-----------|:-----------|:-------|:----------|-----:|------:|
-| Study 1 | Subject 1 | Visit 1 | T1       | 1       | Test 1 | 2023-08-01 | 2023-08-02 | 2023-08-02 | 2023-08-03 |        | SCREENING |   -1 |     1 |
-| Study 1 | Subject 1 | Visit 2 | T1       | 0       | Test 1 | 2023-08-02 | 2023-08-02 | 2023-08-02 | 2023-08-03 | Y      | TREATMENT |    1 |     2 |
-| Study 1 | Subject 1 | Visit 3 | T1       | 2       | Test 1 | 2023-08-03 | 2023-08-02 | 2023-08-02 | 2023-08-03 |        | TREATMENT |    2 |     3 |
-| Study 1 | Subject 1 | Visit 3 | T2       | 100     | Test 2 | 2023-08-03 | 2023-08-02 | 2023-08-02 | 2023-08-03 |        | TREATMENT |    2 |     4 |
-| Study 1 | Subject 1 | Visit 4 | T3       | PASS    | Test 3 | 2023-08-04 | 2023-08-02 | 2023-08-02 | 2023-08-03 |        | FOLLOW-UP |    3 |     5 |
-| Study 1 | Subject 2 | Visit 1 | T1       | 1       | Test 1 | 2023-08-02 | 2023-08-03 | 2023-08-03 | 2023-08-04 | Y      | SCREENING |   -1 |     1 |
-| Study 1 | Subject 2 | Visit 2 | T1       |         | Test 1 | 2023-08-03 | 2023-08-03 | 2023-08-03 | 2023-08-04 |        | TREATMENT |    1 |     2 |
-| Study 1 | Subject 2 | Visit 3 | T1       | 2       | Test 1 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 |        | TREATMENT |    2 |     3 |
-| Study 1 | Subject 2 | Visit 3 | T2       | 200     | Test 2 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 |        | TREATMENT |    2 |     4 |
-| Study 1 | Subject 2 | Visit 4 | T3       | FAIL    | Test 3 | 2023-08-05 | 2023-08-03 | 2023-08-03 | 2023-08-04 |        | FOLLOW-UP |    3 |     5 |
 
 As a final step, we re-order the columns according to the domain spec
 and drop the extra columns using this line of code:
