@@ -68,7 +68,8 @@ to "Y" for last record with non-missing --ORRES on or before first dose date
 <span>  <span class="va">sort_date</span>,</span>
 <span>  <span class="va">domain</span>,</span>
 <span>  grouping_vars <span class="op">=</span> <span class="st">"USUBJID"</span>,</span>
-<span>  RFSTDTC <span class="op">=</span> <span class="st">"RFSTDTC"</span></span>
+<span>  RFSTDTC <span class="op">=</span> <span class="st">"RFSTDTC"</span>,</span>
+<span>  compare_date_method <span class="op">=</span> <span class="st">"on or before"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -101,6 +102,12 @@ the BLFL, default is <code>"USUBJID"</code>. The order of this vector matters.</
 <code>"RFSTDTC"</code>; this columns should either have a date class or a characer class
 in the YYYY-MM-DD format</p></dd>
 
+
+<dt>compare_date_method</dt>
+<dd><p>a string, one of <code>c("on or before", "before")</code>
+indicating where the baseline measurement should be evaluated on or before
+the study start date or just before; default is <code>"on or before"</code></p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -109,6 +116,10 @@ in the YYYY-MM-DD format</p></dd>
 <p>a modified copy of <code>tbl</code> with the new column <code>[domain]BLFL</code></p>
 
 
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="create_EPOCH.html">create_EPOCH()</a></code>, <code><a href="calc_DY.html">calc_DY()</a></code></p></div>
     </div>
 
     <div class="section level2">

@@ -50,9 +50,87 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="compare">Compare<a class="anchor" aria-label="anchor" href="#compare"></a></h2>
+      
+      <p class="section-desc"></p><p>Compare QC to production STDM data sets</p>
+
+      
+    </div><div id="" class="section level2">
       
       
+      
+
+      <dl><dt>
+          
+          <code><a href="compare_qc_to_prod.html">compare_qc_to_prod()</a></code> 
+        </dt>
+        <dd>Compare production to QC versions of an SDTM table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="inspect_diffs.html">inspect_diffs()</a></code> 
+        </dt>
+        <dd>Inspect differences between two data frames by column using</dd>
+      </dl><dl><dt>
+          
+          <code><a href="summary_diffs.html">summary_diffs()</a></code> 
+        </dt>
+        <dd>View summary of difference between two data frames by column</dd>
+      </dl></div><div class="section level2">
+      <h2 id="dates">Dates<a class="anchor" aria-label="anchor" href="#dates"></a></h2>
+      
+      <p class="section-desc"></p><p>Manipulate full and partial dates</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="impute_pdates.html">impute_pdates()</a></code> 
+        </dt>
+        <dd>Impute start or end dates</dd>
+      </dl><dl><dt>
+          
+          <code><a href="reshape_adates.html">reshape_adates()</a></code> 
+        </dt>
+        <dd>Reshape format of all dates (full and partial)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="reshape_pdates.html">reshape_pdates()</a></code> 
+        </dt>
+        <dd>Reshape format of partial dates</dd>
+      </dl><dl><dt>
+          
+          <code><a href="trim_dates.html">trim_dates()</a></code> 
+        </dt>
+        <dd>Trim unknown elements in partial dates</dd>
+      </dl></div><div class="section level2">
+      <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
+      
+      <p class="section-desc"></p><p>Format data</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="format_chars_and_dates.html">format_chars_and_dates()</a></code> 
+        </dt>
+        <dd>Format date and character columns for SDTM tables</dd>
+      </dl><dl><dt>
+          
+          <code><a href="trim_and_make_blanks_NA.html">trim_and_make_blanks_NA()</a></code> 
+        </dt>
+        <dd>Trim white space and make blanks NA</dd>
+      </dl></div><div class="section level2">
+      <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
+      
+      <p class="section-desc"></p><p>Create SDTM variables using common methods</p>
 
       
     </div><div id="" class="section level2">
@@ -67,19 +145,9 @@
         <dd>Assign SEQ numbers for a SDTM data set</dd>
       </dl><dl><dt>
           
-          <code><a href="assign_meta_data.html">assign_meta_data()</a></code> 
-        </dt>
-        <dd>Assign meta data to columns in a SDTM table based on specification file</dd>
-      </dl><dl><dt>
-          
           <code><a href="calc_DY.html">calc_DY()</a></code> 
         </dt>
         <dd>Calculate a DY variable (day of study)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="convert_to_script.html">convert_to_script()</a></code> 
-        </dt>
-        <dd>Convert SDTM QC code from a .Rmd file to .R script</dd>
       </dl><dl><dt>
           
           <code><a href="create_BLFL.html">create_BLFL()</a></code> 
@@ -90,21 +158,43 @@
           <code><a href="create_EPOCH.html">create_EPOCH()</a></code> 
         </dt>
         <dd>Create the EPOCH variable</dd>
+      </dl></div><div class="section level2">
+      <h2 id="read">Read<a class="anchor" aria-label="anchor" href="#read"></a></h2>
+      
+      <p class="section-desc"></p><p>Import data</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="read_edc_tbls.html">read_edc_tbls()</a></code> 
+        </dt>
+        <dd>Import EDC data tables</dd>
       </dl><dl><dt>
           
-          <code><a href="dm.html">dm</a></code> 
+          <code><a href="read_sdtm_tbls.html">read_sdtm_tbls()</a></code> 
         </dt>
-        <dd>Example SDTM Domain 'DM'</dd>
-      </dl><dl><dt>
+        <dd>Import SDTM data tables</dd>
+      </dl></div><div class="section level2">
+      <h2 id="specification-data">Specification data<a class="anchor" aria-label="anchor" href="#specification-data"></a></h2>
+      
+      <p class="section-desc"></p><p>Retrieve and apply specification data from a .xlsx file</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
-          <code><a href="edc_xx.html">edc_xx</a></code> 
+          <code><a href="assign_meta_data.html">assign_meta_data()</a></code> 
         </dt>
-        <dd>Example EDC for form/table 'XX'</dd>
-      </dl><dl><dt>
-          
-          <code><a href="format_chars_and_dates.html">format_chars_and_dates()</a></code> 
-        </dt>
-        <dd>Format date and character columns for SDTM tables</dd>
+        <dd>Assign meta data to columns in a SDTM table based on specification file</dd>
       </dl><dl><dt>
           
           <code><a href="get_codelist.html">get_codelist()</a></code> 
@@ -120,36 +210,53 @@
           <code><a href="get_key_vars.html">get_key_vars()</a></code> 
         </dt>
         <dd>Read in the key variables for a SDTM domain</dd>
+      </dl></div><div class="section level2">
+      <h2 id="write">Write<a class="anchor" aria-label="anchor" href="#write"></a></h2>
+      
+      <p class="section-desc"></p><p>Write SAS transport files and archive code</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="convert_to_script.html">convert_to_script()</a></code> 
+        </dt>
+        <dd>Convert SDTM QC code from a .Rmd file to .R script</dd>
       </dl><dl><dt>
           
-          <code><a href="impute_pdates.html">impute_pdates()</a></code> 
+          <code><a href="write_sessionInfo.html">write_sessionInfo()</a></code> 
         </dt>
-        <dd>Impute start or end dates</dd>
+        <dd>Write R session information for a script to a .txt file</dd>
       </dl><dl><dt>
           
-          <code><a href="read_edc_tbls.html">read_edc_tbls()</a></code> 
+          <code><a href="write_tbl_to_xpt.html">write_tbl_to_xpt()</a></code> 
         </dt>
-        <dd>Import EDC data tables</dd>
+        <dd>Write a SAS transport file (.xpt)</dd>
+      </dl></div><div class="section level2">
+      <h2 id="example-data">Example Data<a class="anchor" aria-label="anchor" href="#example-data"></a></h2>
+      
+      <p class="section-desc"></p><p>Data used for examples and testing</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="dm.html">dm</a></code> 
+        </dt>
+        <dd>Example SDTM Domain 'DM'</dd>
       </dl><dl><dt>
           
-          <code><a href="read_sdtm_tbls.html">read_sdtm_tbls()</a></code> 
+          <code><a href="edc_xx.html">edc_xx</a></code> 
         </dt>
-        <dd>Import SDTM data tables</dd>
-      </dl><dl><dt>
-          
-          <code><a href="reshape_adates.html">reshape_adates()</a></code> 
-        </dt>
-        <dd>Reshape format of all dates (full and partial)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="reshape_pdates.html">reshape_pdates()</a></code> 
-        </dt>
-        <dd>Reshape format of partial dates</dd>
-      </dl><dl><dt>
-          
-          <code><a href="spec_XX.html">spec_XX</a></code> 
-        </dt>
-        <dd>Example domain specific tab from a SDTM specification .xlsx file</dd>
+        <dd>Example EDC data for form/table 'XX'</dd>
       </dl><dl><dt>
           
           <code><a href="spec_codelists.html">spec_codelists</a></code> 
@@ -162,31 +269,22 @@
         <dd>Example 'Datasets' tab from a SDTM specification .xlsx file</dd>
       </dl><dl><dt>
           
-          <code><a href="trim_and_make_blanks_NA.html">trim_and_make_blanks_NA()</a></code> 
+          <code><a href="spec_XX.html">spec_XX</a></code> 
         </dt>
-        <dd>Trim white space and make blanks NA</dd>
-      </dl><dl><dt>
-          
-          <code><a href="trim_dates.html">trim_dates()</a></code> 
-        </dt>
-        <dd>Trim unknown elements in partial dates</dd>
+        <dd>Example domain specific tab from a SDTM specification .xlsx file</dd>
       </dl><dl><dt>
           
           <code><a href="vd.html">vd</a></code> 
         </dt>
-        <dd>Example EDC form/table 'VD'</dd>
-      </dl><dl><dt>
-          
-          <code><a href="write_tbl_to_xpt.html">write_tbl_to_xpt()</a></code> 
-        </dt>
-        <dd>Write a SAS transport file (.xpt)</dd>
+        <dd>Example EDC data for form/table 'VD'</dd>
       </dl><dl><dt>
           
           <code><a href="xx_no_meta_data.html">xx_no_meta_data</a></code> 
         </dt>
-        <dd>Example SDTM domain XX without meta data</dd>
+        <dd>Example SDTM domain table XX without meta data</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

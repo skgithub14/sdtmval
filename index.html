@@ -104,13 +104,16 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p>The goal of {sdtmval} is to provide a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. The tools include utilities for:</p>
+<p>{sdtmval} provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. Many data cleaning steps and SDTM processes are used repeatedly in different SDTM domain validation scripts. Functionalizing these repetitive tasks allow statistical programmers to focus on coding the unique aspects of a SDTM domain while standardize their code base across studies and domains. This should lead to fewer bugs and improved code readability too. The tools include utilities for:</p>
 <ul>
-<li><p>Importing EDC and SDTM data</p></li>
-<li><p>Reading in and applying study specification data</p></li>
+<li><p>Creating common SDTM variables using the methods BLFL, DY, EPOCH, and SEQ</p></li>
+<li><p>Imputing and formatting full and partial dates: see <code>vignette("Dates")</code></p></li>
+<li><p>Comparing QC versus production SDTM domain tables (vignette coming soon)</p></li>
+<li><p>Applying study specification data to a domain such as variable labels, lengths, code mapping, and sorting</p></li>
+<li><p>Importing EDC and SDTM data from .csv and .sas7bdat files</p></li>
 <li><p>Data formatting</p></li>
-<li><p>Commonly used SDTM methods: BLFL, DY, EPOCH, and SEQ</p></li>
-<li><p>Imputing and formatting full and partial dates: see <a href="https://skgithub14.github.io/sdtmval/articles/dates.html"><code>vignette("Dates", "sdtmval")</code></a></p></li>
+<li><p>Writing .sas7dbat files (convenience wrapper for <code><a href="https://haven.tidyverse.org/reference/read_xpt.html" class="external-link">haven::write_xpt()</a></code>)</p></li>
+<li><p>Converting .Rmd files to .R scripts (convenience wrapper for <code><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knitr::purl()</a></code>)</p></li>
 </ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -123,7 +126,7 @@
 <div class="section level2">
 <h2 id="a-typical-work-flow-example">A typical work flow example<a class="anchor" aria-label="anchor" href="#a-typical-work-flow-example"></a>
 </h2>
-<p>In this example work flow, we will load in a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain ‘XX’ and some example data included with {sdtmval}.</p>
+<p>In this example work flow, we will import a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain ‘XX’.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set-up</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/skgithub14/sdtmval" class="external-link">sdtmval</a></span><span class="op">)</span></span>
@@ -131,7 +134,7 @@
 <span></span>
 <span><span class="va">domain</span> <span class="op">&lt;-</span> <span class="st">"XX"</span></span>
 <span></span>
-<span><span class="co"># working directory includes {sdtmval} example data</span></span>
+<span><span class="co"># working directory (can be anything but we will use a sdtmval package directory)</span></span>
 <span><span class="va">work_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"sdtmval"</span><span class="op">)</span></span></code></pre></div>
 <p>The majority of the data needed is in the EDC form/table xx.csv. There is also visit date data in the raw EDC form/table vd.csv and study start and end dates by subject in the production SDTM table dm.sas7dbat. We will start by importing all of the data we need using the two functions <code><a href="reference/read_edc_tbls.html">read_edc_tbls()</a></code> and <code><a href="reference/read_sdtm_tbls.html">read_sdtm_tbls()</a></code>. The main difference between these two functions is that the first reads in .csv files and the second reads in .sas7dbat files.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -224,7 +227,7 @@
 </tr>
 </tbody>
 </table>
-<p>The next thing we will do is get the relevant information from the SDTM specification for the study. The next set of functions assumes there is a .xlsx file which contains the sheets: ‘Datasets’, ‘XX’, and ‘Codelists’. ‘Datasets’ contains the key variables by domain, ‘XX’ gives the variable information for the XX domain, and ‘Codelists’ provides a table of coded/decoded values by variable. <code><a href="reference/get_data_spec.html">get_data_spec()</a></code> imports the domain tab from the specification file as a data frame, <code><a href="reference/get_key_vars.html">get_key_vars()</a></code> retrieves the key variables for a domain as a character vector, and <code>get_codelist</code> extracts a data frame of coded/decoded values from the spec for any variables in the relevant domain.</p>
+<p>The next thing we will do is get the relevant information from the SDTM specification for the study. The next set of functions assumes there is a .xlsx file which contains the sheets: ‘Datasets’, ‘XX’, and ‘Codelists’. ‘Datasets’ contains the key variables by domain, ‘XX’ gives the variable information for the XX domain, and ‘Codelists’ provides a table of coded/decoded values by variable. <code><a href="reference/get_data_spec.html">get_data_spec()</a></code> imports the domain tab from the specification file as a data frame, <code><a href="reference/get_key_vars.html">get_key_vars()</a></code> retrieves the key variables for a domain as a character vector, and <code><a href="reference/get_codelist.html">get_codelist()</a></code> extracts a data frame of coded/decoded values from the spec for any variables in the relevant domain.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spec_fname</span> <span class="op">&lt;-</span> <span class="st">"spec.xlsx"</span></span>
 <span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_data_spec.html">get_data_spec</a></span><span class="op">(</span>domain <span class="op">=</span> <span class="va">domain</span>, dir <span class="op">=</span> <span class="va">work_dir</span>, filename <span class="op">=</span> <span class="va">spec_fname</span><span class="op">)</span></span>
@@ -377,7 +380,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">key_vars</span></span>
 <span><span class="co">#&gt; [1] "STUDYID"  "USUBJID"  "XXTESTCD" "VISIT"</span></span></code></pre></div>
-<p>Now, we will begin creating the SDTM XX domain using the EDC XX form as the basis.</p>
+<p>Now we will begin creating the SDTM XX domain using the EDC XX form as the basis.</p>
 <p>First, it needs some pre-processing because there is extra white space in some of the variables. We also want to turn all NA equivalent values like <code>""</code> and <code>" "</code> to <code>NA</code> for the entire data set so we have consistent handling of missing values during data processing. The function <code><a href="reference/trim_and_make_blanks_NA.html">trim_and_make_blanks_NA()</a></code> does both of these tasks.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdtm_xx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/trim_and_make_blanks_NA.html">trim_and_make_blanks_NA</a></span><span class="op">(</span><span class="va">edc_dat</span><span class="op">$</span><span class="va">xx</span><span class="op">)</span></span>
@@ -463,7 +466,7 @@
 </tr>
 </tbody>
 </table>
-<p>Next, using codelist we retrieved from the spec earlier, we can create the <code>XXTEST</code> variable.</p>
+<p>Next, using the codelists we retrieved from the spec earlier, we can create the <code>XXTEST</code> variable.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare the code list so it can be used by dplyr::recode() </span></span>
 <span><span class="va">xxtestcd_codelist</span> <span class="op">&lt;-</span> <span class="va">codelists</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -575,158 +578,8 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">edc_dat</span><span class="op">$</span><span class="va">vd</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"VISIT"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>XXDTC <span class="op">=</span> <span class="va">VISITDTC</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  </span>
-<span>  <span class="co"># get the study start/end dates by subject</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">sdtm_dat</span><span class="op">$</span><span class="va">dm</span>, by <span class="op">=</span> <span class="st">"USUBJID"</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sdtm_xx3</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="8%">
-<col width="10%">
-<col width="8%">
-<col width="9%">
-<col width="8%">
-<col width="7%">
-<col width="11%">
-<col width="11%">
-<col width="11%">
-<col width="11%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">STUDYID</th>
-<th align="left">USUBJID</th>
-<th align="left">VISIT</th>
-<th align="left">XXTESTCD</th>
-<th align="left">XXORRES</th>
-<th align="left">XXTEST</th>
-<th align="left">XXDTC</th>
-<th align="left">RFSTDTC</th>
-<th align="left">RFXSTDTC</th>
-<th align="left">RFXENDTC</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 1</td>
-<td align="left">T1</td>
-<td align="left">1</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-01</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 2</td>
-<td align="left">T1</td>
-<td align="left">0</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
-<td align="left">T1</td>
-<td align="left">2</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
-<td align="left">T2</td>
-<td align="left">100</td>
-<td align="left">Test 2</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 4</td>
-<td align="left">T3</td>
-<td align="left">PASS</td>
-<td align="left">Test 3</td>
-<td align="left">2023-08-04</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 1</td>
-<td align="left">T1</td>
-<td align="left">1</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 2</td>
-<td align="left">T1</td>
-<td align="left">NA</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
-<td align="left">T1</td>
-<td align="left">2</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-04</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
-<td align="left">T2</td>
-<td align="left">200</td>
-<td align="left">Test 2</td>
-<td align="left">2023-08-04</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 4</td>
-<td align="left">T3</td>
-<td align="left">FAIL</td>
-<td align="left">Test 3</td>
-<td align="left">2023-08-05</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-</tr>
-</tbody>
-</table>
+<span>  <span class="co"># get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">sdtm_dat</span><span class="op">$</span><span class="va">dm</span>, by <span class="op">=</span> <span class="st">"USUBJID"</span><span class="op">)</span></span></code></pre></div>
 <p>Now, we can proceed with calculating those timing variables using the <code><a href="reference/create_BLFL.html">create_BLFL()</a></code>, <code><a href="reference/create_EPOCH.html">create_EPOCH()</a></code>, and <code><a href="reference/calc_DY.html">calc_DY()</a></code> functions.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdtm_xx4</span> <span class="op">&lt;-</span> <span class="va">sdtm_xx3</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -928,7 +781,7 @@
 </tr>
 </tbody>
 </table>
-<p>Next, we will assign the sequence number using <code><a href="reference/assign_SEQ.html">assign_SEQ()</a></code>. This function also sorts the data set by whatever you make the <code>key_vars</code> argument.</p>
+<p>Next, we will assign the sequence number using <code><a href="reference/assign_SEQ.html">assign_SEQ()</a></code>. This function also sorts the data set for you by whatever you make the <code>key_vars</code> argument.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdtm_xx5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assign_SEQ.html">assign_SEQ</a></span><span class="op">(</span><span class="va">sdtm_xx4</span>, </span>
 <span>                       key_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"XXTESTCD"</span>, <span class="st">"VISIT"</span><span class="op">)</span>,</span>
@@ -1130,7 +983,7 @@
 </tr>
 </tbody>
 </table>
-<p>Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all <code>NA</code> values to <code>""</code> so that our validation table matches the production table.</p>
+<p>Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all <code>NA</code> values to <code>""</code> so that our validation table matches the production table. To do this, we will use <code><a href="reference/format_chars_and_dates.html">format_chars_and_dates()</a></code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdtm_xx6</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/format_chars_and_dates.html">format_chars_and_dates</a></span><span class="op">(</span><span class="va">sdtm_xx5</span><span class="op">)</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sdtm_xx6</span><span class="op">)</span></span></code></pre></div>
@@ -1499,8 +1352,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># check the meta data was assigned</span></span>
+<code class="sourceCode R"><span><span class="co"># check the meta data was assigned</span></span>
 <span><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sdtm_xx7</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">sdtm_xx7</span><span class="op">[[</span><span class="va">.</span><span class="op">]</span><span class="op">]</span>, <span class="st">"label"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -1524,10 +1376,10 @@
 <span><span class="co">#&gt; 9     EPOCH                               Epoch     200</span></span>
 <span><span class="co">#&gt; 10    XXDTC           Date/Time of Measurements      19</span></span>
 <span><span class="co">#&gt; 11     XXDY                     Study Day of XX       8</span></span></code></pre></div>
-<p>Finally, we will write the SDTM XX domain validation table as a SAS transport file using <code><a href="reference/write_tbl_to_xpt.html">write_tbl_to_xpt()</a></code> (which is just a convenience wrapper for <code><a href="https://haven.tidyverse.org/reference/read_xpt.html" class="external-link">haven::write_xpt()</a></code>).</p>
+<p>Finally, we will write the SDTM XX domain validation table as a SAS transport file using <code><a href="reference/write_tbl_to_xpt.html">write_tbl_to_xpt()</a></code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/write_tbl_to_xpt.html">write_tbl_to_xpt</a></span><span class="op">(</span><span class="va">sdtm_xx7</span>, filename <span class="op">=</span> <span class="va">domain</span>, dir <span class="op">=</span> <span class="va">work_dir</span><span class="op">)</span></span></code></pre></div>
-<p>For each previous steps, we viewed the interim results to demonstrate the features of {sdtmval} however, {sdtmval} is designed to be used with pipe operators so that you can have one long, read-able pipe. To demonstrate, we will reproduce the same results from above in one code chunk.</p>
+<p>For each previous steps, we viewed the interim results to demonstrate the features of {sdtmval} however, {sdtmval} is designed to be used with pipe operators so that you can have one long, readable pipe. To demonstrate, we will reproduce the same results from above in one code chunk.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdtm_xx</span> <span class="op">&lt;-</span> <span class="va">edc_dat</span><span class="op">$</span><span class="va">xx</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  </span>
@@ -1541,7 +1393,7 @@
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">edc_dat</span><span class="op">$</span><span class="va">vd</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"VISIT"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>XXDTC <span class="op">=</span> <span class="va">VISITDTC</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span></span>
-<span>  <span class="co"># get the study start/end dates by subject</span></span>
+<span>  <span class="co"># get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">sdtm_dat</span><span class="op">$</span><span class="va">dm</span>, by <span class="op">=</span> <span class="st">"USUBJID"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span></span>
 <span>  <span class="co"># XXBLFL</span></span>
