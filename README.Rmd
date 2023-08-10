@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 -   Automating the BLFL, DY, EPOCH, and SEQ methods to create new variables
 
--   Imputing and formatting full and partial dates: see [`vignette("Dates")`](doc/Dates.html)
+-   Imputing and formatting full and partial dates: see [`vignette("Dates")`](https://skgithub14.github.io/sdtmval/articles/dates.html)
 
 -   Comparing QC versus production SDTM domain tables (vignette coming soon)
 
@@ -50,8 +50,6 @@ You can install the development version of {sdtmval} from [GitHub](https://githu
 # install.packages("devtools")
 devtools::install_github("skgithub14/sdtmval")
 ```
-
-<br>
 
 <br>
 
@@ -158,7 +156,11 @@ sdtm_xx4 <- sdtm_xx3 %>%
   # XXDY
   calc_DY(DY_col = "XXDY", DTC_col = "XXDTC")
   
-knitr::kable(sdtm_xx4)
+# check the new variables and their related columns only
+sdtm_xx4 %>%
+  select(USUBJID, XXTEST, XXORRES, XXDTC, XXBLFL, 
+         EPOCH, XXDY, starts_with("RF")) %>%
+  knitr::kable()
 ```
 
 Next, we will assign the sequence number using `assign_SEQ()`. This function also sorts the data set for you by whatever you make the `key_vars` argument.
@@ -167,7 +169,11 @@ Next, we will assign the sequence number using `assign_SEQ()`. This function als
 sdtm_xx5 <- assign_SEQ(sdtm_xx4, 
                        key_vars = c("USUBJID", "XXTESTCD", "VISIT"),
                        seq_prefix = domain)
-knitr::kable(sdtm_xx5)
+
+# check the new variable
+sdtm_xx5 %>%
+  select(USUBJID, XXTESTCD, VISIT, XXDTC, XXSEQ) %>%
+  knitr::kable()
 ```
 
 Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all `NA` values to `""` so that our validation table matches the production table. To do this, we will use `format_chars_and_dates()`.

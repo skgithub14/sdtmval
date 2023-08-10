@@ -1,9 +1,19 @@
 # sdtmval 
 
-## v1.0.0
+# sdtmval 0.2.0
 
-* Removed the comparing utility functions `compare_qc_to_prod()`, `inspect_diffs()`, and `summary_diffs()` which deserve their own package.
+## Major changes
 
-## v0.1.0
+* Added functions for comparing QC to production SDTM domain data sets (`compare_qc_to_prod()`, `inspect_diffs()`, `summary_diffs()`)
+
+* Added `convert_to_script()` for converting exploratory .Rmd to production .R scripts
+
+* Added `write_sessionInfo()` for logging R session state after a script is run
+
+## Minor changes
+
+* Improved function documentation, {pkgdown} site, and README example
+
+# sdtmval 0.1.0
 
 * Initial release.

@@ -24,7 +24,7 @@ too. {sdtmval} features include:
   variables
 
 - Imputing and formatting full and partial dates: see
-  [`vignette("Dates")`](doc/Dates.html)
+  [`vignette("Dates")`](https://skgithub14.github.io/sdtmval/articles/dates.html)
 
 - Comparing QC versus production SDTM domain tables (vignette coming
   soon)
@@ -52,8 +52,6 @@ You can install the development version of {sdtmval} from
 # install.packages("devtools")
 devtools::install_github("skgithub14/sdtmval")
 ```
-
-<br>
 
 <br>
 
@@ -233,21 +231,25 @@ sdtm_xx4 <- sdtm_xx3 %>%
   # XXDY
   calc_DY(DY_col = "XXDY", DTC_col = "XXDTC")
   
-knitr::kable(sdtm_xx4)
+# check the new variables and their related columns only
+sdtm_xx4 %>%
+  select(USUBJID, XXTEST, XXORRES, XXDTC, XXBLFL, 
+         EPOCH, XXDY, starts_with("RF")) %>%
+  knitr::kable()
 ```
 
-| STUDYID | USUBJID   | VISIT   | XXTESTCD | XXORRES | XXTEST | XXDTC      | RFSTDTC    | RFXSTDTC   | RFXENDTC   | XXBLFL | EPOCH     | XXDY |
-|:--------|:----------|:--------|:---------|:--------|:-------|:-----------|:-----------|:-----------|:-----------|:-------|:----------|-----:|
-| Study 1 | Subject 1 | Visit 1 | T1       | 1       | Test 1 | 2023-08-01 | 2023-08-02 | 2023-08-02 | 2023-08-03 | NA     | SCREENING |   -1 |
-| Study 1 | Subject 1 | Visit 2 | T1       | 0       | Test 1 | 2023-08-02 | 2023-08-02 | 2023-08-02 | 2023-08-03 | Y      | TREATMENT |    1 |
-| Study 1 | Subject 1 | Visit 3 | T1       | 2       | Test 1 | 2023-08-03 | 2023-08-02 | 2023-08-02 | 2023-08-03 | NA     | TREATMENT |    2 |
-| Study 1 | Subject 1 | Visit 3 | T2       | 100     | Test 2 | 2023-08-03 | 2023-08-02 | 2023-08-02 | 2023-08-03 | NA     | TREATMENT |    2 |
-| Study 1 | Subject 1 | Visit 4 | T3       | PASS    | Test 3 | 2023-08-04 | 2023-08-02 | 2023-08-02 | 2023-08-03 | NA     | FOLLOW-UP |    3 |
-| Study 1 | Subject 2 | Visit 1 | T1       | 1       | Test 1 | 2023-08-02 | 2023-08-03 | 2023-08-03 | 2023-08-04 | Y      | SCREENING |   -1 |
-| Study 1 | Subject 2 | Visit 2 | T1       | NA      | Test 1 | 2023-08-03 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | TREATMENT |    1 |
-| Study 1 | Subject 2 | Visit 3 | T1       | 2       | Test 1 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | TREATMENT |    2 |
-| Study 1 | Subject 2 | Visit 3 | T2       | 200     | Test 2 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | TREATMENT |    2 |
-| Study 1 | Subject 2 | Visit 4 | T3       | FAIL    | Test 3 | 2023-08-05 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | FOLLOW-UP |    3 |
+| USUBJID   | XXTEST | XXORRES | XXDTC      | XXBLFL | EPOCH     | XXDY | RFSTDTC    | RFXSTDTC   | RFXENDTC   |
+|:----------|:-------|:--------|:-----------|:-------|:----------|-----:|:-----------|:-----------|:-----------|
+| Subject 1 | Test 1 | 1       | 2023-08-01 | NA     | SCREENING |   -1 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
+| Subject 1 | Test 1 | 0       | 2023-08-02 | Y      | TREATMENT |    1 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
+| Subject 1 | Test 1 | 2       | 2023-08-03 | NA     | TREATMENT |    2 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
+| Subject 1 | Test 2 | 100     | 2023-08-03 | NA     | TREATMENT |    2 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
+| Subject 1 | Test 3 | PASS    | 2023-08-04 | NA     | FOLLOW-UP |    3 | 2023-08-02 | 2023-08-02 | 2023-08-03 |
+| Subject 2 | Test 1 | 1       | 2023-08-02 | Y      | SCREENING |   -1 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
+| Subject 2 | Test 1 | NA      | 2023-08-03 | NA     | TREATMENT |    1 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
+| Subject 2 | Test 1 | 2       | 2023-08-04 | NA     | TREATMENT |    2 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
+| Subject 2 | Test 2 | 200     | 2023-08-04 | NA     | TREATMENT |    2 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
+| Subject 2 | Test 3 | FAIL    | 2023-08-05 | NA     | FOLLOW-UP |    3 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
 
 Next, we will assign the sequence number using `assign_SEQ()`. This
 function also sorts the data set for you by whatever you make the
@@ -257,21 +259,25 @@ function also sorts the data set for you by whatever you make the
 sdtm_xx5 <- assign_SEQ(sdtm_xx4, 
                        key_vars = c("USUBJID", "XXTESTCD", "VISIT"),
                        seq_prefix = domain)
-knitr::kable(sdtm_xx5)
+
+# check the new variable
+sdtm_xx5 %>%
+  select(USUBJID, XXTESTCD, VISIT, XXDTC, XXSEQ) %>%
+  knitr::kable()
 ```
 
-| STUDYID | USUBJID   | VISIT   | XXTESTCD | XXORRES | XXTEST | XXDTC      | RFSTDTC    | RFXSTDTC   | RFXENDTC   | XXBLFL | EPOCH     | XXDY | XXSEQ |
-|:--------|:----------|:--------|:---------|:--------|:-------|:-----------|:-----------|:-----------|:-----------|:-------|:----------|-----:|------:|
-| Study 1 | Subject 1 | Visit 1 | T1       | 1       | Test 1 | 2023-08-01 | 2023-08-02 | 2023-08-02 | 2023-08-03 | NA     | SCREENING |   -1 |     1 |
-| Study 1 | Subject 1 | Visit 2 | T1       | 0       | Test 1 | 2023-08-02 | 2023-08-02 | 2023-08-02 | 2023-08-03 | Y      | TREATMENT |    1 |     2 |
-| Study 1 | Subject 1 | Visit 3 | T1       | 2       | Test 1 | 2023-08-03 | 2023-08-02 | 2023-08-02 | 2023-08-03 | NA     | TREATMENT |    2 |     3 |
-| Study 1 | Subject 1 | Visit 3 | T2       | 100     | Test 2 | 2023-08-03 | 2023-08-02 | 2023-08-02 | 2023-08-03 | NA     | TREATMENT |    2 |     4 |
-| Study 1 | Subject 1 | Visit 4 | T3       | PASS    | Test 3 | 2023-08-04 | 2023-08-02 | 2023-08-02 | 2023-08-03 | NA     | FOLLOW-UP |    3 |     5 |
-| Study 1 | Subject 2 | Visit 1 | T1       | 1       | Test 1 | 2023-08-02 | 2023-08-03 | 2023-08-03 | 2023-08-04 | Y      | SCREENING |   -1 |     1 |
-| Study 1 | Subject 2 | Visit 2 | T1       | NA      | Test 1 | 2023-08-03 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | TREATMENT |    1 |     2 |
-| Study 1 | Subject 2 | Visit 3 | T1       | 2       | Test 1 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | TREATMENT |    2 |     3 |
-| Study 1 | Subject 2 | Visit 3 | T2       | 200     | Test 2 | 2023-08-04 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | TREATMENT |    2 |     4 |
-| Study 1 | Subject 2 | Visit 4 | T3       | FAIL    | Test 3 | 2023-08-05 | 2023-08-03 | 2023-08-03 | 2023-08-04 | NA     | FOLLOW-UP |    3 |     5 |
+| USUBJID   | XXTESTCD | VISIT   | XXDTC      | XXSEQ |
+|:----------|:---------|:--------|:-----------|------:|
+| Subject 1 | T1       | Visit 1 | 2023-08-01 |     1 |
+| Subject 1 | T1       | Visit 2 | 2023-08-02 |     2 |
+| Subject 1 | T1       | Visit 3 | 2023-08-03 |     3 |
+| Subject 1 | T2       | Visit 3 | 2023-08-03 |     4 |
+| Subject 1 | T3       | Visit 4 | 2023-08-04 |     5 |
+| Subject 2 | T1       | Visit 1 | 2023-08-02 |     1 |
+| Subject 2 | T1       | Visit 2 | 2023-08-03 |     2 |
+| Subject 2 | T1       | Visit 3 | 2023-08-04 |     3 |
+| Subject 2 | T2       | Visit 3 | 2023-08-04 |     4 |
+| Subject 2 | T3       | Visit 4 | 2023-08-05 |     5 |
 
 Now that the bulk of the data cleaning is complete, we will convert all
 date columns to character columns and all `NA` values to `""` so that
