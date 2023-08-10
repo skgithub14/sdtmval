@@ -27,7 +27,7 @@ write_tbl_to_xpt <- function(tbl, filename, dir) {
 
 #' Convert SDTM QC code from a .Rmd file to .R script
 #'
-#' Wraps `knitr::purl()` to create an .R script from a .Rmd file. It can also
+#' Wraps [knitr::purl()] to create an .R script from a .Rmd file. It can also
 #' auto-archive the .Rmd file to a `[dir]/archive` sub-directory.
 #'
 #' @details
@@ -45,6 +45,8 @@ write_tbl_to_xpt <- function(tbl, filename, dir) {
 #'
 #' @returns nothing
 #' @export
+#'
+#' @seealso [write_sessionInfo()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")
@@ -78,7 +80,7 @@ convert_to_script <- function(dir, filename, archive = F) {
 
 #' Write R session information for a script to a .txt file
 #'
-#' Writes a .txt file of the output from `utils::sessionInfo()` with the file
+#' Writes a .txt file of the output from [utils::sessionInfo()] with the file
 #' name `[filename]_sessionInfo.txt`. By creating a log of the R session
 #' conditions a script was run with, results from the script can be reproduced
 #' in the future.
@@ -88,6 +90,8 @@ convert_to_script <- function(dir, filename, archive = F) {
 #'
 #' @returns nothing
 #' @export
+#'
+#' @seealso [convert_to_script()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")

@@ -2,18 +2,18 @@
 % Please edit documentation in R/compare.R
 \name{inspect_diffs}
 \alias{inspect_diffs}
-\title{Inspect differences by column using \code{compareDF::compare_df()} output}
+\title{Inspect differences between two data frames by column using}
 \usage{
 inspect_diffs(comp, diff_col, id_cols, other_cols = NULL)
 }
 \arguments{
-\item{comp}{a list which output from \code{compareDF::compare_df()}}
+\item{comp}{a list which output from \code{\link[compareDF:compare_df]{compareDF::compare_df()}}}
 
 \item{diff_col}{a string, the column name to show difference for}
 
 \item{id_cols}{a character vector of column names that collectively form a
 unique row, generally this should be the same vector supplied to the
-\code{group_col} argument of the original \code{compareDF::compare_df()} call.}
+\code{group_col} argument of the original \code{\link[compareDF:compare_df]{compareDF::compare_df()}} call.}
 
 \item{other_cols}{optional, a character vector of additional columns to show
 in the output data frame.}
@@ -23,7 +23,7 @@ a data frame
 }
 \description{
 Provides a filtered data frame which shows only the rows of
-\code{comparison_df} element of \code{compareDF::compare_df()} output list that has
+\code{comparison_df} element of \code{\link[compareDF:compare_df]{compareDF::compare_df()}} output list that has
 differences. Only the column names specified in \code{diff_col}, \code{id_cols}, and
 \code{other_cols}, along with \code{grp} and \code{chng_type} will be shown.
 }

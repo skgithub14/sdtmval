@@ -11,6 +11,8 @@
 #'  and the data frames are the EDC data tables
 #' @export
 #'
+#' @seealso [read_sdtm_tbls()]
+#'
 #' @examples
 #' edc_tbls <- c("xx", "vd")
 #' edc_dir <- system.file("extdata", package = "sdtmval")
@@ -40,6 +42,8 @@ read_edc_tbls <- function(edc_tbls, dir) {
 #' @returns a named list of data frames where the names are taken from
 #' `sdtm_tbls` and the data frames are the SDTM data
 #' @export
+#'
+#' @seealso [read_edc_tbls()]
 #'
 #' @examples
 #' sdtm_tbls <- "dm"

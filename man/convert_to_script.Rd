@@ -21,7 +21,7 @@ extension)}
 nothing
 }
 \description{
-Wraps \code{knitr::purl()} to create an .R script from a .Rmd file. It can also
+Wraps \code{\link[knitr:knit]{knitr::purl()}} to create an .R script from a .Rmd file. It can also
 auto-archive the .Rmd file to a \verb{[dir]/archive} sub-directory.
 }
 \details{
@@ -35,4 +35,7 @@ different extension (.R)
 work_dir <- system.file("extdata", package = "sdtmval")
 convert_to_script(dir = work_dir, filename = "test_notebook")
 
+}
+\seealso{
+\code{\link[=write_sessionInfo]{write_sessionInfo()}}
 }

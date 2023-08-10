@@ -3,7 +3,7 @@
 \docType{data}
 \name{xx_no_meta_data}
 \alias{xx_no_meta_data}
-\title{Example SDTM domain XX without meta data}
+\title{Example SDTM domain table XX without meta data}
 \format{
 \subsection{'xx_no_meta_data'}{
 

@@ -15,7 +15,7 @@ write_sessionInfo(dir, filename)
 nothing
 }
 \description{
-Writes a .txt file of the output from \code{utils::sessionInfo()} with the file
+Writes a .txt file of the output from \code{\link[utils:sessionInfo]{utils::sessionInfo()}} with the file
 name \verb{[filename]_sessionInfo.txt}. By creating a log of the R session
 conditions a script was run with, results from the script can be reproduced
 in the future.
@@ -24,4 +24,7 @@ in the future.
 work_dir <- system.file("extdata", package = "sdtmval")
 write_sessionInfo(dir = work_dir, filename = "test_script.R")
 
+}
+\seealso{
+\code{\link[=convert_to_script]{convert_to_script()}}
 }

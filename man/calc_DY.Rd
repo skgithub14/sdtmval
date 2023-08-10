@@ -37,3 +37,6 @@ df <- data.frame(
 calc_DY(df, DY_col = "XXDY", DTC_col = "DTC")
 
 }
+\seealso{
+\code{\link[=create_BLFL]{create_BLFL()}}, \code{\link[=create_EPOCH]{create_EPOCH()}}
+}

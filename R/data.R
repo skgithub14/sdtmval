@@ -1,4 +1,4 @@
-#' Example EDC for form/table 'XX'
+#' Example EDC data for form/table 'XX'
 #'
 #' This is an example data set to simulate raw EDC data from the fake form/table
 #' 'XX'.
@@ -15,7 +15,7 @@
 "edc_xx"
 
 
-#' Example SDTM domain XX without meta data
+#' Example SDTM domain table XX without meta data
 #'
 #' This data set is used to test the [assign_meta_data()] function and contains
 #' a fake SDTM domain XX but without label or lengths assigned to the column
@@ -39,7 +39,7 @@
 "xx_no_meta_data"
 
 
-#' Example EDC form/table 'VD'
+#' Example EDC data for form/table 'VD'
 #'
 #' This is an example data set to simulate raw EDC data from the 'VD' form/table
 #' which contains visit date information by subject.

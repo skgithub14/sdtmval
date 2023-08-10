@@ -18,7 +18,7 @@ character/date columns with \code{""}.
 }
 \details{
 This function should be applied as one of the last steps in the data process
-but before \code{\link{assign_meta_data}}.
+but before \code{\link[=assign_meta_data]{assign_meta_data()}}.
 }
 \examples{
 df <- data.frame(
@@ -28,4 +28,7 @@ df <- data.frame(
 )
 format_chars_and_dates(df)
 
+}
+\seealso{
+\code{\link[=trim_and_make_blanks_NA]{trim_and_make_blanks_NA()}}
 }

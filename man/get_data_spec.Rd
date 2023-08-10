@@ -23,10 +23,10 @@ a data frame of the variable specification for \code{domain}
 Reads the specified domain variable specification sheet from an MS Excel file.
 }
 \details{
-The \code{read_excel()} function will causes an access denied warning when reading
-in a read-only specification file. This does not affect the data import.
-Variables will be arranged in descending order per the \code{"Order"} column in
-the specification.
+The \code{\link[readxl:read_excel]{readxl::read_excel()}} function will causes an access denied warning when
+reading in a read-only specification file. This does not affect the data
+import. Variables will be arranged in descending order per the \code{"Order"}
+column in the specification.
 }
 \examples{
 work_dir <- system.file("extdata", package = "sdtmval")
@@ -34,4 +34,7 @@ spec <- get_data_spec(domain = "XX",
                       dir = work_dir,
                       filename = "spec.xlsx")
 
+}
+\seealso{
+\code{\link[=get_key_vars]{get_key_vars()}}, \code{\link[=get_codelist]{get_codelist()}}, \code{\link[=assign_meta_data]{assign_meta_data()}}
 }

@@ -24,6 +24,8 @@
 #' @returns a modified copy of `tbl` with the new column `[domain]BLFL`
 #' @export
 #'
+#' @seealso [create_EPOCH()], [calc_DY()]
+#'
 #' @examples
 #' df <- dplyr::tibble(
 #'   USUBJID = c(
@@ -121,6 +123,8 @@ create_BLFL <- function(tbl,
 #' @returns a modified copy of `tbl` with the `EPOCH` column
 #' @export
 #'
+#' @seealso [create_BLFL()], [calc_DY()]
+#'
 #' @examples
 #' df <- data.frame(
 #'   DTC = c("2023-08-01", "2023-08-02", "2023-08-03", "2023-08-04"),
@@ -168,6 +172,8 @@ create_EPOCH <- function(tbl,
 #'
 #' @returns a modified copy of `tbl` with the new DY column
 #' @export
+#'
+#' @seealso [create_BLFL()], [create_EPOCH()]
 #'
 #' @examples
 #' df <- data.frame(

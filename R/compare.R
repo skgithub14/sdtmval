@@ -1,16 +1,16 @@
-#' View `compareDF::compare_df()` summary
+#' View summary of difference between two data frames by column
 #'
 #' Prints two items, the first being the `change_summary` element of a
-#' `compareDF::compare_df()` output list that shows a comparison of the total
+#' [compareDF::compare_df()] output list that shows a comparison of the total
 #' number or records between the two data frames being compared. The second
 #' printed item is a two column matrix that shows the number of `"+"` entries
-#' (adds) and the number of `"-"` entries (dels) from a `compare_df()` output
-#' list. The rows of the matrix are the columns in the two data frames being
-#' compared. This function is used to summarize the output of
-#' `compareDF::compare_df()` so the user can quickly see which columns have the
-#' most differences.
+#' (adds) and the number of `"-"` entries (dels) from a
+#' [compareDF::compare_df()] output list. The rows of the matrix are the columns
+#' in the two data frames being compared. This function is used to summarize the
+#' output of [compareDF::compare_df()] so the user can quickly see which columns
+#' have the most differences.
 #'
-#' @param comp a list output from `compareDF::compare_df()`
+#' @param comp a list output from [compareDF::compare_df()]
 #'
 #' @returns nothing
 #' @export
@@ -27,18 +27,18 @@ summary_diffs <- function(comp) {
 }
 
 
-#' Inspect differences by column using `compareDF::compare_df()` output
+#' Inspect differences between two data frames by column using
 #'
 #' Provides a filtered data frame which shows only the rows of
-#' `comparison_df` element of `compareDF::compare_df()` output list that has
+#' `comparison_df` element of [compareDF::compare_df()] output list that has
 #' differences. Only the column names specified in `diff_col`, `id_cols`, and
 #' `other_cols`, along with `grp` and `chng_type` will be shown.
 #'
-#' @param comp a list which output from `compareDF::compare_df()`
+#' @param comp a list which output from [compareDF::compare_df()]
 #' @param diff_col a string, the column name to show difference for
 #' @param id_cols a character vector of column names that collectively form a
 #'  unique row, generally this should be the same vector supplied to the
-#'  `group_col` argument of the original `compareDF::compare_df()` call.
+#'  `group_col` argument of the original [compareDF::compare_df()] call.
 #' @param other_cols optional, a character vector of additional columns to show
 #'  in the output data frame.
 #'
@@ -74,8 +74,8 @@ inspect_diffs <- function(comp, diff_col, id_cols, other_cols = NULL) {
 
 #' Compare production to QC versions of an SDTM table
 #'
-#' Wraps `compareDF::compare_df()` function and prints a high level summary
-#' using \code{\link{summary_diffs}}. The arguments of `compareDF::compare_df()`
+#' Wraps [compareDF::compare_df()] function and prints a high level summary
+#' using [summary_diffs()]. The arguments of [compareDF::compare_df()]
 #' are set to `stop_on_error = F` to avoid errors if the data frames are the
 #' same, and `group_col` is set to `key_vars`.
 #'
@@ -85,8 +85,8 @@ inspect_diffs <- function(comp, diff_col, id_cols, other_cols = NULL) {
 #' comparing `qc` and `prod`. Ideally this is the key variables for the domain
 #' as set out in the specification.
 #'
-#' @returns a named list as returned by `compareDF::compare_df()`. A side effect
-#' also prints a high level summary using `summary_diff()`.
+#' @returns a named list as returned by [compareDF::compare_df()]. A side effect
+#' also prints a high level summary using [summary_diffs()].
 #' @export
 compare_qc_to_prod <- function(qc, prod, group_col) {
   comp <- compareDF::compare_df(qc,

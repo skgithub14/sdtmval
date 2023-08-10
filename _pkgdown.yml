@@ -1,4 +1,59 @@
 url: https://skgithub14.github.io/sdtmval/
 template:
   bootstrap: 5
+reference:
+- title: Compare
+  desc: Compare QC to production STDM data sets
+- contents:
+  - compare_qc_to_prod
+  - inspect_diffs
+  - summary_diffs
+- title: Dates
+  desc: Manipulate full and partial dates
+- contents:
+  - impute_pdates
+  - reshape_adates
+  - reshape_pdates
+  - trim_dates
+- title: Format
+  desc: Format data
+- contents:
+  - format_chars_and_dates
+  - trim_and_make_blanks_NA
+- title: Methods
+  desc: Create SDTM variables using common methods
+- contents:
+  - assign_SEQ
+  - calc_DY
+  - create_BLFL
+  - create_EPOCH
+- title: Read
+  desc: Import data
+- contents:
+  - read_edc_tbls
+  - read_sdtm_tbls
+- title: Specification data
+  desc: Retrieve and apply specification data from a .xlsx file
+- contents:
+  - assign_meta_data
+  - get_codelist
+  - get_data_spec
+  - get_key_vars
+- title: Write
+  desc: Write SAS transport files and archive code
+- contents:
+  - convert_to_script
+  - write_sessionInfo
+  - write_tbl_to_xpt
+- title: Example Data
+  desc: Data used for examples and testing
+- contents:
+  - dm
+  - edc_xx
+  - spec_codelists
+  - spec_datasets
+  - spec_XX
+  - vd
+  - xx_no_meta_data
+
 

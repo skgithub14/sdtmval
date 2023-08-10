@@ -16,12 +16,12 @@ comparing \code{qc} and \code{prod}. Ideally this is the key variables for the d
 as set out in the specification.}
 }
 \value{
-a named list as returned by \code{compareDF::compare_df()}. A side effect
-also prints a high level summary using \code{summary_diff()}.
+a named list as returned by \code{\link[compareDF:compare_df]{compareDF::compare_df()}}. A side effect
+also prints a high level summary using \code{\link[=summary_diffs]{summary_diffs()}}.
 }
 \description{
-Wraps \code{compareDF::compare_df()} function and prints a high level summary
-using \code{\link{summary_diffs}}. The arguments of \code{compareDF::compare_df()}
+Wraps \code{\link[compareDF:compare_df]{compareDF::compare_df()}} function and prints a high level summary
+using \code{\link[=summary_diffs]{summary_diffs()}}. The arguments of \code{\link[compareDF:compare_df]{compareDF::compare_df()}}
 are set to \code{stop_on_error = F} to avoid errors if the data frames are the
 same, and \code{group_col} is set to \code{key_vars}.
 }

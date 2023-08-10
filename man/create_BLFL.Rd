@@ -66,3 +66,6 @@ df <- dplyr::tibble(
 create_BLFL(df, sort_date = "XXDTC", domain = "XX")
 
 }
+\seealso{
+\code{\link[=create_EPOCH]{create_EPOCH()}}, \code{\link[=calc_DY]{calc_DY()}}
+}
