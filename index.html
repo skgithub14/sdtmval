@@ -104,16 +104,17 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p>{sdtmval} provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. Many data cleaning steps and SDTM processes are used repeatedly in different SDTM domain validation scripts. Functionalizing these repetitive tasks allow statistical programmers to focus on coding the unique aspects of a SDTM domain while standardize their code base across studies and domains. This should lead to fewer bugs and improved code readability too. The tools include utilities for:</p>
+<p>{sdtmval} provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) domain data sets. Many data cleaning steps and SDTM processes are used repeatedly in different SDTM domain validation scripts. Functionalizing these repetitive tasks allows statistical programmers to focus on coding the unique aspects of a SDTM domain while standardize their code base across studies and domains. This should lead to fewer bugs and improved code readability too. {sdtmval} features include:</p>
 <ul>
-<li><p>Creating common SDTM variables using the methods BLFL, DY, EPOCH, and SEQ</p></li>
-<li><p>Imputing and formatting full and partial dates: see <code>vignette("Dates")</code></p></li>
+<li><p>Automating the BLFL, DY, EPOCH, and SEQ methods to create new variables</p></li>
+<li><p>Imputing and formatting full and partial dates: see <a href="doc/Dates.html"><code>vignette("Dates")</code></a></p></li>
 <li><p>Comparing QC versus production SDTM domain tables (vignette coming soon)</p></li>
-<li><p>Applying study specification data to a domain such as variable labels, lengths, code mapping, and sorting</p></li>
+<li><p>Applying specification data such as variable labels, lengths, code mapping, and sorting</p></li>
 <li><p>Importing EDC and SDTM data from .csv and .sas7bdat files</p></li>
-<li><p>Data formatting</p></li>
-<li><p>Writing .sas7dbat files (convenience wrapper for <code><a href="https://haven.tidyverse.org/reference/read_xpt.html" class="external-link">haven::write_xpt()</a></code>)</p></li>
+<li><p>Writing .xpt files (convenience wrapper for <code><a href="https://haven.tidyverse.org/reference/read_xpt.html" class="external-link">haven::write_xpt()</a></code>)</p></li>
 <li><p>Converting .Rmd files to .R scripts (convenience wrapper for <code><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knitr::purl()</a></code>)</p></li>
+<li><p>Logging R session information for reproducibility</p></li>
+<li><p>Data formatting</p></li>
 </ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -122,11 +123,14 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"skgithub14/sdtmval"</span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><br></p>
+<hr>
 </div>
 <div class="section level2">
 <h2 id="a-typical-work-flow-example">A typical work flow example<a class="anchor" aria-label="anchor" href="#a-typical-work-flow-example"></a>
 </h2>
-<p>In this example work flow, we will import a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain ‘XX’.</p>
+<p>In this example work flow, we will import a raw EDC table and transform it into a SDTM domain table. We will use the made-up domain ‘XX’ along with some example data included in {sdtmval}.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set-up</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/skgithub14/sdtmval" class="external-link">sdtmval</a></span><span class="op">)</span></span>
@@ -134,7 +138,7 @@
 <span></span>
 <span><span class="va">domain</span> <span class="op">&lt;-</span> <span class="st">"XX"</span></span>
 <span></span>
-<span><span class="co"># working directory (can be anything but we will use a sdtmval package directory)</span></span>
+<span><span class="co"># set working directory to location of sdtmval package example data</span></span>
 <span><span class="va">work_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"sdtmval"</span><span class="op">)</span></span></code></pre></div>
 <p>The majority of the data needed is in the EDC form/table xx.csv. There is also visit date data in the raw EDC form/table vd.csv and study start and end dates by subject in the production SDTM table dm.sas7dbat. We will start by importing all of the data we need using the two functions <code><a href="reference/read_edc_tbls.html">read_edc_tbls()</a></code> and <code><a href="reference/read_sdtm_tbls.html">read_sdtm_tbls()</a></code>. The main difference between these two functions is that the first reads in .csv files and the second reads in .sas7dbat files.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -383,89 +387,7 @@
 <p>Now we will begin creating the SDTM XX domain using the EDC XX form as the basis.</p>
 <p>First, it needs some pre-processing because there is extra white space in some of the variables. We also want to turn all NA equivalent values like <code>""</code> and <code>" "</code> to <code>NA</code> for the entire data set so we have consistent handling of missing values during data processing. The function <code><a href="reference/trim_and_make_blanks_NA.html">trim_and_make_blanks_NA()</a></code> does both of these tasks.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sdtm_xx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/trim_and_make_blanks_NA.html">trim_and_make_blanks_NA</a></span><span class="op">(</span><span class="va">edc_dat</span><span class="op">$</span><span class="va">xx</span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sdtm_xx1</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="left">STUDYID</th>
-<th align="left">USUBJID</th>
-<th align="left">VISIT</th>
-<th align="left">XXTESTCD</th>
-<th align="left">XXORRES</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 1</td>
-<td align="left">T1</td>
-<td align="left">1</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 2</td>
-<td align="left">T1</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
-<td align="left">T1</td>
-<td align="left">2</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
-<td align="left">T2</td>
-<td align="left">100</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 4</td>
-<td align="left">T3</td>
-<td align="left">PASS</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 1</td>
-<td align="left">T1</td>
-<td align="left">1</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 2</td>
-<td align="left">T1</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
-<td align="left">T1</td>
-<td align="left">2</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
-<td align="left">T2</td>
-<td align="left">200</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 4</td>
-<td align="left">T3</td>
-<td align="left">FAIL</td>
-</tr>
-</tbody>
-</table>
+<code class="sourceCode R"><span><span class="va">sdtm_xx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/trim_and_make_blanks_NA.html">trim_and_make_blanks_NA</a></span><span class="op">(</span><span class="va">edc_dat</span><span class="op">$</span><span class="va">xx</span><span class="op">)</span></span></code></pre></div>
 <p>Next, using the codelists we retrieved from the spec earlier, we can create the <code>XXTEST</code> variable.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare the code list so it can be used by dplyr::recode() </span></span>
@@ -593,8 +515,7 @@
 <span>  <span class="fu"><a href="reference/create_EPOCH.html">create_EPOCH</a></span><span class="op">(</span>date_col <span class="op">=</span> <span class="st">"XXDTC"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="co"># XXDY</span></span>
-<span>  <span class="fu"><a href="reference/calc_DY.html">calc_DY</a></span><span class="op">(</span>DY_col <span class="op">=</span> <span class="st">"XXDY"</span>,</span>
-<span>          DTC_col <span class="op">=</span> <span class="st">"XXDTC"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="reference/calc_DY.html">calc_DY</a></span><span class="op">(</span>DY_col <span class="op">=</span> <span class="st">"XXDY"</span>, DTC_col <span class="op">=</span> <span class="st">"XXDTC"</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sdtm_xx4</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
@@ -985,204 +906,7 @@
 </table>
 <p>Now that the bulk of the data cleaning is complete, we will convert all date columns to character columns and all <code>NA</code> values to <code>""</code> so that our validation table matches the production table. To do this, we will use <code><a href="reference/format_chars_and_dates.html">format_chars_and_dates()</a></code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sdtm_xx6</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/format_chars_and_dates.html">format_chars_and_dates</a></span><span class="op">(</span><span class="va">sdtm_xx5</span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sdtm_xx6</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="6%">
-<col width="8%">
-<col width="6%">
-<col width="7%">
-<col width="6%">
-<col width="5%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="5%">
-<col width="8%">
-<col width="4%">
-<col width="5%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">STUDYID</th>
-<th align="left">USUBJID</th>
-<th align="left">VISIT</th>
-<th align="left">XXTESTCD</th>
-<th align="left">XXORRES</th>
-<th align="left">XXTEST</th>
-<th align="left">XXDTC</th>
-<th align="left">RFSTDTC</th>
-<th align="left">RFXSTDTC</th>
-<th align="left">RFXENDTC</th>
-<th align="left">XXBLFL</th>
-<th align="left">EPOCH</th>
-<th align="right">XXDY</th>
-<th align="right">XXSEQ</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 1</td>
-<td align="left">T1</td>
-<td align="left">1</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-01</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left"></td>
-<td align="left">SCREENING</td>
-<td align="right">-1</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 2</td>
-<td align="left">T1</td>
-<td align="left">0</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">Y</td>
-<td align="left">TREATMENT</td>
-<td align="right">1</td>
-<td align="right">2</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
-<td align="left">T1</td>
-<td align="left">2</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left"></td>
-<td align="left">TREATMENT</td>
-<td align="right">2</td>
-<td align="right">3</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 3</td>
-<td align="left">T2</td>
-<td align="left">100</td>
-<td align="left">Test 2</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left"></td>
-<td align="left">TREATMENT</td>
-<td align="right">2</td>
-<td align="right">4</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 1</td>
-<td align="left">Visit 4</td>
-<td align="left">T3</td>
-<td align="left">PASS</td>
-<td align="left">Test 3</td>
-<td align="left">2023-08-04</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left"></td>
-<td align="left">FOLLOW-UP</td>
-<td align="right">3</td>
-<td align="right">5</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 1</td>
-<td align="left">T1</td>
-<td align="left">1</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-02</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left">Y</td>
-<td align="left">SCREENING</td>
-<td align="right">-1</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 2</td>
-<td align="left">T1</td>
-<td align="left"></td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left"></td>
-<td align="left">TREATMENT</td>
-<td align="right">1</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
-<td align="left">T1</td>
-<td align="left">2</td>
-<td align="left">Test 1</td>
-<td align="left">2023-08-04</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left"></td>
-<td align="left">TREATMENT</td>
-<td align="right">2</td>
-<td align="right">3</td>
-</tr>
-<tr class="odd">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 3</td>
-<td align="left">T2</td>
-<td align="left">200</td>
-<td align="left">Test 2</td>
-<td align="left">2023-08-04</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left"></td>
-<td align="left">TREATMENT</td>
-<td align="right">2</td>
-<td align="right">4</td>
-</tr>
-<tr class="even">
-<td align="left">Study 1</td>
-<td align="left">Subject 2</td>
-<td align="left">Visit 4</td>
-<td align="left">T3</td>
-<td align="left">FAIL</td>
-<td align="left">Test 3</td>
-<td align="left">2023-08-05</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-03</td>
-<td align="left">2023-08-04</td>
-<td align="left"></td>
-<td align="left">FOLLOW-UP</td>
-<td align="right">3</td>
-<td align="right">5</td>
-</tr>
-</tbody>
-</table>
+<code class="sourceCode R"><span><span class="va">sdtm_xx6</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/format_chars_and_dates.html">format_chars_and_dates</a></span><span class="op">(</span><span class="va">sdtm_xx5</span><span class="op">)</span></span></code></pre></div>
 <p>As a final step, we re-order the columns according to the domain spec and drop the extra columns using this line of code: <code>select(any_of(spec$Variable))</code>. Then we will assign the meta data from the spec to each column using <code><a href="reference/assign_meta_data.html">assign_meta_data()</a></code>. The meta data includes the labels for each column and their maximum allowed character lengths.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sdtm_xx7</span> <span class="op">&lt;-</span> <span class="va">sdtm_xx6</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
