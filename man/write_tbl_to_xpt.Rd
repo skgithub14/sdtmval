@@ -30,7 +30,7 @@ Files will be written using version 5 .xpt files
 }
 \examples{
 tbl <- dplyr::tibble(one = as.numeric(1:3), two = letters[1:3])
-path <- tempfile(fileext = ".xpt")
-write_tbl_to_xpt(tbl, filename = path)
+path <- tempdir()
+write_tbl_to_xpt(tbl, filename = "test.xpt", dir = path)
 
 }

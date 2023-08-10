@@ -1,9 +1,9 @@
 test_that("write_tbl_to_xpt", {
 
   tbl <- dplyr::tibble(one = as.numeric(1:3), two = letters[1:3])
-  path <- tempfile()
-  write_tbl_to_xpt(tbl, filename = paste0(path, ".xpt"))
-  check <- haven::read_xpt(paste0(path, ".xpt"))
+  path <- tempdir()
+  write_tbl_to_xpt(tbl, filename = "test.xpt", dir = path)
+  check <- haven::read_xpt(file.path(path, "test.xpt"))
   expect_identical(tbl, check)
 
 })
@@ -12,16 +12,16 @@ test_that("write_tbl_to_xpt", {
 test_that("write_sessionInfo", {
 
   # what is expected to be returned
-  path_expected <- tempfile()
+  path_expected <- tempdir()
   utils::sessionInfo() %>%
     utils::capture.output() %>%
-    writeLines(paste0(path_expected, ".txt"))
-  out_expected <- readLines(paste0(path_expected, ".txt"))
+    writeLines(file.path(path_expected, "expected.txt"))
+  out_expected <- readLines(file.path(path_expected, "expected.txt"))
 
   # what is actually returned
-  path_actual <- tempfile()
-  write_sessionInfo(paste0(path_actual, ".R"))
-  out_actual <- readLines(paste0(path_actual, "_sessionInfo.txt"))
+  path_actual <- tempdir()
+  write_sessionInfo(filename = "actual.R", dir = path_actual)
+  out_actual <- readLines(file.path(path_actual, "actual_sessionInfo.txt"))
 
   expect_equal(out_actual, out_expected)
 })

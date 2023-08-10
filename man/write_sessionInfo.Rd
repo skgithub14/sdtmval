@@ -22,8 +22,8 @@ conditions a script was run with, results from the script can be reproduced
 in the future.
 }
 \examples{
-path <- tempfile(fileext = ".R")
-write_sessionInfo(path)
+path <- tempdir()
+write_sessionInfo(filename = "test.R", dir = path)
 
 }
 \seealso{
