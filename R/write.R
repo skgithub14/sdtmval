@@ -18,8 +18,8 @@
 #'
 #' @examples
 #' tbl <- dplyr::tibble(one = as.numeric(1:3), two = letters[1:3])
-#' path <- tempfile(fileext = ".xpt")
-#' write_tbl_to_xpt(tbl, filename = path)
+#' path <- tempdir()
+#' write_tbl_to_xpt(tbl, filename = "test.xpt", dir = path)
 #'
 write_tbl_to_xpt <- function(tbl, filename, dir = NULL, label = NULL) {
 
@@ -140,8 +140,8 @@ convert_to_script <- function(filename, dir = NULL, archive = F) {
 #' @seealso [convert_to_script()]
 #'
 #' @examples
-#' path <- tempfile(fileext = ".R")
-#' write_sessionInfo(path)
+#' path <- tempdir()
+#' write_sessionInfo(filename = "test.R", dir = path)
 #'
 write_sessionInfo <- function (filename, dir = NULL) {
 
@@ -149,15 +149,17 @@ write_sessionInfo <- function (filename, dir = NULL) {
   if (stringr::str_detect(filename, "\\.R$")) {
     filename <- stringr::str_remove(filename, "\\.R$")
   }
-  if (is.null(dir)) {
-    dir = ""
-  }
 
-  # set the log file name
+  # set the log file name and path
   log_fname <- paste0(filename, "_sessionInfo.txt")
+  if (is.null(dir)) {
+    write_path <- log_fname
+  } else {
+    write_path <- file.path(dir, log_fname)
+  }
 
   # get session info and write it to a text file
   utils::sessionInfo() %>%
     utils::capture.output() %>%
-    writeLines(paste0(dir, log_fname))
+    writeLines(write_path)
 }
