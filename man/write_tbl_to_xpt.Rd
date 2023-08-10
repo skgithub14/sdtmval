@@ -4,15 +4,20 @@
 \alias{write_tbl_to_xpt}
 \title{Write a SAS transport file (.xpt)}
 \usage{
-write_tbl_to_xpt(tbl, filename, dir)
+write_tbl_to_xpt(tbl, filename, dir = NULL, label = NULL)
 }
 \arguments{
 \item{tbl}{a data frame to write}
 
 \item{filename}{a string, the SDTM domain or supplemental domain name which
-will become the file name and the name attribute of the transport file}
+will become the file name and the name attribute of the transport file, the
+.xpt file extension is optional}
 
-\item{dir}{a string, the directory to write to}
+\item{dir}{a string, the directory to write to, default is \code{NULL}}
+
+\item{label}{a string, the data set name/label for the \code{\link[haven:read_xpt]{haven::write_xpt()}}
+\code{name} argument. The default is \code{NULL} in which case the \code{filename} will be
+used. \code{label} must be 8 characters or less.}
 }
 \value{
 nothing
@@ -24,7 +29,8 @@ Writes a data frame to a SAS transport file (.xpt) named like \code{"[domain].xp
 Files will be written using version 5 .xpt files
 }
 \examples{
-work_dir <- system.file("extdata", package = "sdtmval")
-write_tbl_to_xpt(sdtmval::edc_xx, filename = "test", dir = work_dir)
+tbl <- dplyr::tibble(one = as.numeric(1:3), two = letters[1:3])
+path <- tempfile(fileext = ".xpt")
+write_tbl_to_xpt(tbl, filename = path)
 
 }
