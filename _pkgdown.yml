@@ -2,12 +2,6 @@ url: https://skgithub14.github.io/sdtmval/
 template:
   bootstrap: 5
 reference:
-- title: Compare
-  desc: Compare QC to production STDM data sets
-- contents:
-  - compare_qc_to_prod
-  - inspect_diffs
-  - summary_diffs
 - title: Dates
   desc: Manipulate full and partial dates
 - contents:

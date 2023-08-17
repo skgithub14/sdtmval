@@ -27,9 +27,6 @@ readability too. {sdtmval} features include:
 - Imputing and formatting full and partial dates: see
   [`vignette("Dates")`](https://skgithub14.github.io/sdtmval/articles/dates.html)
 
-- Comparing QC versus production SDTM domain tables (vignette coming
-  soon)
-
 - Applying specification data such as variable labels, lengths, code
   mapping, and sorting
 
@@ -45,6 +42,12 @@ readability too. {sdtmval} features include:
 - Data formatting
 
 ## Installation
+
+You can install the release version of {sdtmval} from CRAN with:
+
+``` r
+install.packages("sdtmval")
+```
 
 You can install the development version of {sdtmval} from
 [GitHub](https://github.com/) with:

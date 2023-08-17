@@ -4,11 +4,13 @@
 
 ## Major changes
 
-* None
+* removed compare family of functions
 
 ## Minor changes
 
-* None
+* added example for `create_STAT()` function
+
+* prepared documentation for CRAN submission
 
 # sdtmval 0.3.0
 

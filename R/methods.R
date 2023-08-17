@@ -60,44 +60,47 @@ create_BLFL <- function(tbl,
     PDVN <- paste0(sample(letters, size = 25), collapse = "")
   }
 
-  tbl %>%
+  tbl <- tbl %>%
     dplyr::arrange(dplyr::across(tidyselect::all_of(c(grouping_vars, sort_date)))) %>%
-    dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars))) %>%
+    dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars)))
 
     # evaluate baseline differently based on `compare_date_method`
-    {
-      if (compare_date_method == "on or before") {
-        dplyr::mutate(.,
-               "{PDVN}" := dplyr::if_else(
-                 as.Date((!!rlang::sym(sort_date))) <= as.Date((!!rlang::sym(RFSTDTC))) &
-                   !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
-                 dplyr::row_number(),
-                 NA_integer_)
-        )
-      } else if (compare_date_method == "before") {
-        dplyr::mutate(.,
-               "{PDVN}" := dplyr::if_else(
-                 as.Date((!!rlang::sym(sort_date))) < as.Date((!!rlang::sym(RFSTDTC))) &
-                   !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
-                 dplyr::row_number(),
-                 NA_integer_)
-        )
-      } else {
-        stop("Argument `compare_date_method` must be one of `c('on or before', 'before')`")
-      }
-    } %>%
+    if (compare_date_method == "on or before") {
+      tbl <- tbl %>%
+        dplyr::mutate(
+          "{PDVN}" := dplyr::if_else(
+            as.Date((!!rlang::sym(sort_date))) <= as.Date((!!rlang::sym(RFSTDTC))) &
+              !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
+            dplyr::row_number(),
+            NA_integer_)
+          )
+    } else if (compare_date_method == "before") {
+      tbl <- tbl %>%
+        dplyr::mutate(
+          "{PDVN}" := dplyr::if_else(
+            as.Date((!!rlang::sym(sort_date))) < as.Date((!!rlang::sym(RFSTDTC))) &
+              !is.na(!!rlang::sym(paste0(stringr::str_to_upper(domain), "ORRES"))),
+            dplyr::row_number(),
+            NA_integer_)
+          )
+    } else {
+      stop("Argument `compare_date_method` must be one of `c('on or before', 'before')`")
+    }
 
+  tbl <- tbl %>%
     dplyr::mutate(
-      "{stringr::str_to_upper(domain)}BLFL" := dplyr::case_when(
-        all(is.na(!!rlang::sym(PDVN))) ~ NA_character_,
-        is.na(!!rlang::sym(PDVN)) ~ NA_character_,
-        (!!rlang::sym(PDVN)) == suppressWarnings(max(!!rlang::sym(PDVN),
-                                                     na.rm = T)) ~ "Y",
-        TRUE ~ NA_character_
-      )
-    ) %>%
-    dplyr::select(-tidyselect::all_of(PDVN)) %>%
-    dplyr::ungroup()
+    "{stringr::str_to_upper(domain)}BLFL" := dplyr::case_when(
+      all(is.na(!!rlang::sym(PDVN))) ~ NA_character_,
+      is.na(!!rlang::sym(PDVN)) ~ NA_character_,
+      (!!rlang::sym(PDVN)) == suppressWarnings(max(!!rlang::sym(PDVN),
+                                                   na.rm = T)) ~ "Y",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  dplyr::select(-tidyselect::all_of(PDVN)) %>%
+  dplyr::ungroup()
+
+  return(tbl)
 }
 
 
@@ -245,6 +248,15 @@ assign_SEQ <- function(tbl, key_vars, seq_prefix, USUBJID = "USUBJID") {
 #'
 #' @returns a modified copy of `df`
 #' @export
+#'
+#' @examples
+#' df <- dplyr::tibble(
+#'   USUBJID = paste("Subject", c(rep("A", 2), rep("B", 4), rep("C", 2))),
+#'   VISIT = paste("Visit", c(1  , 2  , 1  , 1  , 2  , 2  , 2  , 2)),
+#'   XXTESTCD = paste("Test", c(1  , 2  , 1  , 2  , 1  , 2  , 1  , 2)),
+#'   ND = c("N", "N", "Y", "Y", "N", "N", "Y", "Y")
+#' )
+#' create_STAT(df = df, domain = "XX", nd_ind = "ND", nd_ind_cd = "Y")
 #'
 create_STAT <- function(df,
                         domain,
