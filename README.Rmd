@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 Many data cleaning steps and SDTM processes are used repeatedly in different SDTM domain validation scripts. Functionalizing these repetitive tasks allows statistical programmers to focus on coding the unique aspects of a SDTM domain while standardize their code base across studies and domains. This should lead to fewer bugs and improved code readability too. {sdtmval} features include:
 
--   Automating the BLFL, DY, EPOCH, and SEQ methods to create new variables
+-   Automating the BLFL, DY, EPOCH, SEQ, and STAT methods to create new variables
 
 -   Imputing and formatting full and partial dates: see [`vignette("Dates")`](https://skgithub14.github.io/sdtmval/articles/dates.html)
 

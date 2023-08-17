@@ -21,7 +21,7 @@ unique aspects of a SDTM domain while standardize their code base across
 studies and domains. This should lead to fewer bugs and improved code
 readability too. {sdtmval} features include:
 
-- Automating the BLFL, DY, EPOCH, and SEQ methods to create new
+- Automating the BLFL, DY, EPOCH, SEQ, and STAT methods to create new
   variables
 
 - Imputing and formatting full and partial dates: see
