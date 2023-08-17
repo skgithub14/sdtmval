@@ -29,8 +29,6 @@ Many data cleaning steps and SDTM processes are used repeatedly in different SDT
 
 -   Imputing and formatting full and partial dates: see [`vignette("Dates")`](https://skgithub14.github.io/sdtmval/articles/dates.html)
 
--   Comparing QC versus production SDTM domain tables (vignette coming soon)
-
 -   Applying specification data such as variable labels, lengths, code mapping, and sorting
 
 -   Importing EDC and SDTM data from .csv and .sas7bdat files

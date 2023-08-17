@@ -1,5 +1,17 @@
 # sdtmval 
 
+# sdtmval 0.3.0.9000
+
+## Major changes
+
+* removed compare family of functions
+
+## Minor changes
+
+* added example for `create_STAT()` function
+
+* prepared documentation for CRAN submission
+
 # sdtmval 0.3.0
 
 ## Major changes
