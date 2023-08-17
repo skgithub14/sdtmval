@@ -1,6 +1,6 @@
 Package: sdtmval
 Title: Utilities for SDTM validation
-Version: 0.2.1
+Version: 0.3.0
 Authors@R: 
     person("Stephen", "Knapp", 
            email = "stephen@knappconsultingllc.com", 
