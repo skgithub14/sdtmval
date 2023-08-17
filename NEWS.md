@@ -1,6 +1,6 @@
 # sdtmval 
 
-# sdtmval 0.2.1.9000
+# sdtmval 0.3.0
 
 ## Major changes
 
