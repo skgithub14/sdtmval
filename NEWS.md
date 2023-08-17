@@ -2,7 +2,7 @@
 
 ## Major changes
 
-* None
+* Added `get_valuelevel()` function for extracting the ValueLevel sheet from a MS Excel spec for a specific dataset/domain.
 
 ## Minor changes
 

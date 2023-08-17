@@ -16,7 +16,8 @@
 #' @returns a data frame of the variable specification for `domain`
 #' @export
 #'
-#' @seealso [get_key_vars()], [get_codelist()], [assign_meta_data()]
+#' @seealso [get_valuelevel()], [get_key_vars()], [get_codelist()],
+#' [assign_meta_data()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")
@@ -50,7 +51,8 @@ get_data_spec <- function(domain, dir, filename, arrange_by = "Order") {
 #' @returns a character vector of key variables for the specified `domain`
 #' @export
 #'
-#' @seealso [get_data_spec()], [get_codelist()], [assign_meta_data()]
+#' @seealso [get_valuelevel()], [get_data_spec()], [get_codelist()],
+#' [assign_meta_data()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")
@@ -91,7 +93,8 @@ get_key_vars <- function(domain,
 #' @returns a data frame with the code list
 #' @export
 #'
-#' @seealso [get_data_spec()], [get_key_vars()], [assign_meta_data()]
+#' @seealso [get_valuelevel()], [get_data_spec()], [get_key_vars()],
+#'  [assign_meta_data()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")
@@ -109,6 +112,39 @@ get_codelist <- function(domain,
   readxl::read_excel(file.path(dir, filename), sheet = codelist_sheet) %>%
     dplyr::filter(!!rlang::sym(varid_col) %in% spec_vars) %>%
     dplyr::filter(!!rlang::sym(varid_col) != "DOMAIN")
+}
+
+
+#' Read in value levels sheet from a study specification Excel file
+#'
+#' Reads in the value levels sheet from a study specification Excel file and
+#' filters the table for the entries relevant to `"domain"`
+#'
+#' @inheritParams get_data_spec
+#' @param valuelevel_sheet a string, the name of the value level sheet in
+#'  `filename`, default is `"ValueLevel"`
+#' @param dataset_col a string, the name of the column in `valuelevelsheet`
+#'  for filtering my domain, default is `"Dataset"`
+#'
+#' @returns a data frame with the value levels
+#' @export
+#'
+#' @seealso [get_codelist()], [get_data_spec()], [get_key_vars()],
+#'  [assign_meta_data()]
+#'
+#' @examples
+#' work_dir <- system.file("extdata", package = "sdtmval")
+#' get_valuelevel(domain = "SUPPXX",
+#'                dir = work_dir,
+#'                filename = "spec.xlsx")
+#'
+get_valuelevel <- function(domain,
+                           dir,
+                           filename,
+                           valuelevel_sheet = "ValueLevel",
+                           dataset_col = "Dataset") {
+  readxl::read_excel(file.path(dir, filename), sheet = valuelevel_sheet) %>%
+    dplyr::filter(!!rlang::sym(dataset_col) == domain)
 }
 
 
@@ -136,7 +172,8 @@ get_codelist <- function(domain,
 #' @returns a modified copy of `tbl` with the meta data per specification
 #' @export
 #'
-#' @seealso [get_data_spec()], [get_key_vars()], [get_codelist()]
+#' @seealso [get_valuelevel()], [get_data_spec()], [get_key_vars()],
+#' [get_codelist()]
 #'
 #' @examples
 #' work_dir <- system.file("extdata", package = "sdtmval")

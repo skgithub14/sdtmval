@@ -45,5 +45,6 @@ codelists <- get_codelist(domain = 'XX',
 
 }
 \seealso{
-\code{\link[=get_data_spec]{get_data_spec()}}, \code{\link[=get_key_vars]{get_key_vars()}}, \code{\link[=assign_meta_data]{assign_meta_data()}}
+\code{\link[=get_valuelevel]{get_valuelevel()}}, \code{\link[=get_data_spec]{get_data_spec()}}, \code{\link[=get_key_vars]{get_key_vars()}},
+\code{\link[=assign_meta_data]{assign_meta_data()}}
 }

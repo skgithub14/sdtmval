@@ -125,6 +125,27 @@
 "spec_codelists"
 
 
+#' Example 'valuelevel' tab from a SDTM specification .xlsx file
+#'
+#' This table simulates an excerpt from a SDTM specification .xlsx file for the
+#' 'ValueLevel' tab. This data set can be used to test the [get_valuelevel()]
+#' function.
+#'
+#' @format ## 'spec_valuelevel'
+#' A data frame with 3 rows and 9 columns:
+#' \describe{
+#'  \item{Dataset}{The dataset/domain}
+#'  \item{Variable}{The variable in dataset}
+#'  \item{Where Clause}{Applicable cases, in psuedocode}
+#'  \item{Description}{Label}
+#'  \item{Codelist}{Relevant codelist entries}
+#'  \item{Origin}{Where the data originated}
+#'  \item{Pages}{aCRF reference pages}
+#'  \item{Method}{Applicable methods}
+#'  \item{Programming Notes}{Programming notes, in psuedocode}
+#' }
+"spec_valuelevel"
+
 
 
 

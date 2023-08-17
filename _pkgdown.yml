@@ -34,6 +34,7 @@ reference:
   - get_codelist
   - get_data_spec
   - get_key_vars
+  - get_valuelevel
 - title: Write
   desc: Write SAS transport files and archive code
 - contents:

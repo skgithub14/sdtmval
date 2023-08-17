@@ -27,6 +27,19 @@ test_that("get_codelist()", {
 })
 
 
+test_that("get_valuelevel()", {
+
+  work_dir <- system.file("extdata", package = "sdtmval")
+  valuelevel <- get_valuelevel(domain = "SUPPXX",
+                               dir = work_dir,
+                               filename = "spec.xlsx") %>%
+    dplyr::mutate(dplyr::across(.cols = tidyselect::where(is.logical),
+                                ~ as.character(.)))
+  expect_equal(valuelevel, sdtmval::spec_valuelevel)
+
+})
+
+
 test_that("assign_meta_data()", {
   work_dir <- system.file("extdata", package = "sdtmval")
   spec <- get_data_spec(domain = "XX",
