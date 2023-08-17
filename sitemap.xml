@@ -34,9 +34,6 @@
     <loc>https://skgithub14.github.io/sdtmval/reference/calc_DY.html</loc>
   </url>
   <url>
-    <loc>https://skgithub14.github.io/sdtmval/reference/compare_qc_to_prod.html</loc>
-  </url>
-  <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/convert_to_script.html</loc>
   </url>
   <url>
@@ -73,9 +70,6 @@
     <loc>https://skgithub14.github.io/sdtmval/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://skgithub14.github.io/sdtmval/reference/inspect_diffs.html</loc>
-  </url>
-  <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/pipe.html</loc>
   </url>
   <url>
@@ -101,9 +95,6 @@
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/spec_datasets.html</loc>
-  </url>
-  <url>
-    <loc>https://skgithub14.github.io/sdtmval/reference/summary_diffs.html</loc>
   </url>
   <url>
     <loc>https://skgithub14.github.io/sdtmval/reference/trim_and_make_blanks_NA.html</loc>
