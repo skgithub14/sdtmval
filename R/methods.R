@@ -225,3 +225,94 @@ assign_SEQ <- function(tbl, key_vars, seq_prefix, USUBJID = "USUBJID") {
     dplyr::mutate("{seq_prefix}SEQ" := dplyr::row_number()) %>%
     dplyr::ungroup()
 }
+
+
+#' Assign STAT 'NOT DONE' status
+#'
+#' Creates a --STAT variable and, if all measurements for a visit were not done,
+#' also changes all --TESTCD values as "--ALL"
+#'
+#' @param df a data frame to modify
+#' @param domain a string, the domain abbreviation in all caps
+#' @param nd_ind a string, the variable name in `df` that indicates if a test
+#'  was not performed, usually a `"Yes"`/`"No"` or `"Y"`/`"N"` column
+#' @param nd_ind_cd a string, the code from the `nd_ind` column that signifies
+#'  a test was not done, default is `"Yes"`
+#' @param USUBJID a string, the variable name in `df` that contains the subject
+#'  identifier, default is `"USUBJID"`
+#' @param VISIT a string, the variable name in `df` that indicates a VISIT field,
+#'  default is `"VISIT"`
+#'
+#' @returns a modified copy of `df`
+#' @export
+#'
+create_STAT <- function(df,
+                        domain,
+                        nd_ind,
+                        nd_ind_cd = "Yes",
+                        USUBJID = "USUBJID",
+                        VISIT = "VISIT") {
+
+  # check the required variables are present
+  must_have_cols <- c(nd_ind, USUBJID, VISIT, paste0(domain, "TESTCD"))
+  stopifnot(all(must_have_cols %in% colnames(df)))
+
+  # create a temporary variable for storing row numbers
+  tmp_var <- paste0(sample(letters, 25), collapse = "")
+  while (tmp_var %in% colnames(df)) {
+    tmp_var <- sample(letters, 25)
+  }
+
+  df <- df %>%
+
+    # mark not done status and create STAT variable
+    dplyr::mutate("{domain}STAT" := dplyr::if_else(
+      !!rlang::sym(nd_ind) == nd_ind_cd,
+      "NOT DONE",
+      NA_character_
+    )) %>%
+
+    # consolidate all rows for the same subject and visit with NOT DONE tests
+    #  into one --TESTCD with --ALL values
+    dplyr::group_by(dplyr::across(tidyselect::all_of(c(USUBJID, VISIT)))) %>%
+    dplyr::mutate("{domain}TESTCD" := dplyr::case_when(
+      all(!is.na(!!rlang::sym(paste0(domain, "STAT")))) ~ paste0(domain, "ALL"),
+      TRUE ~ !!rlang::sym(paste0(domain, "TESTCD"))
+    )) %>%
+
+    # remove duplicates of --ALL values
+    dplyr::mutate(
+      "{tmp_var}" := dplyr::row_number(),
+
+      "{tmp_var}" := dplyr::case_when(
+      !!rlang::sym(paste0(domain, "TESTCD")) != paste0(domain, "ALL") ~ NA_integer_,
+      TRUE ~ !!rlang::sym(tmp_var)
+    )) %>%
+    dplyr::filter(is.na(!!rlang::sym(tmp_var)) | (!!rlang::sym(tmp_var)) == 1) %>%
+    dplyr::select(-tidyselect::all_of(tmp_var)) %>%
+    dplyr::ungroup()
+
+  return(df)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
