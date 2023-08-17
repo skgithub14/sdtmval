@@ -1,5 +1,15 @@
 # sdtmval 
 
+# sdtmval 0.2.1.9000
+
+## Major changes
+
+* added `create_STAT()` function
+
+## Minor changes
+
+* None
+
 # sdtmval 0.2.1
 
 ## Major changes

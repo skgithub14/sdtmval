@@ -27,6 +27,7 @@ reference:
   - calc_DY
   - create_BLFL
   - create_EPOCH
+  - create_STAT
 - title: Read
   desc: Import data
 - contents:

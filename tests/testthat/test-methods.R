@@ -71,3 +71,30 @@ test_that("SEQ", {
                        seq_prefix = "XX")
   expect_equal(actual, expected)
 })
+
+
+test_that("STAT", {
+
+  df <- dplyr::tibble(
+    USUBJID = paste("Subject", c(rep("A", 2), rep("B", 4), rep("C", 2))),
+    VISIT = paste("Visit",   c(1  , 2  , 1  , 1  , 2  , 2  , 2  , 2)),
+    XXTESTCD = paste("Test", c(1  , 2  , 1  , 2  , 1  , 2  , 1  , 2)),
+    ND =                     c("N", "N", "Y", "Y", "N", "N", "Y", "Y")
+  )
+
+  expected <- dplyr::tibble(
+    USUBJID = paste("Subject", c(rep("A", 2), rep("B", 3), rep("C", 1))),
+    VISIT = paste("Visit",   c(1, 2, 1, 2, 2, 2)),
+    XXTESTCD = c("Test 1", "Test 2", "XXALL", "Test 1", "Test 2", "XXALL"),
+    ND =                     c("N", "N", "Y", "N", "N", "Y"),
+    XXSTAT =                 c(NA , NA , "NOT DONE", NA , NA , "NOT DONE")
+  )
+
+  actual <- create_STAT(df = df,
+                        domain = "XX",
+                        nd_ind = "ND",
+                        nd_ind_cd = "Y")
+
+  expect_equal(actual, expected)
+
+})

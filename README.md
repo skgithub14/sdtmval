@@ -12,15 +12,16 @@ coverage](https://codecov.io/gh/skgithub14/sdtmval/branch/master/graph/badge.svg
 <!-- badges: end -->
 
 {sdtmval} provides a set of tools to assist statistical programmers in
-validating Study Data Tabulation Model (SDTM) domain data sets. Many
-data cleaning steps and SDTM processes are used repeatedly in different
-SDTM domain validation scripts. Functionalizing these repetitive tasks
-allows statistical programmers to focus on coding the unique aspects of
-a SDTM domain while standardize their code base across studies and
-domains. This should lead to fewer bugs and improved code readability
-too. {sdtmval} features include:
+validating Study Data Tabulation Model (SDTM) domain data sets.
 
-- Automating the BLFL, DY, EPOCH, and SEQ methods to create new
+Many data cleaning steps and SDTM processes are used repeatedly in
+different SDTM domain validation scripts. Functionalizing these
+repetitive tasks allows statistical programmers to focus on coding the
+unique aspects of a SDTM domain while standardize their code base across
+studies and domains. This should lead to fewer bugs and improved code
+readability too. {sdtmval} features include:
+
+- Automating the BLFL, DY, EPOCH, SEQ, and STAT methods to create new
   variables
 
 - Imputing and formatting full and partial dates: see
@@ -75,12 +76,9 @@ work_dir <- system.file("extdata", package = "sdtmval")
 ```
 
 The majority of the data needed is in the EDC form/table xx.csv. There
-is also visit date data in the raw EDC form/table vd.csv and study start
-and end dates by subject in the production SDTM table dm.sas7dbat. We
-will start by importing all of the data we need using the two functions
-`read_edc_tbls()` and `read_sdtm_tbls()`. The main difference between
-these two functions is that the first reads in .csv files and the second
-reads in .sas7dbat files.
+are also visit dates in the EDC table vd.csv and study start/end dates
+in the SDTM table dm.sas7dbat. These can be imported using
+`read_edc_tbls()` and `read_sdtm_tbls()`.
 
 ``` r
 # read in EDC tables from the forms XX and VD
@@ -110,13 +108,17 @@ The raw data looks like this:
 The next thing we will do is get the relevant information from the SDTM
 specification for the study. The next set of functions assumes there is
 a .xlsx file which contains the sheets: ‘Datasets’, ‘XX’, and
-‘Codelists’. ‘Datasets’ contains the key variables by domain, ‘XX’ gives
-the variable information for the XX domain, and ‘Codelists’ provides a
-table of coded/decoded values by variable. `get_data_spec()` imports the
-domain tab from the specification file as a data frame, `get_key_vars()`
-retrieves the key variables for a domain as a character vector, and
-`get_codelist()` extracts a data frame of coded/decoded values from the
-spec for any variables in the relevant domain.
+‘Codelists’:
+
+- ‘XX’ gives the variable information for the made-up XX domain.
+  `get_data_spec()` retrieves this entire tab.
+
+- ‘Datasets’ contains the key variables by domain. `get_key_vars()`
+  retrieves the these for desired `domain`.
+
+- ‘Codelists’ provides a table of coded/decoded values by variable for
+  all domains. `get_codelist()` extracts a data frame of coded/decoded
+  values from this sheet just for the variables in desired `domain`.
 
 ``` r
 spec_fname <- "spec.xlsx"
@@ -170,8 +172,8 @@ function `trim_and_make_blanks_NA()` does both of these tasks.
 sdtm_xx1 <- trim_and_make_blanks_NA(edc_dat$xx)
 ```
 
-Next, using the codelists we retrieved from the spec earlier, we can
-create the `XXTEST` variable.
+Next, using the codelist we retrieved earlier, we can create the
+`XXTEST` variable.
 
 ``` r
 # prepare the code list so it can be used by dplyr::recode() 
@@ -199,15 +201,17 @@ knitr::kable(sdtm_xx2)
 | Study 1 | Subject 2 | Visit 3 | T2       | 200     | Test 2 |
 | Study 1 | Subject 2 | Visit 4 | T3       | FAIL    | Test 3 |
 
-In order to calculate the timing variables XXBLFL, EPOCH, and XXDY, we
-need the visit dates from the EDC VD table and the study start/end dates
-by subject from the SDTM DM table.
+In order to calculate the variables XXBLFL, EPOCH, and XXDY, we need the
+visit dates from the EDC VD table and the study start/end dates by
+subject from the SDTM DM table.
 
 ``` r
 sdtm_xx3 <- sdtm_xx2 %>%
   
   # get the VISITDTC column from the EDC VD form
   left_join(edc_dat$vd, by = c("USUBJID", "VISIT")) %>%
+  
+  # create the XXDTC variable
   rename(XXDTC = VISITDTC) %>%
   
   # get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)
@@ -251,9 +255,8 @@ sdtm_xx4 %>%
 | Subject 2 | Test 2 | 200     | 2023-08-04 | NA     | TREATMENT |    2 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
 | Subject 2 | Test 3 | FAIL    | 2023-08-05 | NA     | FOLLOW-UP |    3 | 2023-08-03 | 2023-08-03 | 2023-08-04 |
 
-Next, we will assign the sequence number using `assign_SEQ()`. This
-function also sorts the data set for you by whatever you make the
-`key_vars` argument.
+Next, we will assign the sequence number using `assign_SEQ()` (which
+also sorts your data frame).
 
 ``` r
 sdtm_xx5 <- assign_SEQ(sdtm_xx4, 
@@ -281,23 +284,24 @@ sdtm_xx5 %>%
 
 Now that the bulk of the data cleaning is complete, we will convert all
 date columns to character columns and all `NA` values to `""` so that
-our validation table matches the production table. To do this, we will
-use `format_chars_and_dates()`.
+our validation table matches the production table produced in SAS. To do
+this, we will use `format_chars_and_dates()`.
 
 ``` r
 sdtm_xx6 <- format_chars_and_dates(sdtm_xx5)
 ```
 
-As a final step, we re-order the columns according to the domain spec
-and drop the extra columns using this line of code:
-`select(any_of(spec$Variable))`. Then we will assign the meta data from
-the spec to each column using `assign_meta_data()`. The meta data
-includes the labels for each column and their maximum allowed character
-lengths.
+As a final step, we will assign the meta data from the spec to each
+column using `assign_meta_data()`. The meta data includes the labels for
+each column and their maximum allowed character lengths.
 
 ``` r
 sdtm_xx7 <- sdtm_xx6 %>%
+  
+  # only keep columns that are domain variables and order them per the spec
   select(any_of(spec$Variable)) %>%
+  
+  # assign variable lengths and labels
   assign_meta_data(spec = spec)
 
 # show the final SDTM domain
@@ -368,6 +372,8 @@ sdtm_xx <- edc_dat$xx %>%
 
   # get the VISITDTC column from the EDC VD form
   dplyr::left_join(edc_dat$vd, by = c("USUBJID", "VISIT")) %>%
+  
+  # XXDTC
   dplyr::rename(XXDTC = VISITDTC) %>%
 
   # get the study start/end dates by subject (RFSTDTC, RFXSTDTC, RFXENDTC)
@@ -382,8 +388,7 @@ sdtm_xx <- edc_dat$xx %>%
   create_EPOCH(date_col = "XXDTC") %>%
 
   # XXDY
-  calc_DY(DY_col = "XXDY",
-          DTC_col = "XXDTC") %>%
+  calc_DY(DY_col = "XXDY", DTC_col = "XXDTC") %>%
 
   # XXSEQ
   assign_SEQ(key_vars = c("USUBJID", "XXTESTCD", "VISIT"),
