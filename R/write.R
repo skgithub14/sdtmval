@@ -67,8 +67,8 @@ write_tbl_to_xpt <- function(tbl, filename, dir = NULL, label = NULL) {
 #'  * If `[dir]/archive` does not already exist, it will be created
 #'
 #' @param filename string, the file name of both the .Rmd file that will be read
-#' and the file name of the .R file to be written (do not include .Rmd or .R
-#' extension)
+#' and the file name of the .R file to be written; the file extension can either
+#' be missing, .R, or .Rmd
 #' @param dir string, the directory where the .Rmd file is and the .R file will
 #'  be written, default is `NULL` which means the current working directory
 #'  will be used
@@ -92,19 +92,24 @@ write_tbl_to_xpt <- function(tbl, filename, dir = NULL, label = NULL) {
 #' convert_to_script(dir = temp_path, filename = filename, archive = TRUE)
 #'
 convert_to_script <- function(filename, dir = NULL, archive = F) {
+
+  # remove any extension from the filename
+  filename <- stringr::str_remove(filename, "\\.R$|\\.Rmd$")
   filenameRmd <- paste0(filename, ".Rmd")
+  filenameR <- paste0(filename, ".R")
+  filenameHTML <- paste0(filename, ".nb.html")
 
   if (is.null(dir)) {
     current_Rmd <- filenameRmd
     archived_Rmd <- file.path("archive", filenameRmd)
-    current_nb <- paste0(filename, ".nb")
-    new_R <- paste0(filename, ".R")
+    current_nb <- filenameHTML
+    new_R <- filenameR
     archive_dir <- "archive"
   } else {
     current_Rmd <- file.path(dir, filenameRmd)
     archived_Rmd <- file.path(dir, "archive", filenameRmd)
-    current_nb <- file.path(dir, paste0(filename, ".nb"))
-    new_R <- file.path(dir, paste0(filename, ".R"))
+    current_nb <- file.path(dir, filenameHTML)
+    new_R <- file.path(dir, filenameR)
     archive_dir <- file.path(dir, "archive")
   }
 

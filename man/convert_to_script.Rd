@@ -8,8 +8,8 @@ convert_to_script(filename, dir = NULL, archive = F)
 }
 \arguments{
 \item{filename}{string, the file name of both the .Rmd file that will be read
-and the file name of the .R file to be written (do not include .Rmd or .R
-extension)}
+and the file name of the .R file to be written; the file extension can either
+be missing, .R, or .Rmd}
 
 \item{dir}{string, the directory where the .Rmd file is and the .R file will
 be written, default is \code{NULL} which means the current working directory
