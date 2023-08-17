@@ -46,6 +46,12 @@ readability too. {sdtmval} features include:
 
 ## Installation
 
+You can install the release version of {sdtmval} from CRAN with:
+
+``` r
+install.packages("sdtmval")
+```
+
 You can install the development version of {sdtmval} from
 [GitHub](https://github.com/) with:
 
