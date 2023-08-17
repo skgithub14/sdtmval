@@ -45,6 +45,7 @@ dates <- c(
   NA
 )
 reshape_pdates(dates)
+
 }
 \seealso{
 \code{\link[=reshape_adates]{reshape_adates()}}, \code{\link[=impute_pdates]{impute_pdates()}}, \code{\link[=trim_dates]{trim_dates()}},

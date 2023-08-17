@@ -37,6 +37,7 @@
 #'   NA
 #' )
 #' reshape_pdates(dates)
+#'
 reshape_pdates <- function(dates, output_sep = "/") {
   # only process non-NA values
   no_NA_dates <- dates[which(!is.na(dates))]
@@ -94,6 +95,7 @@ reshape_pdates <- function(dates, output_sep = "/") {
 #' @examples
 #' dates <- c("02/05/2017", "UN/UN/2017", "02-05-2017", NA)
 #' reshape_adates(dates)
+#'
 reshape_adates <- function(dates) {
   # only perform on non-NA values
   no_NA_dates <- dates[which(!is.na(dates))]
@@ -146,6 +148,7 @@ reshape_adates <- function(dates) {
 #' )
 #' impute_pdates(dates, ptype = "start")
 #' impute_pdates(dates, ptype = "end")
+#'
 impute_pdates <- function(dates, ptype, input_sep = "-") {
   # if input separator is not the default, make them the default
   if (input_sep != "-") {
@@ -214,6 +217,7 @@ impute_pdates <- function(dates, ptype, input_sep = "-") {
 #'   NA
 #' )
 #' trim_dates(dates)
+#'
 trim_dates <- function(dates, input_sep = "-") {
   # input has a non-default date separator, make them the default
   if (input_sep != "-") {

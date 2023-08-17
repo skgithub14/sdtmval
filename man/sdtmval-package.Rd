@@ -4,11 +4,11 @@
 \name{sdtmval-package}
 \alias{sdtmval}
 \alias{sdtmval-package}
-\title{sdtmval: Utilities for SDTM validation}
+\title{sdtmval: Validate SDTM Domains}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-{sdtmval} provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) data sets. Statistical programmers are required to validate that a SDTM data set domain has been programmed correctly, per the SDTM Implementation Guide (SDTMIG), study specification, and study protocol using a process called double programming. Double programming involves two different programmers idependently converting the raw electronic data cut (EDC) data in a SDTM domain data table and comparing the results to ensure accurate standardization of the data. One of these attempts is termed "production" and the other "validation". Generally, production runs are the official programs for submittals and these are written in SAS. Validation runs can be programmed in another language, in this case R.
+Provides a set of tools to assist statistical programmers in validating Study Data Tabulation Model (SDTM) domain data sets. Statistical programmers are required to validate that a SDTM data set domain has been programmed correctly, per the SDTM Implementation Guide (SDTMIG), study specification, and study protocol using a process called double programming. Double programming involves two different programmers independently converting the raw electronic data cut (EDC) data into a SDTM domain data table and comparing their results to ensure accurate standardization of the data. One of these attempts is termed 'production' and the other 'validation'. Generally, production runs are the official programs for submittals and these are written in SAS. Validation runs can be programmed in another language, in this case R.
 }
 \seealso{
 Useful links:
@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Stephen Knapp \email{stephen@knappconsultingllc.com} (\href{https://orcid.org/0000-0002-5101-4555}{ORCID})
+\strong{Maintainer}: Stephen Knapp \email{stephen@knappconsultingllc.com} (\href{https://orcid.org/0000-0002-5101-4555}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}

@@ -37,3 +37,13 @@ a modified copy of \code{df}
 Creates a --STAT variable and, if all measurements for a visit were not done,
 also changes all --TESTCD values as "--ALL"
 }
+\examples{
+df <- dplyr::tibble(
+  USUBJID = paste("Subject", c(rep("A", 2), rep("B", 4), rep("C", 2))),
+  VISIT = paste("Visit", c(1  , 2  , 1  , 1  , 2  , 2  , 2  , 2)),
+  XXTESTCD = paste("Test", c(1  , 2  , 1  , 2  , 1  , 2  , 1  , 2)),
+  ND = c("N", "N", "Y", "Y", "N", "N", "Y", "Y")
+)
+create_STAT(df = df, domain = "XX", nd_ind = "ND", nd_ind_cd = "Y")
+
+}

@@ -27,6 +27,7 @@ character.
 \examples{
 dates <- c("02/05/2017", "UN/UN/2017", "02-05-2017", NA)
 reshape_adates(dates)
+
 }
 \seealso{
 \code{\link[=reshape_pdates]{reshape_pdates()}}, \code{\link[=impute_pdates]{impute_pdates()}}, \code{\link[=trim_dates]{trim_dates()}},
