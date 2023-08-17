@@ -109,7 +109,13 @@ create_BLFL <- function(tbl,
 #' Utilizes the EPOCH method from the SDTM spec: Missing when `--DTC` is blank;
 #' equal to `'SCREENING'` if `--DTC` if before `RFXSTDTC`; equal to `'TREATMENT'`
 #' if `--DTC` is on or after `RFXSTDTC` and on or before `RFXENDTC`; equal to
-#' `'FOLLOW-UP'` if `--DTC` is after `RFXENDTC`.
+#' `'FOLLOW-UP'` if `--DTC` is after `RFXENDTC`. If `ST` is set to `TRUE` the
+#' EPOCHST method is used instead, see details for an explanation.
+#'
+#' The EPOCHST method: Equal to 'SCREENING'  if --STDTC is before DM.RFXSTDTC or
+#' DM.RFXSTDTC is missing; equal to 'TREATMENT' if --STDTC is on or after
+#' DM.RFXSTDTC and on or before DM.RFXENDTC or if --ENRF = 'ONGOING'; equal to
+#' 'FOLLOW-UP' if --STDTC is after DM.RFXENDTC
 #'
 #' @param tbl a data frame with date class columns `RFXSTDTC` and `RFXENDTC` and
 #'  the column given in the `date_col` argument
@@ -122,6 +128,11 @@ create_BLFL <- function(tbl,
 #' @param RFXENDTC a string, the date column to use for `RFXENDTC`, default is
 #' `"RFXENDTC"`; this column can either have a date class or a character class in
 #'  the YYYY-MM-DD format
+#' @param ST a logical indicating if the EPOCHST method should be applied
+#'  instead of the EPOCH method (see `details`), default is `FALSE`
+#' @param ENRF a string, not relevant when `ST = FALSE`, otherwise optional,
+#'  the column name in `tbl` with the --ENRF variable which, for `"ONGOING"`
+#'  entries assigns the `EPOCH` as `"TREATMENT"`
 #'
 #' @returns a modified copy of `tbl` with the `EPOCH` column
 #' @export
@@ -139,20 +150,66 @@ create_BLFL <- function(tbl,
 create_EPOCH <- function(tbl,
                          date_col,
                          RFXSTDTC = "RFXSTDTC",
-                         RFXENDTC = "RFXENDTC") {
-  tbl %>%
-    dplyr::mutate(
-      EPOCH = dplyr::case_when(
-        is.na(!!rlang::sym(date_col)) ~ NA_character_,
-        as.Date(!!rlang::sym(date_col)) < as.Date(!!rlang::sym(RFXSTDTC)) ~
-          "SCREENING",
-        as.Date(!!rlang::sym(date_col)) >= as.Date(!!rlang::sym(RFXSTDTC)) &
-          as.Date(!!rlang::sym(date_col)) <= as.Date(!!rlang::sym(RFXENDTC)) ~
-          "TREATMENT",
-        as.Date(!!rlang::sym(date_col)) > as.Date(!!rlang::sym(RFXENDTC)) ~
-          "FOLLOW-UP"
+                         RFXENDTC = "RFXENDTC",
+                         ST = FALSE,
+                         ENRF = NULL) {
+
+  # EPOCH method
+  if (!ST) {
+    tbl <- tbl %>%
+      dplyr::mutate(
+        EPOCH = dplyr::case_when(
+          is.na(!!rlang::sym(date_col)) ~ NA_character_,
+          as.Date(!!rlang::sym(date_col)) < as.Date(!!rlang::sym(RFXSTDTC)) ~
+            "SCREENING",
+          as.Date(!!rlang::sym(date_col)) >= as.Date(!!rlang::sym(RFXSTDTC)) &
+            as.Date(!!rlang::sym(date_col)) <= as.Date(!!rlang::sym(RFXENDTC)) ~
+            "TREATMENT",
+          as.Date(!!rlang::sym(date_col)) > as.Date(!!rlang::sym(RFXENDTC)) ~
+            "FOLLOW-UP",
+          TRUE ~ NA_character_
+        )
       )
-    )
+
+    # EPOCHST method
+  } else {
+
+    # if there is no ENRF column
+    if (is.null(ENRF)) {
+      tbl <- tbl %>%
+        dplyr::mutate(
+          EPOCH = dplyr::case_when(
+            is.na(!!rlang::sym(RFXSTDTC)) ~ "SCREENING",
+            as.Date(!!rlang::sym(date_col)) < as.Date(!!rlang::sym(RFXSTDTC)) ~
+              "SCREENING",
+            as.Date(!!rlang::sym(date_col)) >= as.Date(!!rlang::sym(RFXSTDTC)) &
+              as.Date(!!rlang::sym(date_col)) <= as.Date(!!rlang::sym(RFXENDTC)) ~
+              "TREATMENT",
+            as.Date(!!rlang::sym(date_col)) > as.Date(!!rlang::sym(RFXENDTC)) ~
+              "FOLLOW-UP",
+            TRUE ~ NA_character_
+          )
+        )
+    } else {
+      tbl <- tbl %>%
+        dplyr::mutate(
+          EPOCH = dplyr::case_when(
+            is.na(!!rlang::sym(RFXSTDTC)) ~ "SCREENING",
+            as.Date(!!rlang::sym(date_col)) < as.Date(!!rlang::sym(RFXSTDTC)) ~
+              "SCREENING",
+            (as.Date(!!rlang::sym(date_col)) >= as.Date(!!rlang::sym(RFXSTDTC)) &
+              as.Date(!!rlang::sym(date_col)) <= as.Date(!!rlang::sym(RFXENDTC))) |
+              !!rlang::sym(ENRF) == "ONGOING" ~
+              "TREATMENT",
+            as.Date(!!rlang::sym(date_col)) > as.Date(!!rlang::sym(RFXENDTC)) ~
+              "FOLLOW-UP",
+            TRUE ~ NA_character_
+          )
+        )
+    }
+  }
+
+  return(tbl)
 }
 
 

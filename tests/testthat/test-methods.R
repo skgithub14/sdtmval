@@ -41,6 +41,31 @@ test_that("EPOCH", {
     )
   expect_equal(create_EPOCH(df, date_col = "DTC"),
                expected_df)
+
+  df <- data.frame(
+    DTC = c("2023-08-01", "2023-08-02", "2023-08-03", "2023-08-04"),
+    RFXSTDTC = c(NA_character_, rep("2023-08-02", 3)),
+    RFXENDTC = rep("2023-08-03", 4)
+  )
+  expected_df <- df %>%
+    dplyr::mutate(
+      EPOCH = c("SCREENING", "TREATMENT", "TREATMENT", "FOLLOW-UP")
+    )
+  expect_equal(create_EPOCH(df, date_col = "DTC", ST = TRUE),
+               expected_df)
+
+  df <- data.frame(
+    DTC = c("2023-08-01", "2023-08-02", "2023-08-03", "2023-08-04", "2023-08-05"),
+    RFXSTDTC = c(NA_character_, rep("2023-08-02", 4)),
+    RFXENDTC = rep("2023-08-03", 5),
+    ENRF = c(rep(NA_character_, 4), "ONGOING")
+  )
+  expected_df <- df %>%
+    dplyr::mutate(
+      EPOCH = c("SCREENING", "TREATMENT", "TREATMENT", "FOLLOW-UP", "TREATMENT")
+    )
+  expect_equal(create_EPOCH(df, date_col = "DTC", ST = TRUE, ENRF = "ENRF"),
+               expected_df)
 })
 
 

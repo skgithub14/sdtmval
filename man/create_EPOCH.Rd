@@ -4,7 +4,14 @@
 \alias{create_EPOCH}
 \title{Create the EPOCH variable}
 \usage{
-create_EPOCH(tbl, date_col, RFXSTDTC = "RFXSTDTC", RFXENDTC = "RFXENDTC")
+create_EPOCH(
+  tbl,
+  date_col,
+  RFXSTDTC = "RFXSTDTC",
+  RFXENDTC = "RFXENDTC",
+  ST = FALSE,
+  ENRF = NULL
+)
 }
 \arguments{
 \item{tbl}{a data frame with date class columns \code{RFXSTDTC} and \code{RFXENDTC} and
@@ -21,6 +28,13 @@ the YYYY-MM-DD format}
 \item{RFXENDTC}{a string, the date column to use for \code{RFXENDTC}, default is
 \code{"RFXENDTC"}; this column can either have a date class or a character class in
 the YYYY-MM-DD format}
+
+\item{ST}{a logical indicating if the EPOCHST method should be applied
+instead of the EPOCH method (see \code{details}), default is \code{FALSE}}
+
+\item{ENRF}{a string, not relevant when \code{ST = FALSE}, otherwise optional,
+the column name in \code{tbl} with the --ENRF variable which, for \code{"ONGOING"}
+entries assigns the \code{EPOCH} as \code{"TREATMENT"}}
 }
 \value{
 a modified copy of \code{tbl} with the \code{EPOCH} column
@@ -29,7 +43,14 @@ a modified copy of \code{tbl} with the \code{EPOCH} column
 Utilizes the EPOCH method from the SDTM spec: Missing when \code{--DTC} is blank;
 equal to \code{'SCREENING'} if \code{--DTC} if before \code{RFXSTDTC}; equal to \code{'TREATMENT'}
 if \code{--DTC} is on or after \code{RFXSTDTC} and on or before \code{RFXENDTC}; equal to
-\code{'FOLLOW-UP'} if \code{--DTC} is after \code{RFXENDTC}.
+\code{'FOLLOW-UP'} if \code{--DTC} is after \code{RFXENDTC}. If \code{ST} is set to \code{TRUE} the
+EPOCHST method is used instead, see details for an explanation.
+}
+\details{
+The EPOCHST method: Equal to 'SCREENING'  if --STDTC is before DM.RFXSTDTC or
+DM.RFXSTDTC is missing; equal to 'TREATMENT' if --STDTC is on or after
+DM.RFXSTDTC and on or before DM.RFXENDTC or if --ENRF = 'ONGOING'; equal to
+'FOLLOW-UP' if --STDTC is after DM.RFXENDTC
 }
 \examples{
 df <- data.frame(

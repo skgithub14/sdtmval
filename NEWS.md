@@ -1,3 +1,13 @@
+# sdtmval 0.4.0.9000
+
+## Major changes
+
+* None
+
+## Minor changes
+
+* Modified `create_EPOCH()` to accommodate the EPOCHST method using the `ST = TRUE` argument
+
 # sdtmval 0.4.0
 
 ## Major changes
