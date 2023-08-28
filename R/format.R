@@ -20,14 +20,12 @@
 #'
 trim_and_make_blanks_NA <- function(tbl) {
   tbl %>%
-    dplyr::mutate(
-      dplyr::across(.cols = tidyselect::where(is.character),
-                    ~ stringr::str_trim(.)),
-      dplyr::across(.cols = tidyselect::where(is.character),
-                    ~ dplyr::na_if(., "")),
-      dplyr::across(.cols = tidyselect::where(is.character),
-                    ~ dplyr::na_if(., " "))
-    )
+    dplyr::mutate_if(.predicate = is.character,
+                     .funs = list(~ stringr::str_trim(.))) %>%
+    dplyr::mutate_if(.predicate = is.character,
+                     .funs = list(~ dplyr::na_if(., ""))) %>%
+    dplyr::mutate_if(.predicate = is.character,
+                     .funs = list(~ dplyr::na_if(., " ")))
 }
 
 
@@ -55,13 +53,12 @@ trim_and_make_blanks_NA <- function(tbl) {
 #' format_chars_and_dates(df)
 #'
 format_chars_and_dates <- function(tbl) {
-  tbl %>%
-    dplyr::mutate(dplyr::across(
-      .cols = tidyselect::where(lubridate::is.Date),
-      ~ as.character(.)
-    )) %>%
-    dplyr::mutate(dplyr::across(
-      .cols = tidyselect::where(is.character),
-      ~ tidyr::replace_na(., "")
-    ))
+
+  tbl <- tbl %>%
+    dplyr::mutate_if(.predicate = lubridate::is.Date,
+                     .funs = list(~ as.character(.))) %>%
+    dplyr::mutate_if(.predicate = is.character,
+                     .funs = list(~ tidyr::replace_na(., "")))
+
+  return(tbl)
 }
