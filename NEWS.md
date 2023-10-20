@@ -1,5 +1,19 @@
 # sdtmval 0.4.1
 
+## Major changes
+
+* None
+
+## Minor changes
+
+* Updated package description to include SDTM Implementation Guide author (CDSIC) and link
+
+* Minor updates to convert_to_script() function documentation
+
+## Bug fixes
+
+* None
+
 # sdtmval 0.4.0
 
 ## Major changes
