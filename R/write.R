@@ -91,7 +91,7 @@ write_tbl_to_xpt <- function(tbl, filename, dir = NULL, label = NULL) {
 #' # create the script and archive the .Rmd file
 #' convert_to_script(dir = temp_path, filename = filename, archive = TRUE)
 #'
-convert_to_script <- function(filename, dir = NULL, archive = F) {
+convert_to_script <- function(filename, dir = NULL, archive = FALSE) {
   filenameRmd <- paste0(filename, ".Rmd")
 
   if (is.null(dir)) {
