@@ -1,6 +1,6 @@
 Package: sdtmval
 Title: Validate SDTM Domains
-Version: 0.4.1
+Version: 0.4.1.9000
 Authors@R: 
     person("Stephen", "Knapp", 
            email = "stephen@knappconsultingllc.com", 
