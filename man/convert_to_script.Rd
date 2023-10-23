@@ -4,7 +4,7 @@
 \alias{convert_to_script}
 \title{Convert SDTM QC code from a .Rmd file to .R script}
 \usage{
-convert_to_script(filename, dir = NULL, archive = F)
+convert_to_script(filename, dir = NULL, archive = FALSE)
 }
 \arguments{
 \item{filename}{string, the file name of both the .Rmd file that will be read

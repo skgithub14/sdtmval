@@ -1,6 +1,6 @@
 Package: sdtmval
 Title: Validate SDTM Domains
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: 
     person("Stephen", "Knapp", 
            email = "stephen@knappconsultingllc.com", 
@@ -9,15 +9,16 @@ Authors@R:
 Description: Provides a set of tools to assist statistical programmers 
     in validating Study Data Tabulation Model (SDTM) domain data sets. 
     Statistical programmers are required to validate that a SDTM data set domain 
-    has been programmed correctly, per the SDTM Implementation Guide (SDTMIG), 
+    has been programmed correctly, per the SDTM Implementation Guide (SDTMIG) by 
+    'CDISC' (<https://www.cdisc.org/standards/foundational/sdtmig>), 
     study specification, and study protocol using a process called double 
     programming. Double programming involves two different programmers 
     independently converting the raw electronic data cut (EDC) data into a SDTM 
     domain data table and comparing their results to ensure accurate 
     standardization of the data. One of these attempts is termed 'production' 
     and the other 'validation'. Generally, production runs are the official 
-    programs for submittals and these are written in SAS. Validation runs can be 
-    programmed in another language, in this case R. 
+    programs for submittals and these are written in 'SAS'. Validation runs can 
+    be programmed in another language, in this case 'R'. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

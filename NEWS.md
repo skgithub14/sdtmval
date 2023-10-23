@@ -1,14 +1,18 @@
-# sdtmval 0.4.0.9000
+# sdtmval 0.4.1
 
 ## Major changes
 
-* Added `get_valuelevel()` function for extracting the ValueLevel sheet from a MS Excel spec for a specific dataset/domain.
+* None
 
 ## Minor changes
 
-* Modified `create_EPOCH()` to accommodate the EPOCHST method using the `ST = TRUE` argument
+* Updated package description to include SDTM Implementation Guide author (CDSIC) and link
 
-* Modified `convert_to_script()` so that the `filename` argument can handle no file extension or a .R or .Rmd file extension
+* Minor updates to convert_to_script() function documentation
+
+## Bug fixes
+
+* None
 
 # sdtmval 0.4.0
 
