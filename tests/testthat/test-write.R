@@ -3,7 +3,8 @@ test_that("write_tbl_to_xpt", {
   tbl <- dplyr::tibble(one = as.numeric(1:3), two = letters[1:3])
   path <- tempdir()
   write_tbl_to_xpt(tbl, filename = "test.xpt", dir = path)
-  check <- haven::read_xpt(file.path(path, "test.xpt"))
+  check <- haven::read_xpt(file.path(path, "test.xpt")) %>%
+    strip_haven_meta()
   expect_identical(tbl, check)
 
 })

@@ -16,6 +16,7 @@ test_that("read_sdtm_tbls", {
   expected_sdtm_dat <- list(
     dm = sdtmval::dm
   )
-  expect_equal(read_sdtm_tbls(sdtm_tbls, dir = sdtm_dir),
+  expect_equal(lapply(read_sdtm_tbls(sdtm_tbls, dir = sdtm_dir),
+                      strip_haven_meta),
                expected_sdtm_dat)
 })
